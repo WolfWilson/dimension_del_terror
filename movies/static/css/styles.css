@@ -1,0 +1,620 @@
+/* variables */
+
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Roboto Condensed', sans-serif;
+    --font-title: 'Holtwood One SC', serif;
+    --font-body: 'Mulish', sans-serif;
+    --font-accent: 'Bebas Neue', cursive;
+    --font-extra: 'PT Sans Narrow', sans-serif;
+    --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+}
+
+
+/* General styles */
+body {
+    font-family: var(--font-secondary);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: radial-gradient(
+        100% 100% at 50% 50%,
+        rgba(252, 252, 252, 1) 12%,
+        rgba(247, 222, 181, 1) 84%,
+        rgba(232, 229, 220, 1) 96%
+    );
+    background-blend-mode: multiply;
+    color: rgb(44, 41, 41);
+    min-height: 100vh; /* Mantén este valor */
+}
+/*para evitar el desbordamiento horizontal. Esto es útil cuando algún elemento de la página tiene un ancho que provoca desplazamiento no deseado en el eje horizontal.*/
+html, body {
+    overflow-x: hidden; /* Evita el desbordamiento horizontal */
+}
+
+header {
+    background-color: black;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 130px;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2;
+    
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+}
+
+header h1 {
+    margin: 0;
+    color: #dba76b;
+    font-size: 36px;
+    z-index: 1;
+    position: relative;
+    font-family: var(--font-decorative);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+nav ul li a {
+    position: relative;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Sombra para el texto */
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #dba76b;
+    left: 0;
+    bottom: -5px;
+    transition: width 0.3s;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+#img-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    
+}
+
+#img-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 0;
+    position: relative;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.35); /* Fondo semi-transparente detrás de los elementos */
+    padding: 10px 20px;
+    border-radius: 8px; /* Bordes redondeados para un mejor diseño */
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    font-family: var(--font-secondary);
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 700; /* Aumenta el grosor de la fuente */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1); /* Sombra más pronunciada para mayor contraste */
+    padding: 5px 10px; /* Espaciado interno para que se vean más destacados */
+    border: 2px solid transparent; /* Bordes para hover */
+    transition: all 0.3s ease-in-out; /* Suaviza los cambios visuales */
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0); /* Transparente por defecto */
+}
+
+main {
+    padding: 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px; /* Define un máximo para el ancho del contenido */
+    margin: 0 auto; /* Centra el contenido */
+    box-sizing: border-box;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+
+#movie-posters {
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+}
+
+
+.posters-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: 100%;
+    justify-content: center;
+}
+
+.poster-box {
+    width: 200px;
+    height: 300px;
+    position: relative;
+    margin: 20px;
+    text-align: center;
+}
+
+.poster-content {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #dba76b;
+    border-radius: 10px;
+}
+
+.poster-content img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.poster-content:hover .hover-overlay {
+    opacity: 1;
+}
+
+.rating {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.rating .star {
+    color: #e5ff22;
+}
+
+.genres {
+    margin-bottom: 10px;
+}
+
+.genres span {
+    display: block;
+}
+
+.details-button {
+    background-color: #ffffff;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.details-button:hover {
+    background-color: #dba76b;
+}
+
+.poster-info {
+    text-align: center;
+    color: #000000;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.poster-info p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+footer {
+    background-color: #272B2C;
+    color: #fff;
+    padding: 1rem 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: auto;
+}
+
+.container-footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.text-footer {
+    text-align: center;
+    flex: 1 1 100%;
+    margin-bottom: 1rem;
+}
+
+.footer-columns {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.link, .formulario {
+    flex: 1 1 45%;
+    margin: 0.5rem;
+}
+
+.socials {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+}
+
+.socials a {
+    display: inline-block;
+    min-height: 40px;
+    width: 40px;
+    background-color: rgb(0, 0, 0);
+    margin: 0 10px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #c4935a;
+    font-size: 20px;
+}
+
+.link a:hover {
+    color: #ffffff;
+}
+
+.socials a:hover {
+    background-color: #c4935a;
+}
+/* Ajuste general del formulario para todas las pantallas */
+.formulario {
+    max-width: 500px; /* Define un tamaño máximo para el formulario */
+    margin: 0 auto; /* Centra el formulario en el contenedor */
+    padding: 1.5rem; /* Agrega relleno interno para que no quede pegado a los bordes */
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho */
+}
+
+.formulario h2 {
+    margin-top: 0;
+    color: #c4935a;
+}
+
+.link h2 {
+    color: #c4935a;
+    margin-top: 0;
+    margin-left: 30px;
+}
+
+.formulario form {
+    display: flex;
+    flex-direction: column;
+    font-weight: bolder;
+}
+
+.formulario label {
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+.formulario input, .formulario textarea {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.formulario button {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: #dba76b;
+    color: #000000;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.formulario button:hover {
+    background-color: #c4935a;
+}
+
+/* Estilos generales de la paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    padding: 20px;
+    gap: 10px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+.pagination a {
+    padding: 8px 12px;
+    margin: 0 5px;
+    background-color: #dba76b;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #c4935a;
+    color: white;
+}
+
+/* Responsive styles for screens smaller than 599px */
+@media (max-width: 599px) {
+    .pagination {
+        flex-wrap: wrap; /* Permite que los botones se ajusten a una fila y luego se envuelvan */
+        gap: 5px; /* Reduce el espacio entre los botones */
+    }
+
+    .pagination a {
+        padding: 6px 8px; /* Hace los botones más pequeños */
+        flex: 1; /* Deja que los botones ocupen el mismo espacio disponible */
+        margin: 0; /* Elimina el margen para reducir el espacio entre los botones */
+        text-align: center;
+    }
+
+    .search-bar {
+        flex-direction: column; /* Mantiene la barra de búsqueda apilada en pantallas pequeñas */
+        width: 100%; /* Ancho completo para la barra de búsqueda */
+    }
+
+    .search-bar input, .search-bar button {
+        width: 100%; /* Ambos ocupan todo el ancho */
+        padding: 10px;
+        margin: 5px 0;
+    }
+}
+
+
+
+/* Responsive adjustments */
+@media (min-width: 600px) and (max-width: 1023px) {
+    header h1 {
+        font-size: 26px;
+    }
+
+    nav ul li a {
+        font-size: 12px;
+    }
+
+    .posters-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .poster-box {
+        width: 150px;
+        height: 225px;
+    }
+
+    .formulario button {
+        padding: 0.4rem;
+    }
+}
+
+@media (max-width: 599px) {
+
+    .poster-info p {
+        margin: 0;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+
+    .posters-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+
+    .poster-box {
+        width: 120px;
+        height: 180px;
+    }
+
+    .formulario input, .formulario textarea {
+        padding: 0.4rem;
+    }
+
+    .formulario button {
+        padding: 0.4rem;
+    }
+
+    .iframe-container {
+        position: relative;
+        width: 480px;
+        height: 280px;
+        margin: 0 auto;
+        border-radius: 15px;
+    }
+}
+
+.yesteryear-regular {
+    font-family: "Yesteryear", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.header-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+}
+
+/*configuracion de vista movil para el header y nav */
+@media (max-width: 599px) {
+    header {
+        position: relative;
+        height: 200px;
+        display: flex;
+        justify-content: center; /* Centra horizontalmente */
+        align-items: center; /* Centra verticalmente */
+        flex-direction: column;
+    }
+
+    #img-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 1;
+    }
+
+    header h1 {
+        position: relative;
+        z-index: 2; /* Mantén el título sobre la imagen */
+        color: #dba76b;
+        font-size: 20px;
+        margin: 0; /* Asegura que no haya márgenes laterales */
+        margin-right: 40px;
+        text-align: center; /* Asegura que el texto esté centrado dentro del h1 */
+    }
+
+    /* Para centrar los elementos de la navegación */
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centra los elementos verticalmente */
+        align-items: center; /* Centra los elementos horizontalmente */
+        z-index: 2; /* Mantén los elementos sobre la imagen */
+        margin-right: 40px;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra los elementos de la lista */
+        gap: 0.5rem; /* Añade un espacio entre los elementos */
+    }
+
+    nav ul li {
+        margin: 0; /* Elimina márgenes adicionales */
+    }
+
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        text-align: center;
+        padding: 0.5rem 1rem;
+        background-color: transparent;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    nav ul li a:hover {
+        background-color: rgba(219, 167, 107, 0.8); /* Color al pasar el cursor */
+        border-radius: 5px;
+    }
+}
+
+
+
+
+
+    @media (max-width: 599px) {
+        .footer-columns {
+            flex-direction: column; /* Apilar las columnas verticalmente */
+            align-items: center; /* Centra los elementos */
+        }
+    
+        .link, .formulario {
+            flex: 1 1 100%; /* Asegura que ocupen todo el ancho disponible */
+            margin-bottom: 1rem; /* Añade espacio entre los bloques en móviles */
+            padding: 1rem; /* Añade relleno para que los bloques tengan más espacio */
+        }
+    
+        .formulario form {
+            display: flex;
+            flex-direction: column;
+            width: 100%; /* Asegura que el formulario se ajuste al 100% del contenedor */
+        }
+    
+        .formulario input, .formulario textarea {
+            width: 100%; /* Campos de texto ajustados al 100% del contenedor */
+            margin-bottom: 1rem;
+        }
+    
+        .formulario button {
+            width: 100%; /* Botón ajustado al 100% del ancho disponible */
+            padding: 0.5rem;
+        }
+    }
+    
+
+    
+
+
+

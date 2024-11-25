@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Cat Cinema</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_movie.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_pagination.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=PT+Sans+Narrow:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Ruslan+Display&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <a href="{% url 'movie_list' %}" class="header-link">
+            <div id="img-header">
+                <img src="{% static 'src/graveyard_by_chrisrosewarne_d2ae6f3.jpg' %}" alt="Black Cat Cinema">
+            </div> 
+            <h1>La Dimensión del Terror</h1>
+        </a>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'movie_list' %}">Películas</a></li>
+                <li><a href="{% url 'search_movies' %}?q=terror">Búsqueda por Géneros</a></li>
+                <li><a href="#contact-form">Pídeme una peli!</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="movie-posters">
+            <h2>Últimas Películas Disponibles</h2>
+            <div class="posters-grid">
+                {% for movie in movies %}
+                <div class="poster-box">
+                    <div class="poster-content">
+                        <!-- Verifica si hay una imagen cargada -->
+                        {% if movie.poster_image %}
+                        <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                        {% else %}
+                        <!-- Imagen por defecto si no se cargó ninguna -->
+                        <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+                        {% endif %}
+                        <div class="hover-overlay">
+                            <div class="rating">
+                                <span class="star">&#9733;</span> {{ movie.rating }} / 10
+                            </div>
+                            <div class="genres">
+                                {% for genre in movie.genres.all %}
+                                <span>{{ genre.name }}</span>
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'movie_detail' movie.id %}" class="details-button">Ver</a>
+                        </div>
+                    </div>
+                    <div class="poster-info">
+                        <p>{{ movie.title }} ({{ movie.release_date.year }})</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="pagination">
+                {% if is_paginated %}
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
+                    {% endif %}
+                    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Siguiente &raquo;</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="search-bar">
+                <form method="get" action="{% url 'movie_list' %}">
+                    <input type="text" name="q" placeholder="Buscar película..." value="{{ query }}">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>            
+        </section>
+    </main>
+
+    <footer>
+        <div class="container-footer">
+            <div class="text-footer">&copy; 2024 By Will™. Todos los derechos reservados.</div>
+            <div class="footer-columns">
+                <div class="link">
+                    <h2>Mis Redes</h2>
+                    <div class="socials">
+                        <a href="https://x.com/WolfWilson86"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/wilson-wolf-330a70257/"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/WolfWilson/"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div id="contact-form" class="formulario">
+                    <h2>Contacto</h2>
+                    <p>Haz tu pedido aquí!:</p>
+                    <form>
+                        <label for="name">Nombre:</label>
+                        <input type="text" id="name" name="name" required>
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" id="email" name="email" required>
+                        <label for="message">Mensaje:</label>
+                        <textarea id="message" name="message" rows="3" required></textarea>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

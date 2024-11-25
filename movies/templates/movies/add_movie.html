@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Película</title>
+    <link rel="stylesheet" href="{% static 'css/add_movie.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Black Cat Cinema</h1>
+        <a href="{% url 'movie_list' %}">Volver a la Lista de Películas</a>
+    </header>
+    <main>
+        <h2>Agregar Película</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="errors">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {{ form.as_p }}
+            <button type="submit">Guardar Película</button>
+        </form>
+        
+        <img id="image-preview" src="#" alt="Previsualización" style="max-width: 200px; display: none; margin-top: 10px;">
+    </main>
+    <script>
+        document.getElementById('id_poster_image').addEventListener('change', function(event) {
+            const [file] = event.target.files;
+            if (file) {
+                const preview = document.getElementById('image-preview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
