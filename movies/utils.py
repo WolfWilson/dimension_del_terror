@@ -16,7 +16,7 @@ def get_movie_data_from_api(title):
 
     try:
         # Buscar la película por título
-        search_response = requests.get(search_url, params=params, verify=False)
+        search_response = requests.get(search_url, params=params, verify=True)
         search_response.raise_for_status()
         search_data = search_response.json()
 
