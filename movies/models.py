@@ -51,8 +51,10 @@ class Movie(models.Model):
                 self.language = movie_data.get('original_language', self.language)
                 self.tmdb_url = movie_data.get('tmdb_url', self.tmdb_url)
                 self.director = movie_data.get('director', self.director)
-                self.cast = movie_data.get('cast', self.cast)
-                print("Datos de la película asignados correctamente.")
+                if not self.cast and movie_data.get('cast'):
+                    self.cast = movie_data['cast']
+
+                    print("Datos de la película asignados correctamente.")
 
                 # Descargar y asignar el póster
                 if not self.poster_image and movie_data.get('poster_path'):

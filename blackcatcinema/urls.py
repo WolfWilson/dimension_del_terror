@@ -6,6 +6,7 @@ from django.urls import path, include  # Importa include para incluir rutas de o
 urlpatterns = [
     path('admin/', admin.site.urls),  # Ruta para el panel de administración
     path('', include('movies.urls')),  # Incluye las rutas de la app "movies"
+    
 ]
 
 # Configuración para servir archivos estáticos en modo DEBUG

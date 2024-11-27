@@ -19,7 +19,7 @@
     <header>
         <a href="{% url 'movie_list' %}" class="header-link">
             <div id="img-header">
-                <img src="{% static 'src/graveyard_by_chrisrosewarne_d2ae6f3.jpg' %}" alt="Black Cat Cinema">
+                <img src="{% static 'banners/header_default.jpg' %}" alt="Banner Predeterminado">
             </div> 
             <h1>La Dimensión del Terror</h1>
         </a>
@@ -27,6 +27,7 @@
             <ul>
                 <li><a href="{% url 'movie_list' %}">Películas</a></li>
                 <li><a href="{% url 'search_movies' %}?q=terror">Búsqueda por Géneros</a></li>
+                
                 <li><a href="#contact-form">Pídeme una peli!</a></li>
             </ul>
         </nav>

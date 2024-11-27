@@ -1,4 +1,5 @@
 import requests
+import certifi
 
 def get_movie_data_from_api(title):
     """
@@ -16,7 +17,7 @@ def get_movie_data_from_api(title):
 
     try:
         # Buscar la película por título
-        search_response = requests.get(search_url, params=params, verify=True)
+        search_response = requests.get(search_url, params=params, verify=certifi.where())
         search_response.raise_for_status()
         search_data = search_response.json()
 
@@ -26,13 +27,13 @@ def get_movie_data_from_api(title):
             
             # Obtener detalles completos de la película
             details_url = details_url_template.format(movie_id=movie_id)
-            details_response = requests.get(details_url, params={"api_key": api_key, "language": "es-ES"}, verify=False)
+            details_response = requests.get(details_url, params={"api_key": api_key, "language": "es-ES"}, verify=certifi.where())
             details_response.raise_for_status()
             details_data = details_response.json()
 
             # Obtener créditos (director y reparto)
             credits_url = credits_url_template.format(movie_id=movie_id)
-            credits_response = requests.get(credits_url, params={"api_key": api_key}, verify=False)
+            credits_response = requests.get(credits_url, params={"api_key": api_key}, verify=certifi.where())
             credits_response.raise_for_status()
             credits_data = credits_response.json()
 

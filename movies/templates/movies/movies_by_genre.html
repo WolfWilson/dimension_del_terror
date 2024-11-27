@@ -1,15 +1,67 @@
-<h1>Películas de {{ genre.name }}</h1>
-<div class="movie-list">
-    {% for movie in movies %}
-    <div class="movie-item">
-        <a href="{% url 'movie_detail' movie.id %}">
-            {% if movie.poster_image %}
-            <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
-            {% else %}
-            <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
-            {% endif %}
-            <h3>{{ movie.title }}</h3>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ genre.name }} - Películas</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_movie.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_pagination.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=PT+Sans+Narrow:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Ruslan+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="{% url 'movie_list' %}" class="header-link">
+            <div id="img-header">
+                <img src="{% static 'banners/header_default.jpg' %}" alt="Black Cat Cinema">
+            </div> 
+            <h1>La Dimensión del Terror</h1>
         </a>
-    </div>
-    {% endfor %}
-</div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'movie_list' %}">Películas</a></li>
+                <li><a href="{% url 'search_movies' %}?q=terror">Búsqueda por Géneros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Películas del Género: {{ genre.name }}</h2>
+        <section id="movie-posters">
+            <div class="posters-grid">
+                {% for movie in movies %}
+                <div class="poster-box">
+                    <div class="poster-content">
+                        {% if movie.poster_image %}
+                        <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                        {% else %}
+                        <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+                        {% endif %}
+                        <div class="hover-overlay">
+                            <div class="rating">
+                                <span class="star">&#9733;</span> {{ movie.rating|default:"N/A" }} / 10
+                            </div>
+                            <a href="{% url 'movie_detail' movie.id %}" class="details-button">Ver</a>
+                        </div>
+                    </div>
+                    <div class="poster-info">
+                        <p>{{ movie.title }} ({{ movie.release_date.year|default:"N/A" }})</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No hay películas disponibles para este género.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Black Cat Cinema. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

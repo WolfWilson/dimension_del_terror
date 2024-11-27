@@ -27,7 +27,14 @@ def movie_list(request):
 
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
-    return render(request, 'movies/movie_detail.html', {'movie': movie})
+
+    # Procesar el reparto como una lista de actores
+    cast_list = movie.cast.split(', ') if movie.cast else []  # Dividir el reparto por comas
+
+    return render(request, 'movies/movie_detail.html', {
+        'movie': movie,
+        'cast_list': cast_list,  # Pasar la lista al contexto
+    })
 
 def search_movies(request):
     query = request.GET.get('q', '')  # Captura el término de búsqueda
@@ -60,10 +67,43 @@ def add_movie(request):
     return render(request, 'movies/add_movie.html', {'form': form})
 
 
+from django.shortcuts import render, get_object_or_404
+from .models import Movie, Genre
+
 def movies_by_genre(request, genre_name):
+    # Buscar el género por nombre (o devolver un 404 si no existe)
     genre = get_object_or_404(Genre, name=genre_name)
+
+    # Filtrar películas relacionadas con ese género
     movies = Movie.objects.filter(genres=genre)
-    return render(request, 'movies/movies_by_genre.html', {
+
+    # Contexto para la plantilla
+    context = {
         'genre': genre,
         'movies': movies,
-    })
+    }
+
+    return render(request, 'movies/movies_by_genre.html', context)
+
+from .models import Movie
+
+def movies_by_tag(request, tag_type, tag):
+    # Filtrar películas por el director o reparto basado en el tag_type
+    if tag_type == "director":
+        movies = Movie.objects.filter(director__iexact=tag)  # Asegura que la búsqueda sea insensible a mayúsculas
+    elif tag_type == "cast":
+        movies = Movie.objects.filter(cast__icontains=tag.strip())
+
+    else:
+        movies = Movie.objects.none()
+
+    # Pasar el tipo de etiqueta (director o cast) y el valor del tag al contexto
+    context = {
+        'movies': movies,
+        'tag_type': tag_type,
+        'tag': tag,
+    }
+    print(f"Tag Type: {tag_type}, Tag: {tag}")
+
+    return render(request, 'movies/movies_by_tag.html', context)
+    

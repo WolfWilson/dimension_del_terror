@@ -59,9 +59,23 @@
                     <p><strong>Fecha de lanzamiento:</strong> {{ movie.release_date }}</p>
                     <p><strong>Duración:</strong> {{ movie.duration|default:"N/A" }} minutos</p>
                     <p><strong>Idioma original:</strong> {{ movie.language|default:"No disponible" }}</p>
-                    <p><strong>Director:</strong> {{ movie.director|default:"No disponible" }}</p>
-                    <p><strong>Reparto:</strong> {{ movie.cast|default:"No disponible" }}</p>
-                    <p><a href="{{ movie.imdb_url|default:'#' }}" target="_blank">Ver en TMDB</a></p>
+                    <p><strong>Director:</strong> 
+                        {% if movie.director %}
+                            <a href="{% url 'movies_by_tag' 'director' movie.director %}">{{ movie.director }}</a>
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </p>
+                    <p><strong>Reparto:</strong> 
+                        {% if cast_list %}
+                        {% for actor in cast_list %}
+    <a href="{% url 'movies_by_tag' 'cast' actor %}">{{ actor }}</a>
+{% endfor %}
+
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </p>>
                     <div class="movie-rating">
                         <h3>Valoración: {{ movie.rating|default:"Sin calificación" }}/10</h3>
                     </div>

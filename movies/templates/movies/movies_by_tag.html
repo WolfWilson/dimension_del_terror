@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Películas de {{ tag_type|title }}: {{ tag }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <a href="{% url 'movie_list' %}" class="header-link">
+            <div id="img-header">
+                <img src="{% static 'banners/header_default.jpg' %}" alt="Black Cat Cinema">
+            </div>
+            <h1>Black Cat Cinema</h1>
+        </a>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'movie_list' %}">Películas</a></li>
+                <li><a href="{% url 'search_movies' %}">Buscar por Géneros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Películas relacionadas con {{ tag_type|title }}: "{{ tag }}"</h2>
+        <section id="movie-posters">
+            <div class="posters-grid">
+                {% for movie in movies %}
+                    <div class="poster-box">
+                        <div class="poster-content">
+                            {% if movie.poster_image %}
+                                <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                            {% else %}
+                                <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+                            {% endif %}
+                            <div class="hover-overlay">
+                                <div class="rating">
+                                    <span class="star">&#9733;</span> {{ movie.rating|default:"N/A" }} / 10
+                                </div>
+                                <a href="{% url 'movie_detail' movie.id %}" class="details-button">Ver</a>
+                            </div>
+                        </div>
+                        <div class="poster-info">
+                            <p>{{ movie.title }} ({{ movie.release_date.year|default:"N/A" }})</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No se encontraron películas relacionadas con esta etiqueta.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+    
+
+    <footer>
+        <p>&copy; 2024 Black Cat Cinema. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
