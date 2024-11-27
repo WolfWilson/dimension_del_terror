@@ -14,7 +14,7 @@ def movie_list(request):
     else:
         movies = Movie.objects.all()
 
-    paginator = Paginator(movies, 9)
+    paginator = Paginator(movies, 12) # cantidad de pelis en la grilla
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

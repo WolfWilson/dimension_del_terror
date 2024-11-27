@@ -1,11 +1,20 @@
+import os
 import requests
 import certifi
+from dotenv import load_dotenv
+
+# Cargar variables del archivo .env
+load_dotenv()
 
 def get_movie_data_from_api(title):
     """
     Obtiene datos de una película desde la API de TMDb, incluyendo director y reparto.
     """
-    api_key = "5758c3a5300652103ce452a959e52b42"  # Clave API
+    # Cargar la clave API desde las variables de entorno
+    api_key = os.getenv("TMDB_API_KEY")
+    if not api_key:
+        raise ValueError("La clave API no está configurada. Asegúrate de tener TMDB_API_KEY en tu archivo .env")
+
     search_url = "https://api.themoviedb.org/3/search/movie"
     details_url_template = "https://api.themoviedb.org/3/movie/{movie_id}"
     credits_url_template = "https://api.themoviedb.org/3/movie/{movie_id}/credits"
