@@ -19,7 +19,7 @@
     <header>
         <a href="{% url 'movie_list' %}" class="header-link">
             <div id="img-header">
-                <img src="{% static 'banners/header_default.jpg' %}" alt="Banner Predeterminado">
+                <img src="{% static 'banners/header_default.jpg' %}"  alt="Banner Predeterminado">
             </div> 
             <h1>La Dimensión del Terror</h1>
         </a>
@@ -83,7 +83,8 @@
                     <input type="text" name="q" placeholder="Buscar película..." value="{{ query }}">
                     <button type="submit">Buscar</button>
                 </form>
-            </div>            
+            </div>
+                  
         </section>
     </main>
 

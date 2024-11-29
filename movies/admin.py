@@ -1,6 +1,11 @@
 # Register your models here.
 from django.contrib import admin
 from .models import Movie, Comment
+from .models import Genre
+
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    ordering = ['name']  # Ordenar alfabéticamente en el administrador
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):

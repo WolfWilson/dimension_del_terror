@@ -38,36 +38,49 @@ header {
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: 130px;
-    padding: 1rem 2rem;
+    height: 220px; /* Reducir la altura del header */
+    padding: 0.5rem 0.5rem; /* Reducir el padding superior e inferior */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     z-index: 2;
-    
 }
+header > * {
+    flex: 1;
+    max-height: 100%;
+}
+
 
 .header-content {
     position: relative;
     z-index: 2;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 header h1 {
     margin: 0;
     color: #dba76b;
-    font-size: 36px;
+    font-size:60px;
     z-index: 1;
     position: relative;
     font-family: var(--font-decorative);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    text-shadow: 2px 2px 4px rgba(0.6, 0, 0.6, 0.95);
+    margin-bottom: 0.5rem; /* Reducir el espacio inferior del título */
 }
+
+
 
 nav ul li a {
     position: relative;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Sombra para el texto */
+    text-shadow: 2px 2px 4px rgba(0, 0.6, 0, 0.6); /* Sombra para el texto */
+
 }
+nav ul li a:hover {
+    color:#ebd36c
+
+}
+
 
 nav ul li a::after {
     content: '';
@@ -92,6 +105,7 @@ nav ul li a:hover::after {
     height: 100%;
     z-index: 1;
     overflow: hidden;
+    object-fit: cover;
     
 }
 
@@ -103,34 +117,35 @@ nav ul li a:hover::after {
 
 nav ul {
     list-style: none;
-    padding: 0;
+    padding: 5px 15px; /* Reducir el padding interno */
     display: flex;
     justify-content: center;
-    margin: 1rem 0 0;
-    position: relative;
+    margin-bottom: 0px; /* Eliminar el margen superior */
+    position:relative;
     z-index: 3;
-    background-color: rgba(0, 0, 0, 0.35); /* Fondo semi-transparente detrás de los elementos */
-    padding: 10px 20px;
-    border-radius: 8px; /* Bordes redondeados para un mejor diseño */
+    background-color: rgba(0, 0, 0, 0.45); /* Fondo semi-transparente */
+    border-radius: 8px; /* Bordes redondeados */
 }
 
 nav ul li {
-    margin: 0 1rem;
+    margin: 0 0.5rem; /* Reducir el margen lateral */
 }
 
 nav ul li a {
     font-family: var(--font-secondary);
-    color: white;
+    color: rgb(255, 255, 255);
     text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 700; /* Aumenta el grosor de la fuente */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1); /* Sombra más pronunciada para mayor contraste */
-    padding: 5px 10px; /* Espaciado interno para que se vean más destacados */
-    border: 2px solid transparent; /* Bordes para hover */
-    transition: all 0.3s ease-in-out; /* Suaviza los cambios visuales */
+    font-size: 1.2rem; /* Reducir ligeramente el tamaño de la fuente */
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* Ajustar la sombra del texto */
+    padding: 5px 8px; /* Reducir el padding interno del enlace */
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0); /* Transparente por defecto */
+    background-color: rgba(0, 0, 0, 0);
 }
+
+/*:::::::::::::::::::::::::::::::::::::: SECCION PRINCIPAL:::::::::::::::::::::::::::::::::::::::::::*/
 
 main {
     padding: 2rem;
@@ -249,6 +264,62 @@ main {
 .poster-info p {
     margin: 0;
     font-size: 1rem;
+}
+
+
+/* ::::::::::::::::::::::::::::::::: Contenedor principal de la barra de búsqueda  ::::::::::::::::::::::::::::::::::::    */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto; /* Márgenes superior e inferior */
+    padding: 1rem; /* Espaciado interno */
+    max-width: 600px; /* Ancho máximo */
+    width: 50%; /* Ancho relativo para responsividad */
+    border: 2px solid #ccc; /* Borde gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Sombra sutil */
+    background-color: #fff; /* Fondo blanco */
+}
+
+/* Formulario para centrar elementos */
+.search-bar form {
+    display:flex;
+    width: 100%;
+}
+
+/* Campo de entrada */
+.search-bar input {
+    flex: 1; /* Ocupa todo el espacio disponible */
+    border: 1px solid #ccc; /* Borde claro */
+    outline: none; /* Eliminar contorno predeterminado */
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px; /* Bordes redondeados */
+    margin-right: 0.5rem; /* Espacio entre el input y el botón */
+    transition: border-color 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #dba76b; /* Color dorado al enfocar */
+}
+
+/* Botón de búsqueda */
+.search-bar button {
+    padding: 0.4rem 1rem; /* Reducir el padding para ajustar tamaño */
+    font-size: 0.9rem; /* Tamaño más pequeño para el texto */
+    color: white; /* Texto blanco */
+    background-color: #dba76b; /* Dorado para el fondo */
+    border: 1px solid #dba76b; /* Borde del mismo color */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: auto; /* Ajusta su tamaño automáticamente */
+}
+
+.search-bar button:hover {
+    background-color: #b46525; /* Color dorado oscuro al pasar el mouse */
+    color: #fff; /* Texto blanco */
 }
 
 footer {
@@ -548,6 +619,7 @@ footer {
         align-items: center; /* Centra los elementos horizontalmente */
         z-index: 2; /* Mantén los elementos sobre la imagen */
         margin-right: 40px;
+        
     }
 
     nav ul {

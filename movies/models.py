@@ -95,8 +95,15 @@ class Comment(models.Model):
         return f'Comment on {self.movie.title}'
     
 
+#para agregar generos
+'''from movies.models import Genre
 
+# Agrega nuevos géneros
+new_genres = ['Home Invasion', 'Body Horror', 'Acción'] 
+for genre_name in new_genres:
+    Genre.objects.get_or_create(name=genre_name)  # Evita duplicados
 
+print("Géneros agregados exitosamente.")'''
 
     
 

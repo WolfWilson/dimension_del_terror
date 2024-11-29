@@ -10,11 +10,11 @@ from .models import Genre
 def movie_list(request):
     query = request.GET.get('q', '')
     if query:
-        movies = Movie.objects.filter(title__icontains=query)
+        movies = Movie.objects.filter(title__icontains=query).order_by('-id')  # Orden inverso por ID
     else:
-        movies = Movie.objects.all()
+        movies = Movie.objects.all().order_by('-id')  # Orden inverso por ID
 
-    paginator = Paginator(movies, 12) # cantidad de pelis en la grilla
+    paginator = Paginator(movies, 12)  # Asegúrate de usar 12 como cantidad por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

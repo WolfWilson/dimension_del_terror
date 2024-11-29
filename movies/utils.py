@@ -6,6 +6,14 @@ from dotenv import load_dotenv
 # Cargar variables del archivo .env
 load_dotenv()
 
+import os
+import requests
+import certifi
+from dotenv import load_dotenv
+
+# Cargar variables del archivo .env
+load_dotenv()
+
 def get_movie_data_from_api(title):
     """
     Obtiene datos de una película desde la API de TMDb, incluyendo director y reparto.
@@ -26,6 +34,7 @@ def get_movie_data_from_api(title):
 
     try:
         # Buscar la película por título
+        print(f"Realizando búsqueda para: {title}")
         search_response = requests.get(search_url, params=params, verify=certifi.where())
         search_response.raise_for_status()
         search_data = search_response.json()
@@ -33,6 +42,7 @@ def get_movie_data_from_api(title):
         if search_data['results']:
             # Obtener el ID de la primera coincidencia
             movie_id = search_data['results'][0]['id']
+            print(f"ID de película encontrado: {movie_id}")
             
             # Obtener detalles completos de la película
             details_url = details_url_template.format(movie_id=movie_id)
@@ -65,6 +75,9 @@ def get_movie_data_from_api(title):
         else:
             print(f"No se encontraron resultados para '{title}'")
             return None
+    except requests.exceptions.SSLError as ssl_error:
+        print(f"Error SSL: {ssl_error}")
+        return None
     except requests.RequestException as e:
-        print(f"Error al comunicarse con TMDb: {e}")
+        print(f"Otro error de solicitud: {e}")
         return None
