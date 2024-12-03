@@ -8,6 +8,7 @@
     --font-accent: 'Bebas Neue', cursive;
     --font-extra: 'PT Sans Narrow', sans-serif;
     --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+    --font-special: 'Bruno Ace SC', sans-serif; /* Nueva variable para Bruno Ace SC */
 }
 
 
@@ -64,7 +65,7 @@ header h1 {
     font-size:60px;
     z-index: 1;
     position: relative;
-    font-family: var(--font-decorative);
+    font-family: var(--font-special);
     text-shadow: 2px 2px 4px rgba(0.6, 0, 0.6, 0.95);
     margin-bottom: 0.5rem; /* Reducir el espacio inferior del título */
 }
@@ -194,6 +195,7 @@ main {
     overflow: hidden;
     border: 2px solid #dba76b;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0.1, 0.1, 0, 0.6); /* Sombra más intensa */
 }
 
 .poster-content img {
@@ -321,6 +323,8 @@ main {
     background-color: #b46525; /* Color dorado oscuro al pasar el mouse */
     color: #fff; /* Texto blanco */
 }
+
+/* ::::::::::::::::::::::::::::: AJUSTES PARA EL FOOTER ::::::::::::::::::::::::::::::::::::    */
 
 footer {
     background-color: #272B2C;

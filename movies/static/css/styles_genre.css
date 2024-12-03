@@ -6,7 +6,8 @@
     --font-body: 'Mulish', sans-serif;
     --font-accent: 'Bebas Neue', cursive;
     --font-extra: 'PT Sans Narrow', sans-serif;
-    --font-decorative: 'Ruslan Display', cursive;
+    --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+    --font-special: 'Bruno Ace SC', sans-serif; /* Nueva variable para Bruno Ace SC */
 }
 
 /* General */
@@ -41,7 +42,7 @@ header {
 }
 
 header h1 {
-    font-family: var(--font-decorative);
+    font-family: var(--font-extra);
     color: #dba76b;
     font-size: 36px;
     margin: 0;
