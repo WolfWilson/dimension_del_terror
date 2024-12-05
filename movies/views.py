@@ -6,6 +6,25 @@ from .forms import MovieForm
 from .utils import get_movie_data_from_api
 from .models import Genre
 
+def dynamic_genre_movies(request):
+    genres = Genre.objects.all()  # Todos los géneros disponibles
+    selected_genre_id = request.GET.get('genre')  # Captura el ID del género seleccionado desde la URL
+
+    # Si hay un género seleccionado, filtra las películas; de lo contrario, muestra todas
+    if selected_genre_id:
+        selected_genre = get_object_or_404(Genre, id=selected_genre_id)
+        movies = Movie.objects.filter(genres=selected_genre).order_by('-id')
+    else:
+        selected_genre = None
+        movies = Movie.objects.all().order_by('-id')
+
+    context = {
+        'genres': genres,
+        'selected_genre': selected_genre,
+        'movies': movies,
+    }
+    return render(request, 'movies/dynamic_genre_movies.html', context)
+
 
 def movie_list(request):
     query = request.GET.get('q', '')

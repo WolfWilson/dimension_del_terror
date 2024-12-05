@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<!--movies_by_genre.html-->
 <html lang="es">
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ genre.name }} - Películas</title>
+    <title>Películas por Género</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_movie_by_genre.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_movie.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles_pagination.css' %}">
     <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
@@ -18,21 +17,41 @@
     <header>
         <a href="{% url 'movie_list' %}" class="header-link">
             <div id="img-header">
-                <img src="{% static 'banners/header_default.jpg' %}" alt="Black Cat Cinema">
+                <img src="{% static 'banners/banner_red.jpg' %}"  alt="Banner Predeterminado">
             </div> 
             <h1>La Dimensión del Terror</h1>
         </a>
         <nav class="navbar">
             <ul>
                 <li><a href="{% url 'movie_list' %}">Películas</a></li>
-                <li><a href="{% url 'search_movies' %}?q=terror">Búsqueda por Géneros</a></li>
+                <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
+                <li><a href="#contact-form">Pídeme una peli!</a></li>
             </ul>
+        </nav>
+        
         </nav>
     </header>
 
     <main>
-        <h2>Películas del Género: {{ genre.name }}</h2>
-        <section id="movie-posters">
+        <section id="genres">
+            <h2>Géneros Disponibles</h2>
+            <div class="genres-container">
+                {% for genre in genres %}
+                <a href="?genre={{ genre.id }}" class="genre-button {% if selected_genre and selected_genre.id == genre.id %}active{% endif %}">
+                    {{ genre.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="movies">
+            <h2>
+                {% if selected_genre %}
+                Películas del Género: {{ selected_genre.name }}
+                {% else %}
+                Todas las Películas
+                {% endif %}
+            </h2>
             <div class="posters-grid">
                 {% for movie in movies %}
                 <div class="poster-box">

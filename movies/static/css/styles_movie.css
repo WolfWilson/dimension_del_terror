@@ -186,6 +186,26 @@ footer {
     margin-top: 1rem;
 }
 
+/*::::::::::::::::::ESTILO PARA EL LOGO TMBD::::::::::::::::::::::::::*/
+.movie-rating h3 {
+    display: flex;
+    align-items: center; /* Alinea el texto y la imagen verticalmente */
+    gap: 10px; /* Espaciado entre la imagen y el texto */
+    font-size: 18px; /* Ajusta el tamaño del texto */
+    color: #333; /* Color de texto */
+    margin: 0; /* Quita el margen */
+}
+
+/* Estilo para la imagen */
+.movie-rating img {
+    width: 50px; /* Tamaño reducido de la imagen */
+    height: 50px; /* Tamaño reducido de la imagen */
+    border-radius: 50%; /* Imagen circular */
+    object-fit: cover; /* Asegura que la imagen se recorte correctamente si es necesario */
+}
+
+
+
 /* Ajustes Responsive */
 @media (max-width: 768px) {
     main {

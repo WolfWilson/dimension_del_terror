@@ -6,14 +6,6 @@ from dotenv import load_dotenv
 # Cargar variables del archivo .env
 load_dotenv()
 
-import os
-import requests
-import certifi
-from dotenv import load_dotenv
-
-# Cargar variables del archivo .env
-load_dotenv()
-
 def get_movie_data_from_api(title):
     """
     Obtiene datos de una película desde la API de TMDb, incluyendo director y reparto.
@@ -22,6 +14,10 @@ def get_movie_data_from_api(title):
     api_key = os.getenv("TMDB_API_KEY")
     if not api_key:
         raise ValueError("La clave API no está configurada. Asegúrate de tener TMDB_API_KEY en tu archivo .env")
+
+    # Determinar si estamos en desarrollo (DEV_MODE=true en el archivo .env)
+    is_dev = os.getenv("DEV_MODE", "false").lower() == "true"
+    verify_ssl = not is_dev  # Si está en desarrollo, desactiva la verificación SSL
 
     search_url = "https://api.themoviedb.org/3/search/movie"
     details_url_template = "https://api.themoviedb.org/3/movie/{movie_id}"
@@ -35,7 +31,7 @@ def get_movie_data_from_api(title):
     try:
         # Buscar la película por título
         print(f"Realizando búsqueda para: {title}")
-        search_response = requests.get(search_url, params=params, verify=certifi.where())
+        search_response = requests.get(search_url, params=params, verify=certifi.where() if verify_ssl else False)
         search_response.raise_for_status()
         search_data = search_response.json()
 
@@ -46,13 +42,13 @@ def get_movie_data_from_api(title):
             
             # Obtener detalles completos de la película
             details_url = details_url_template.format(movie_id=movie_id)
-            details_response = requests.get(details_url, params={"api_key": api_key, "language": "es-ES"}, verify=certifi.where())
+            details_response = requests.get(details_url, params={"api_key": api_key, "language": "es-ES"}, verify=certifi.where() if verify_ssl else False)
             details_response.raise_for_status()
             details_data = details_response.json()
 
             # Obtener créditos (director y reparto)
             credits_url = credits_url_template.format(movie_id=movie_id)
-            credits_response = requests.get(credits_url, params={"api_key": api_key}, verify=certifi.where())
+            credits_response = requests.get(credits_url, params={"api_key": api_key}, verify=certifi.where() if verify_ssl else False)
             credits_response.raise_for_status()
             credits_data = credits_response.json()
 

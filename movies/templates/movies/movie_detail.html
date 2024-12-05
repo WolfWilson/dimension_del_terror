@@ -74,10 +74,14 @@
                         {% else %}
                             No disponible
                         {% endif %}
-                    </p>>
+                    </p>
                     <div class="movie-rating">
-                        <h3>Valoración: {{ movie.rating|default:"Sin calificación" }}/10</h3>
+                        <h3>
+                            <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo">
+                            {{ movie.rating|default:"Sin calificación" }}/10
+                        </h3>
                     </div>
+                    
                 </div>
             </div>
     

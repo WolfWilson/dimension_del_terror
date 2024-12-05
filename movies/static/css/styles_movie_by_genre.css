@@ -1,0 +1,68 @@
+/* Variables principales */
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Roboto Condensed', sans-serif;
+    --font-title: 'Holtwood One SC', serif;
+    --font-body: 'Mulish', sans-serif;
+    --font-accent: 'Bebas Neue', cursive;
+    --font-extra: 'PT Sans Narrow', sans-serif;
+    --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+    --font-special: 'Bruno Ace SC', sans-serif; /* Nueva variable para Bruno Ace SC */
+}
+
+/* Contenedor principal de los botones de géneros */
+.genres-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+/* Estilo base de los botones de género */
+.genre-button {
+    font-family: var(--font-accent);
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #2c2c2c; /* Fondo predeterminado */
+    border: 2px solid #444; /* Borde tenue */
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+/* Hover: efecto visual al pasar el cursor */
+.genre-button:hover {
+    background-color: #ff4500; /* Fondo al pasar el cursor */
+    color: #000;
+    border-color: #ff6347;
+    transform: scale(1.1); /* Efecto de zoom */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra */
+}
+
+/* Botón activo (género seleccionado) */
+.genre-button.active {
+    background-color: #e2e05d; /* Fondo del botón seleccionado */
+    color: #000000;
+    border-color: #cd9732;
+    box-shadow: 0px 4px 10px rgba(119, 92, 2, 0.5); /* Resalte */
+}
+
+/* Efecto de clic */
+.genre-button:active {
+    transform: scale(0.95); /* Compresión al pulsar */
+    background-color: #ff7f50;
+}
+
+/* Centrar específicamente el h2 con la clase "centered-heading" */
+.centered-heading {
+    text-align: center;
+    font-family: var(--font-title);
+    margin: 1rem 0; /* Espaciado vertical */
+    color: #fff; /* Ajusta según el diseño */
+}
