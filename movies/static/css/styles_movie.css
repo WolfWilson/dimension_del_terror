@@ -103,6 +103,12 @@ header {
     width: 100%;
     height: auto;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    transition: box-shadow 0.3s ease; /* Suaviza el cambio al hacer hover */
+}
+
+.movie-poster img:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más fuerte al pasar el mouse */
 }
 
 .movie-review p {

@@ -66,3 +66,65 @@
     margin: 1rem 0; /* Espaciado vertical */
     color: #fff; /* Ajusta según el diseño */
 }
+
+/* Contenedor principal de la puntuación y logo */
+.movie-rating {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Estilo para el contenedor del logo */
+.tmdb-logo-container {
+    flex-shrink: 0;
+}
+
+.tmdb-link {
+    display: block;
+    width: 50px;
+    height: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.tmdb-link:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+.tmdb-link.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Estilo para la puntuación */
+.user-rating h3 {
+    font-family: var(--font-primary);
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.user-rating p {
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    margin: 0;
+    color: var(--secondary-color, #666);
+}
+
+/* Diseño para vistas móviles */
+@media (max-width: 768px) {
+    .movie-rating {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-rating {
+        margin-top: 10px;
+    }
+
+    .tmdb-link {
+        width: 40px;
+    }
+}
+
+

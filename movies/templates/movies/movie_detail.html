@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ movie.title }} ({{ movie.release_date.year }})</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_movie.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
@@ -25,6 +25,7 @@
             </div>
             
             <h1>La Dimensión del Terror</h1>
+            <h3>Colección de Cine de Terror, Sci-Fi y Fantástico</h3>
         </a>
         <nav class="navbar">
             <ul>
@@ -76,11 +77,20 @@
                         {% endif %}
                     </p>
                     <div class="movie-rating">
-                        <h3>
-                            <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo">
-                            {{ movie.rating|default:"Sin calificación" }}/10
-                        </h3>
+                        <div class="tmdb-logo-container">
+                            {% if movie.tmdb_url %}
+                                <a href="{{ movie.tmdb_url }}" target="_blank" rel="noopener noreferrer">
+                                    <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link">
+                                </a>
+                            {% else %}
+                                <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link disabled">
+                            {% endif %}
+                        </div>
+                        <div class="user-rating">
+                        <p></p><h3>Puntuación de Usuarios:</h3> {{ movie.rating|default:"Sin calificación" }}/10</p>
+                        </div>
                     </div>
+                    
                     
                 </div>
             </div>
