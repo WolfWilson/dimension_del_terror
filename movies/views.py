@@ -6,17 +6,22 @@ from .forms import MovieForm
 from .utils import get_movie_data_from_api
 from .models import Genre
 
+from django.shortcuts import render, get_object_or_404
+from .models import Genre, Movie
+
 def dynamic_genre_movies(request):
-    genres = Genre.objects.all()  # Todos los géneros disponibles
+    # Ordena los géneros alfabéticamente
+    genres = Genre.objects.all().order_by('name')  # Orden por nombre alfabético
+    
     selected_genre_id = request.GET.get('genre')  # Captura el ID del género seleccionado desde la URL
 
     # Si hay un género seleccionado, filtra las películas; de lo contrario, muestra todas
     if selected_genre_id:
         selected_genre = get_object_or_404(Genre, id=selected_genre_id)
-        movies = Movie.objects.filter(genres=selected_genre).order_by('-id')
+        movies = Movie.objects.filter(genres=selected_genre).order_by('-id')  # Orden descendente por ID
     else:
         selected_genre = None
-        movies = Movie.objects.all().order_by('-id')
+        movies = Movie.objects.all().order_by('-id')  # Orden descendente por ID
 
     context = {
         'genres': genres,
@@ -26,6 +31,7 @@ def dynamic_genre_movies(request):
     return render(request, 'movies/dynamic_genre_movies.html', context)
 
 
+
 def movie_list(request):
     query = request.GET.get('q', '')
     if query:
@@ -33,7 +39,7 @@ def movie_list(request):
     else:
         movies = Movie.objects.all().order_by('-id')  # Orden inverso por ID
 
-    paginator = Paginator(movies, 12)  # Asegúrate de usar 12 como cantidad por página
+    paginator = Paginator(movies, 16)  # Asegúrate de usar 12 como cantidad por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

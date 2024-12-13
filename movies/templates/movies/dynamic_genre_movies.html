@@ -80,6 +80,20 @@
         </section>
     </main>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const genreId = urlParams.get('genre'); // Obtiene el género seleccionado de los parámetros de la URL
+            const moviesSection = document.getElementById('movies');
+        
+            if (genreId && moviesSection) {
+                // Desplaza suavemente hacia la sección de películas
+                moviesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+        </script>
+        
+
     <footer>
         <p>&copy; 2024 Black Cat Cinema. Todos los derechos reservados.</p>
     </footer>

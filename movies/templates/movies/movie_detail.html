@@ -97,7 +97,7 @@
     
             <div class="movie-review">
                 <h3>Reseña:</h3>
-                <p>{{ movie.review|default:"Sin reseña disponible." }}</p>
+                <div class="formatted-review">{{ movie.review|safe|default:"<p>Sin reseña disponible.</p>" }}</div>
             </div>
             
             <p><b>Ver en Español 👇</b></p>
