@@ -2,6 +2,8 @@ from django.db import models
 from django.core.files.base import ContentFile
 import requests
 from .utils import get_movie_data_from_api
+from django.utils.html import strip_tags
+from ckeditor.fields import RichTextField  # Importa el campo de CKEditor
 
 class Genre(models.Model):
     name = models.CharField(max_length=50)
@@ -24,10 +26,14 @@ class Movie(models.Model):
     header_image = models.ImageField(upload_to='headers/', blank=True, null=True)  # Imagen del encabezado
     drive_url = models.URLField()
     genres = models.ManyToManyField('Genre', related_name='movies')
-    review = models.TextField(blank=True, null=True)  # Reseña opcional
+    review = RichTextField(blank=True, null=True
 
     def save(self, *args, **kwargs):
         print(f"Iniciando guardado de la película: {self.title}")
+
+        def save(self, *args, **kwargs):
+            if self.review:
+                self.review = strip_tags(self.review)  # Elimina etiquetas inseguras
 
         # Transformar la URL de Google Drive
         if self.drive_url and "drive.google.com" in self.drive_url:
