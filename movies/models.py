@@ -93,12 +93,14 @@ class Movie(models.Model):
         return self.title
     
 class Comment(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments')
+    movie = models.ForeignKey("Movie", on_delete=models.CASCADE, related_name='comments')
+    nick = models.CharField(max_length=50)
+    email = models.EmailField(blank=True, null=True)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Comment on {self.movie.title}'
+        return f"Comment by {self.nick} on {self.movie.title}"
     
 
 #para agregar generos

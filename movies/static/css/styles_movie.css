@@ -158,6 +158,79 @@ header {
     border-radius: 15px;
 }
 
+/*:::::::::::::::::::::ESTILO PARA LOS COMENTARIOS::::::::::::::::::::::::::*/
+
+/* Mejor organización y separación del formulario */
+.comment-form .mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.comment-form label {
+    display: block; /* Fuerza la etiqueta a mostrarse en una línea separada */
+    font-weight: bold;
+    margin-bottom: 0.1rem; /* Espacio entre la etiqueta y el input */
+}
+
+.comment-form .form-control {
+    margin-bottom: 0.2rem; /* Espacio entre campos */
+}
+
+.comment-form button {
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.comment {
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.comment:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.comment {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.comment:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.comment p {
+    margin: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.comment-form .form-control {
+    border-radius: 5px;
+}
+
+/* Botón de Enviar con estilos personalizados */
+.comment-form .btn-success {
+    font-size: 10px;
+    background-color: #28a745;
+    color: white;
+    font-weight:lighter;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+}
+
+.comment-form .btn-success:hover {
+    background-color: #218838;
+    color: white;
+}
+
+
+
+
+
 /*::::::::::::::::::ESTILO PARA EL FOOTER::::::::::::::::::::::::::*/
 footer {
     background-color: #272B2C;

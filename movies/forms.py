@@ -1,6 +1,11 @@
 from django import forms
 from .models import Movie, Genre
 from datetime import date
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit
+from crispy_forms.bootstrap import PrependedText
+from .models import Comment
+
 
 class MovieForm(forms.ModelForm):
     genres = forms.ModelMultipleChoiceField(
@@ -30,3 +35,30 @@ class MovieForm(forms.ModelForm):
 - Campos para los datos básicos de la película.
 - Un selector múltiple para los géneros (`genres`).'''
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['nick', 'email', 'text']
+
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+
+        # Personaliza las etiquetas y los placeholders
+        self.fields['nick'].label = "Tu Nick"
+        self.fields['nick'].widget.attrs.update({'placeholder': 'Escribe tu nombre aquí...'})
+
+        self.fields['email'].label = "Correo Electrónico (opcional)"
+        self.fields['email'].widget.attrs.update({'placeholder': 'comecerebros@gmail.com.'})
+
+        self.fields['text'].label = "Texto"
+        self.fields['text'].widget.attrs.update({'placeholder': 'Escribe tu comentario...'})
+
+        # Configuración de Crispy Forms
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            PrependedText('nick', '@'),  # Prefijo "@" para el campo Nick
+            PrependedText('email', '✉'),  # Prefijo "✉" para el campo Email
+            'text',  # Campo Texto
+            Submit('submit', 'Enviar', css_class='btn btn-success btn-lg mt-3')  # Botón verde "Enviar"
+        )

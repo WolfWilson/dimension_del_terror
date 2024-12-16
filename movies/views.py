@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect
 from .forms import MovieForm
 from .utils import get_movie_data_from_api
 from .models import Genre
-
+from .models import Movie, Comment
+from .forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 from .models import Genre, Movie
 
@@ -52,14 +53,31 @@ def movie_list(request):
 
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
+    comments = movie.comments.order_by('-created_at')  # Ordenar los comentarios por fecha descendente
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.movie = movie
+            comment.save()
+            return redirect('movie_detail', movie_id=movie.id)  # Redirigir para limpiar el formulario
+    else:
+        form = CommentForm()
 
     # Procesar el reparto como una lista de actores
     cast_list = movie.cast.split(', ') if movie.cast else []  # Dividir el reparto por comas
 
-    return render(request, 'movies/movie_detail.html', {
+    # Unificar el contexto
+    context = {
         'movie': movie,
-        'cast_list': cast_list,  # Pasar la lista al contexto
-    })
+        'comments': comments,
+        'form': form,
+        'cast_list': cast_list,  # Pasar la lista de actores
+    }
+
+    return render(request, 'movies/movie_detail.html', context)
+
 
 def search_movies(request):
     query = request.GET.get('q', '')  # Captura el término de búsqueda

@@ -42,7 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'movies',
     'django_ckeditor_5', #es para agregar formato a las reseñas desde el administrador de django,
+    'crispy_forms',
+    'crispy_bootstrap5',
+     'widget_tweaks',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
