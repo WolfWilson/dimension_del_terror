@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'movies',
-    'ckeditor',
+    'django_ckeditor_5', #es para agregar formato a las reseñas desde el administrador de django,
 ]
 
 MIDDLEWARE = [
@@ -71,6 +71,27 @@ TEMPLATES = [
         },
     },
 ]
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading', '|', 'bold', 'italic', 'underline', '|',
+            'link', 'bulletedList', 'numberedList', '|',
+            'blockQuote', 'codeBlock', '|',
+            'undo', 'redo'
+        ],
+        'language': 'es',
+        'blockToolbar': ['paragraph', 'heading1', 'heading2'],
+        'image': {
+            'toolbar': ['imageStyle:full', 'imageStyle:side', '|', 'imageTextAlternative']
+        },
+        'table': {
+            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
+    }
+}
+
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 
 
 WSGI_APPLICATION = 'blackcatcinema.wsgi.application'

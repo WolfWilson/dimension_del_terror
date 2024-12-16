@@ -3,7 +3,7 @@ from django.core.files.base import ContentFile
 import requests
 from .utils import get_movie_data_from_api
 from django.utils.html import strip_tags
-from ckeditor.fields import RichTextField  # Importa el campo de CKEditor
+from django_ckeditor_5.fields import CKEditor5Field
 
 class Genre(models.Model):
     name = models.CharField(max_length=50)
@@ -26,7 +26,7 @@ class Movie(models.Model):
     header_image = models.ImageField(upload_to='headers/', blank=True, null=True)  # Imagen del encabezado
     drive_url = models.URLField()
     genres = models.ManyToManyField('Genre', related_name='movies')
-    review = RichTextField(blank=True, null=True
+    review = CKEditor5Field('Review', config_name='default', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         print(f"Iniciando guardado de la película: {self.title}")
