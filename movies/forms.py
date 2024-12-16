@@ -1,5 +1,6 @@
 from django import forms
 from .models import Movie, Genre
+from django.core.exceptions import ValidationError
 from datetime import date
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
@@ -35,6 +36,7 @@ class MovieForm(forms.ModelForm):
 - Campos para los datos básicos de la película.
 - Un selector múltiple para los géneros (`genres`).'''
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -51,7 +53,10 @@ class CommentForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update({'placeholder': 'comecerebros@gmail.com.'})
 
         self.fields['text'].label = "Texto"
-        self.fields['text'].widget.attrs.update({'placeholder': 'Escribe tu comentario...'})
+        self.fields['text'].widget.attrs.update({
+            'placeholder': 'Escribe tu comentario...',
+            'maxlength': '400'  # Límite visual en el campo
+        })
 
         # Configuración de Crispy Forms
         self.helper = FormHelper()
@@ -62,3 +67,10 @@ class CommentForm(forms.ModelForm):
             'text',  # Campo Texto
             Submit('submit', 'Enviar', css_class='btn btn-success btn-lg mt-3')  # Botón verde "Enviar"
         )
+
+    # Validación del campo "text" para un límite de 300 caracteres
+    def clean_text(self):
+        text = self.cleaned_data.get('text')
+        if len(text) > 400:
+            raise ValidationError("El comentario no puede tener más de 400 caracteres.")
+        return text

@@ -115,34 +115,51 @@
          <!-- ::::::::::::::::::::::::::::::::::::::::: FIN DE SECCION DE IFRAME  :::::::::::::::::::::::::::::::::::::::-->
 
                   <!-- ::::::::::::::::::::::::::::::::::::::::: INICIO DE SECCION DE COMENTARIOS CON BOOTSTRAP CRISPY  :::::::::::::::::::::::::::::::::::::::-->
-        <section id="comments" class="mt-5">
-            <h3 class="mb-4">Deja un Comentario</h3>
-        
-            <!-- Formulario con Crispy Forms -->
-            <form method="post" class="comment-form">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="btn btn-success btn-lg mt-3">Enviar</button>
-            </form>
-        
-            <hr>
-        
-            <!-- Lista de Comentarios -->
-            <h3 class="mt-4">Comentarios</h3>
-            {% for comment in comments %}
-                <div class="comment p-3 mb-3 border rounded bg-light shadow-sm">
-                    <p class="mb-1">
-                        <strong>{{ comment.nick }}</strong>
-                        <small class="text-muted">- {{ comment.created_at|date:"d M Y, H:i" }}</small>
-                    </p>
-                    <div class="comment-text">
-                        {{ comment.text|linebreaks }}
-                    </div>
+<!-- Sección de comentarios -->
+<section id="comments" class="mt-5">
+    <h3 class="mb-4">Deja un Comentario</h3>
+
+    <form method="post" class="comment-form">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="char-count">
+            <small id="char-count">0 / 400 caracteres</small>
+        </div>
+        <button type="submit" class="btn btn-success mt-2">Enviar</button>
+    </form>
+
+    <!-- Lista de Comentarios con Scroll -->
+    <h3 class="mt-4">Comentarios</h3>
+    <div class="comment-scroll">
+        {% for comment in comments %}
+            <div class="comment p-3 mb-3 border rounded bg-light shadow-sm">
+                <p class="mb-2">
+                    <strong>@{{ comment.nick }}</strong>
+                    <small class="text-muted">- {{ comment.created_at|date:"d M Y, H:i" }}</small>
+                </p>
+                <div class="comment-text">
+                    {{ comment.text|linebreaks }}
                 </div>
-            {% empty %}
-                <p class="text-muted">No hay comentarios aún. ¡Sé el primero en comentar!</p>
-            {% endfor %}
-        </section>
+            </div>
+        {% empty %}
+            <p class="text-muted">No hay comentarios aún. ¡Sé el primero en comentar!</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Ventana de Confirmación -->
+{% if comment_success %}
+<div id="commentModal" class="modal-overlay">
+    <div class="modal-content">
+        <img src="{% static 'images/brains.png' %}" alt="Confirmación" class="modal-image">
+        <h3>¡Comentario enviado exitosamente!</h3>
+        <p>Gracias por dejar tu opinión.</p>
+        <button id="closeModal" class="btn btn-success">Cerrar</button>
+    </div>
+</div>
+{% endif %}
+
+
         <!-- ::::::::::::::::::::::::::::::::::::::::: FIN DE SECCION DE COMENTARIOS  :::::::::::::::::::::::::::::::::::::::-->
 
     </main>
@@ -175,5 +192,40 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const textArea = document.getElementById("id_text"); // ID del campo de texto
+            const charCount = document.getElementById("char-count");
+    
+            textArea.addEventListener("input", function () {
+                const currentLength = textArea.value.length;
+                charCount.textContent = `${currentLength} / 400 caracteres`;
+    
+                // Cambiar el color si supera el límite
+                if (currentLength > 400) {
+                    charCount.style.color = "red";
+                } else {
+                    charCount.style.color = "inherit";
+                }
+            });
+        });
+    </script>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const closeModal = document.getElementById("closeModal");
+            const modal = document.getElementById("commentModal");
+    
+            if (closeModal && modal) {
+                closeModal.addEventListener("click", function () {
+                    modal.style.display = "none";
+                });
+            }
+        });
+    </script>
+    
+    
 </body>
 </html>

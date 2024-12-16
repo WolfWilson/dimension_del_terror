@@ -54,6 +54,7 @@ def movie_list(request):
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     comments = movie.comments.order_by('-created_at')  # Ordenar los comentarios por fecha descendente
+    comment_success = False  # Bandera para confirmar el envío del comentario
 
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -61,22 +62,22 @@ def movie_detail(request, movie_id):
             comment = form.save(commit=False)
             comment.movie = movie
             comment.save()
-            return redirect('movie_detail', movie_id=movie.id)  # Redirigir para limpiar el formulario
+            comment_success = True  # Se envió el comentario correctamente
     else:
         form = CommentForm()
 
     # Procesar el reparto como una lista de actores
-    cast_list = movie.cast.split(', ') if movie.cast else []  # Dividir el reparto por comas
+    cast_list = movie.cast.split(', ') if movie.cast else []
 
-    # Unificar el contexto
     context = {
         'movie': movie,
         'comments': comments,
         'form': form,
-        'cast_list': cast_list,  # Pasar la lista de actores
+        'cast_list': cast_list,
+        'comment_success': comment_success,  # Pasar la bandera al contexto
     }
-
     return render(request, 'movies/movie_detail.html', context)
+
 
 
 def search_movies(request):
