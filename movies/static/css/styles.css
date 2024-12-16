@@ -295,59 +295,76 @@ main {
 
 
 /* ::::::::::::::::::::::::::::::::: Contenedor principal de la barra de búsqueda  ::::::::::::::::::::::::::::::::::::    */
+/* Centrar el formulario de búsqueda */
 .search-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem auto; /* Márgenes superior e inferior */
-    padding: 1rem; /* Espaciado interno */
-    max-width: 600px; /* Ancho máximo */
-    width: 50%; /* Ancho relativo para responsividad */
-    border: 2px solid #ccc; /* Borde gris claro */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Sombra sutil */
-    background-color: #fff; /* Fondo blanco */
+    display: flex;            /* Flexbox para centrar contenido */
+    justify-content: center;  /* Centra horizontalmente */
+    align-items: center;      /* Centra verticalmente si es necesario */
+    margin: 2rem auto;        /* Margen superior e inferior y centrado horizontal */
+    width: 100%;              /* Ocupa el ancho total */
+    max-width: 600px;         /* Máximo tamaño del formulario */
+    padding: 1rem;            /* Espaciado interno */
+    box-sizing: border-box;   /* Incluye padding en el tamaño total */
 }
 
-/* Formulario para centrar elementos */
+/* Formulario para alinear elementos internos */
 .search-bar form {
-    display:flex;
-    width: 100%;
+    display: flex;            /* Flexbox para alinear input y botón */
+    justify-content: center;  /* Centra los elementos */
+    align-items: center;      
+    width: 100%;              /* Formulario ocupa todo el contenedor */
+    gap: 0.5rem;              /* Espacio entre input y botón */
 }
 
-/* Campo de entrada */
-.search-bar input {
-    flex: 1; /* Ocupa todo el espacio disponible */
-    border: 1px solid #ccc; /* Borde claro */
-    outline: none; /* Eliminar contorno predeterminado */
+/* Campo de búsqueda centrado con ancho del 50% */
+.search-bar input[type="text"] {
+    width: 50%;               /* Ancho del campo de texto */
+    padding: 0.6rem;          /* Espaciado interno */
     font-size: 1rem;
-    padding: 0.5rem;
-    border-radius: 4px; /* Bordes redondeados */
-    margin-right: 0.5rem; /* Espacio entre el input y el botón */
+    border: 1px solid #ccc;   /* Borde claro */
+    border-radius: 4px;       /* Bordes redondeados */
+    outline: none;            /* Elimina el contorno al enfocar */
     transition: border-color 0.3s ease;
 }
 
-.search-bar input:focus {
-    border-color: #dba76b; /* Color dorado al enfocar */
+.search-bar input[type="text"]:focus {
+    border-color: #ff4500;    /* Borde al enfocar */
 }
 
 /* Botón de búsqueda */
 .search-bar button {
-    padding: 0.4rem 1rem; /* Reducir el padding para ajustar tamaño */
-    font-size: 0.9rem; /* Tamaño más pequeño para el texto */
-    color: white; /* Texto blanco */
-    background-color: #dba76b; /* Dorado para el fondo */
-    border: 1px solid #dba76b; /* Borde del mismo color */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    width: auto; /* Ajusta su tamaño automáticamente */
+    padding: 0.6rem 1.2rem;   /* Espaciado interno */
+    font-size: 1rem;
+    background-color: #ff4500; /* Fondo del botón */
+    color: #fff;              /* Color del texto */
+    border: none;             /* Sin bordes */
+    border-radius: 4px;       /* Bordes redondeados */
+    cursor: pointer;          /* Cursor tipo puntero */
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;           /* Evita que el botón se achique */
+    width: auto;              /* El botón ocupa el ancho de su contenido */
 }
 
 .search-bar button:hover {
-    background-color: #b46525; /* Color dorado oscuro al pasar el mouse */
-    color: #fff; /* Texto blanco */
+    background-color: #e03e00; /* Color más oscuro al pasar el mouse */
 }
+
+/* Responsividad: Ajustar el input y botón en móviles */
+@media (max-width: 768px) {
+    .search-bar form {
+        flex-direction: column; /* Alinea los elementos verticalmente */
+        gap: 0.8rem;            /* Mayor espacio entre input y botón */
+    }
+
+    .search-bar input[type="text"] {
+        width: 100%;            /* Ocupa todo el ancho en pantallas pequeñas */
+    }
+
+    .search-bar button {
+        width: auto;            /* El botón no ocupa todo el ancho */
+    }
+}
+
 
 /* ::::::::::::::::::::::::::::: AJUSTES PARA EL FOOTER ::::::::::::::::::::::::::::::::::::    */
 
