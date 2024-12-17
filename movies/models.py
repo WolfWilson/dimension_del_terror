@@ -5,6 +5,7 @@ from .utils import get_movie_data_from_api
 from django.utils.html import strip_tags
 from django_ckeditor_5.fields import CKEditor5Field
 
+
 class Genre(models.Model):
     name = models.CharField(max_length=50)
 
@@ -101,6 +102,16 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.nick} on {self.movie.title}"
+    
+
+class MovieRequest(models.Model):
+    name = models.CharField(max_length=100)  # Nombre del usuario
+    email = models.EmailField()  # Correo electrónico del usuario
+    message = models.TextField(max_length=150)  # Mensaje con el pedido (máximo 150 caracteres)
+    created_at = models.DateTimeField(auto_now_add=True)  # Fecha de creación
+
+    def __str__(self):
+        return f"{self.name} - {self.email} - {self.created_at.strftime('%d-%m-%Y')}"
     
 
 #para agregar generos

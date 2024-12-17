@@ -9,6 +9,7 @@ from .models import Movie, Comment
 from .forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 from .models import Genre, Movie
+from .forms import MovieRequestForm
 
 def dynamic_genre_movies(request):
     # Ordena los géneros alfabéticamente
@@ -34,21 +35,39 @@ def dynamic_genre_movies(request):
 
 
 def movie_list(request):
-    query = request.GET.get('q', '')
-    if query:
-        movies = Movie.objects.filter(title__icontains=query).order_by('-id')  # Orden inverso por ID
-    else:
-        movies = Movie.objects.all().order_by('-id')  # Orden inverso por ID
+    query = request.GET.get('q', '')  # Captura el término de búsqueda
+    page_number = request.GET.get('page')  # Captura el número de página actual
+    request_success = request.session.pop('request_success', False)  # Recupera la variable de sesión
 
-    paginator = Paginator(movies, 16)  # Asegúrate de usar 12 como cantidad por página
-    page_number = request.GET.get('page')
+    # Filtra las películas si hay búsqueda, o muestra todas
+    if query:
+        movies = Movie.objects.filter(title__icontains=query).order_by('-id')
+    else:
+        movies = Movie.objects.all().order_by('-id')
+
+    # Paginador para mostrar 16 películas por página
+    paginator = Paginator(movies, 16)
     page_obj = paginator.get_page(page_number)
 
+    # Procesar el formulario de contacto
+    if request.method == "POST":
+        form = MovieRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            request.session['request_success'] = True  # Guarda el éxito en la sesión
+            # Redirige pasando también los parámetros actuales (query y page)
+            return redirect(f'{request.path}?q={query}&page={page_number}')
+    else:
+        form = MovieRequestForm()
+
+    # Contexto para la plantilla
     return render(request, 'movies/index.html', {
-        'movies': page_obj,
-        'is_paginated': True,
-        'page_obj': page_obj,
-        'query': query,
+        'movies': page_obj,              # Pasa las películas paginadas
+        'is_paginated': page_obj.has_other_pages(),  # Indica si hay paginación
+        'page_obj': page_obj,            # Objeto de la página actual
+        'query': query,                  # Valor del campo de búsqueda
+        'form': form,                    # Formulario de contacto
+        'request_success': request_success,  # Variable para mostrar el modal
     })
 
 def movie_detail(request, movie_id):
@@ -114,6 +133,8 @@ def add_movie(request):
 from django.shortcuts import render, get_object_or_404
 from .models import Movie, Genre
 
+# ::::::::::::::::::: VISTA PARA LA PAGINA QUE FILTRA LAS PELICULAS POR GÉNEROS ::::::::::::::::::::::::::::::: #
+
 def movies_by_genre(request, genre_name):
     # Buscar el género por nombre (o devolver un 404 si no existe)
     genre = get_object_or_404(Genre, name=genre_name)
@@ -130,6 +151,8 @@ def movies_by_genre(request, genre_name):
     return render(request, 'movies/movies_by_genre.html', context)
 
 from .models import Movie
+
+# ::::::::::::::::::: VISTA PARA LA PAGINA QUE FILTRA LAS PELICULAS POR ETIQUETAS DE ACTORES Y DIRECTORES ::::::::::::::::::::::::::::::: #
 
 def movies_by_tag(request, tag_type, tag):
     # Filtrar películas por el director o reparto basado en el tag_type
@@ -150,4 +173,6 @@ def movies_by_tag(request, tag_type, tag):
     print(f"Tag Type: {tag_type}, Tag: {tag}")
 
     return render(request, 'movies/movies_by_tag.html', context)
+
+
     

@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     {% load static %}
+    {% load crispy_forms_tags %} <!-- Cargar las etiquetas de Crispy Forms -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Black Cat Cinema</title>
@@ -103,21 +104,46 @@
                         <a href="https://github.com/WolfWilson/"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
-                <div id="contact-form" class="formulario">
-                    <h2>Contacto</h2>
-                    <p>Haz tu pedido aquí!:</p>
-                    <form>
-                        <label for="name">Nombre:</label>
-                        <input type="text" id="name" name="name" required>
-                        <label for="email">Correo Electrónico:</label>
-                        <input type="email" id="email" name="email" required>
-                        <label for="message">Mensaje:</label>
-                        <textarea id="message" name="message" rows="3" required></textarea>
-                        <button type="submit">Enviar</button>
-                    </form>
-                </div>
+              <!-- Formulario de contacto -->
+<div id="contact-form" class="formulario">
+    <h2>Contacto</h2>
+    <p>Haz tu pedido aquí:</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success mt-2">Enviar</button>
+    </form>
+</div>
+
+<!-- Ventana de Confirmación -->
+{% if request_success %}
+<div id="requestModal" class="modal-overlay">
+    <div class="modal-content">
+        <img src="{% static 'images/brains.png' %}" alt="Confirmación" class="modal-image">
+        <h3>¡Pedido enviado exitosamente!</h3>
+        <p>Gracias por tu solicitud. Pronto nos pondremos en contacto.</p>
+        <button id="closeModal" class="btn btn-success">Cerrar</button>
+    </div>
+</div>
+{% endif %}
+
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const closeModal = document.getElementById("closeModal");
+            const modal = document.getElementById("requestModal");
+    
+            if (closeModal && modal) {
+                closeModal.addEventListener("click", function () {
+                    modal.style.display = "none";
+                });
+            }
+        });
+    </script>
+
+
 </body>
 </html>

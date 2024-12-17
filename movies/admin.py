@@ -2,6 +2,7 @@
 from django.contrib import admin
 from .models import Movie, Comment
 from .models import Genre
+from .models import MovieRequest
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
@@ -33,3 +34,10 @@ class MovieAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('movie', 'created_at')
     search_fields = ('movie__title',)
+
+@admin.register(MovieRequest)
+class MovieRequestAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'message', 'created_at')  # Campos a mostrar en la lista
+    search_fields = ('name', 'email', 'message')  # Campos por los que se puede buscar
+    list_filter = ('created_at',)  # Agrega un filtro por fecha
+    ordering = ('-created_at',)  # Ordena los resultados de forma descendente por fecha

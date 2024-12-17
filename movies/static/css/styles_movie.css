@@ -318,6 +318,16 @@ header {
     }
 }
 
+.char-count {
+    text-align: right;
+    font-size: 0.9rem;
+    color: #555; /* Color inicial del texto */
+    margin-top: 0.5rem;
+}
+
+.char-count.red {
+    color: red; /* Cambia a rojo si supera el límite */
+}
 
 
 /*::::::::::::::::::ESTILO PARA EL FOOTER::::::::::::::::::::::::::*/

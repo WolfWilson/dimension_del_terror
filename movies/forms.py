@@ -6,7 +6,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from crispy_forms.bootstrap import PrependedText
 from .models import Comment
-
+from .models import MovieRequest
 
 class MovieForm(forms.ModelForm):
     genres = forms.ModelMultipleChoiceField(
@@ -74,3 +74,42 @@ class CommentForm(forms.ModelForm):
         if len(text) > 400:
             raise ValidationError("El comentario no puede tener más de 400 caracteres.")
         return text
+
+
+class MovieRequestForm(forms.ModelForm):
+    class Meta:
+        model = MovieRequest
+        fields = ['name', 'email', 'message']
+
+    def __init__(self, *args, **kwargs):
+        super(MovieRequestForm, self).__init__(*args, **kwargs)
+
+        # Personaliza las etiquetas y los placeholders
+        self.fields['name'].label = "Nombre"
+        self.fields['name'].widget.attrs.update({'placeholder': 'Tu nombre...'})
+
+        self.fields['email'].label = "Correo Electrónico"
+        self.fields['email'].widget.attrs.update({'placeholder': 'tuemail@ejemplo.com'})
+
+        self.fields['message'].label = "Mensaje"
+        self.fields['message'].widget.attrs.update({
+            'placeholder': 'Escribe tu pedido (máximo 150 caracteres)...',
+            'maxlength': '150'  # Límite visual en el input
+        })
+
+        # Configuración de Crispy Forms
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            PrependedText('name', '👤'),  # Prefijo para el campo Nombre
+            PrependedText('email', '✉'),  # Prefijo para el campo Email
+            'message',  # Campo Mensaje
+            Submit('submit', 'Enviar Pedido', css_class='btn btn-success btn-lg mt-3')  # Botón verde
+        )
+
+    # Validación del campo "message" para un límite de 150 caracteres
+    def clean_message(self):
+        message = self.cleaned_data.get('message')
+        if len(message) > 150:
+            raise forms.ValidationError("El mensaje no puede tener más de 150 caracteres.")
+        return message
