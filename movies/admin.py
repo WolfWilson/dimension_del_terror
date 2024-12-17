@@ -23,6 +23,7 @@ class MovieAdmin(admin.ModelAdmin):
         'director',
         'cast',
         'tmdb_url',
+        'trailer_url', #enlace a youtube
         'poster_image',
         'header_image',  # Campo para el encabezado personalizado
         'drive_url',

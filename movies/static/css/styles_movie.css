@@ -94,23 +94,78 @@ header {
     margin-left: 20px;
 }
 
+
+/* ::::::::::::::::::: ESTILO PARA EL POSTER Y TRAILER ::::::::::::::::::: */
+
 .movie-poster {
+    position: relative; /* Para posicionar el overlay */
     width: 100%;
     max-width: 380px;
     margin-bottom: 20px;
+    overflow: hidden; /* Evita desbordamientos */
+    border-radius: 10px;
 }
 
+/* Imagen del póster */
 .movie-poster img {
     width: 100%;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8); /* Sombra más intensa */
-    transition: box-shadow 0.3s ease; /* Suaviza el cambio al hacer hover */
+    box-shadow: 10px 6px 15px rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s ease; /* Suaviza el zoom */
 }
 
-.movie-poster img:hover {
-    box-shadow: 0 10px 20px rgba(0, 0, 0.5, 0.6); /* Sombra mucho más fuerte al pasar el mouse */
+/* Capa de oscurecimiento */
+.movie-poster::before {
+    content: ""; /* Pseudo-elemento para la capa oscura */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0); /* Inicialmente transparente */
+    transition: background 0.3s ease; /* Suaviza la aparición */
+    z-index: 1; /* Encima del póster */
+    border-radius: 10px; /* Bordes redondeados */
 }
+
+.movie-poster:hover::before {
+    background: rgba(0, 0, 0, 0.3); /* Oscurece la capa al hacer hover */
+}
+
+.movie-poster:hover img {
+    transform: scale(1.01); /* Ligeramente más grande */
+}
+
+/* Contenido hover (icono y texto) */
+.movie-poster .hover-content {
+    position: absolute;
+    bottom: 20px; /* Cerca del borde inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2; /* Encima del overlay */
+}
+
+.hover-content .play-icon {
+    width: 80px; /* Tamaño del icono */
+    height: 60px;
+    margin-bottom: 5px; /* Espacio entre el icono y el texto */
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.8)); /* Sombra */
+}
+
+.hover-content .hover-text {
+    font-family: var(--font-secondary);
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 
+        1px 1px 4px rgba(0, 0, 0, 0.8), /* Sombra negra */
+        0px 0px 6px rgba(255, 255, 255, 0.6); /* Sombra brillante */
+}
+
+
+/*:::::::::::::::::: FIN DE ESTILO PARA EL POSTER Y TRAILER:::::::::::::::::::::::::*/
 
 .movie-review p {
     text-align: justify; /* Justifica el texto para que ocupe todo el ancho disponible */
@@ -305,6 +360,8 @@ header {
 .modal-content .btn:hover {
     background-color: #218838;
 }
+
+
 
 /* Animación de entrada */
 @keyframes fadeIn {

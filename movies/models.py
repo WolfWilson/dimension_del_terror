@@ -26,15 +26,15 @@ class Movie(models.Model):
     poster_image = models.ImageField(upload_to='posters/', blank=True, null=True)
     header_image = models.ImageField(upload_to='headers/', blank=True, null=True)  # Imagen del encabezado
     drive_url = models.URLField()
+    trailer_url = models.URLField(null=True, blank=True)  # Nuevo campo para la URL del tráiler
     genres = models.ManyToManyField('Genre', related_name='movies')
     review = CKEditor5Field('Review', config_name='default', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         print(f"Iniciando guardado de la película: {self.title}")
 
-        def save(self, *args, **kwargs):
-            if self.review:
-                self.review = strip_tags(self.review)  # Elimina etiquetas inseguras
+        # Validación y limpieza de la reseña
+       
 
         # Transformar la URL de Google Drive
         if self.drive_url and "drive.google.com" in self.drive_url:
@@ -44,7 +44,7 @@ class Movie(models.Model):
                 print(f"URL de Google Drive transformada: {self.drive_url}")
 
         # Intentar obtener datos de la API si los campos clave están vacíos
-        if not self.description or not self.release_date or not self.rating:
+        if not self.description or not self.release_date or not self.rating or not self.trailer_url:
             print("Intentando obtener datos desde la API...")
             movie_data = get_movie_data_from_api(self.title)
             if movie_data:
@@ -58,10 +58,12 @@ class Movie(models.Model):
                 self.language = movie_data.get('original_language', self.language)
                 self.tmdb_url = movie_data.get('tmdb_url', self.tmdb_url)
                 self.director = movie_data.get('director', self.director)
+
                 if not self.cast and movie_data.get('cast'):
                     self.cast = movie_data['cast']
 
-                    print("Datos de la película asignados correctamente.")
+                if not self.trailer_url and movie_data.get('trailer_url'):
+                    self.trailer_url = movie_data['trailer_url']
 
                 # Descargar y asignar el póster
                 if not self.poster_image and movie_data.get('poster_path'):
