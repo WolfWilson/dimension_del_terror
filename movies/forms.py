@@ -8,29 +8,98 @@ from crispy_forms.bootstrap import PrependedText
 from .models import Comment
 from .models import MovieRequest
 
+from django import forms
+from .models import Movie, Genre
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column, Fieldset
+from django.core.exceptions import ValidationError
+from urllib.parse import urlparse
+
 class MovieForm(forms.ModelForm):
     genres = forms.ModelMultipleChoiceField(
         queryset=Genre.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "custom-checkbox"}),
         label="Géneros (Selecciona de 1 a 3)",
         required=True
     )
-
+    
     class Meta:
         model = Movie
         fields = [
-            'title', 'description', 'release_date', 'rating', 
-            'duration', 'language', 'director', 'cast', 
-            'tmdb_url', 'poster_image', 'drive_url', 'genres'
+            'title', 'description', 'release_date', 'rating', 'duration', 
+            'language', 'director', 'cast', 'tmdb_url', 'poster_image', 
+            'header_image', 'drive_url', 'trailer_url', 'genres', 'review'
         ]
+        widgets = {
+            'release_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'rows': 4, 'class': 'form-control'}),
+            'review': forms.Textarea(attrs={'rows': 6, 'class': 'form-control'}),
+            'poster_image': forms.FileInput(attrs={'class': 'form-control-file'}),
+            'header_image': forms.FileInput(attrs={'class': 'form-control-file'}),
+            'drive_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://drive.google.com/...'}),
+            'trailer_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://youtube.com/...'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(MovieForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.enctype = 'multipart/form-data'
+        self.helper.layout = Layout(
+            Fieldset(
+                'Agregar Película',
+                Row(
+                    Column('title', css_class='form-group col-md-6 mb-0'),
+                    Column('release_date', css_class='form-group col-md-6 mb-0'),
+                ),
+                'description',
+                Row(
+                    Column('rating', css_class='form-group col-md-4 mb-0'),
+                    Column('duration', css_class='form-group col-md-4 mb-0'),
+                    Column('language', css_class='form-group col-md-4 mb-0'),
+                ),
+                Row(
+                    Column('director', css_class='form-group col-md-6 mb-0'),
+                    Column('cast', css_class='form-group col-md-6 mb-0'),
+                ),
+                'tmdb_url',
+                'drive_url',
+                'trailer_url',
+                Row(
+                    Column('poster_image', css_class='form-group col-md-6 mb-0'),
+                    Column('header_image', css_class='form-group col-md-6 mb-0'),
+                ),
+                'genres',
+                'review'
+            ),
+            Submit('submit', 'Guardar Película', css_class='btn btn-success')
+        )
 
     def clean_genres(self):
+        """Validar que el usuario selecciona entre 1 y 3 géneros."""
         genres = self.cleaned_data.get('genres')
-        if len(genres) < 1:
-            raise forms.ValidationError("Debes seleccionar al menos 1 género.")
+        if not genres or len(genres) < 1:
+            raise ValidationError("Debes seleccionar al menos 1 género.")
         if len(genres) > 3:
-            raise forms.ValidationError("No puedes seleccionar más de 3 géneros.")
+            raise ValidationError("No puedes seleccionar más de 3 géneros.")
         return genres
+
+    def clean_trailer_url(self):
+        """Validar que la URL del tráiler sea de YouTube o válida."""
+        url = self.cleaned_data.get('trailer_url')
+        if url:
+            parsed_url = urlparse(url)
+            if "youtube.com" not in parsed_url.netloc and "youtu.be" not in parsed_url.netloc:
+                raise ValidationError("La URL del tráiler debe ser un enlace de YouTube válido.")
+        return url
+
+    def clean_rating(self):
+        """Validar que la calificación esté entre 0 y 10."""
+        rating = self.cleaned_data.get('rating')
+        if rating is not None and (rating < 0 or rating > 10):
+            raise ValidationError("La calificación debe estar entre 0 y 10.")
+        return rating
+
     
 '''Este formulario incluye:
 - Campos para los datos básicos de la película.

@@ -165,6 +165,41 @@ header {
 }
 
 
+/* Estilo del contenedor Fancybox */
+
+/* :::::: Estilo para el reproductor Fancybox :::::: */
+
+/* Estilo del contenedor del reproductor */
+.fancybox__content {
+    border: 5px solid rgba(255, 255, 255, 0.9); /* Borde blanco semitransparente */
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7); /* Sombra pronunciada */
+    overflow: hidden; /* Evita desbordes de contenido */
+    background-color: #000; /* Fondo negro dentro del reproductor */
+}
+
+/* Fondo oscuro del reproductor */
+.fancybox__backdrop {
+    background: rgba(0, 0, 0, 0.85); /* Fondo oscuro semitransparente */
+}
+
+/* Efecto hover para los botones de cierre y navegación */
+.fancybox__button {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+.fancybox__button:hover {
+    transform: scale(1.1); /* Botones ligeramente más grandes al pasar el mouse */
+    filter: brightness(1.4); /* Botones más brillantes */
+}
+
+/* Ajuste del video o iframe dentro de Fancybox */
+.fancybox__content iframe,
+.fancybox__content video {
+    border-radius: 15px; /* Bordes redondeados para el contenido del video */
+}
+
+
+
 /*:::::::::::::::::: FIN DE ESTILO PARA EL POSTER Y TRAILER:::::::::::::::::::::::::*/
 
 .movie-review p {

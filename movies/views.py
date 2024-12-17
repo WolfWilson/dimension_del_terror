@@ -175,4 +175,26 @@ def movies_by_tag(request, tag_type, tag):
     return render(request, 'movies/movies_by_tag.html', context)
 
 
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from .forms import MovieForm
+
+# Función para verificar si el usuario es superusuario
+def is_superuser(user):
+    return user.is_authenticated and user.is_superuser
+
+@user_passes_test(is_superuser, login_url='/admin/login/')  # Redirige al login de admin si no es superuser
+def add_movie(request):
+    if request.method == 'POST':
+        form = MovieForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('movie_list')  # Redirige a la lista de películas después de guardar
+    else:
+        form = MovieForm()
+
+    return render(request, 'movies/add_movie.html', {'form': form})
+
+
     
