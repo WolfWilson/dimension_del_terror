@@ -131,38 +131,43 @@
         </section>
          <!-- ::::::::::::::::::::::::::::::::::::::::: FIN DE SECCION DE IFRAME  :::::::::::::::::::::::::::::::::::::::-->
 
-                  <!-- ::::::::::::::::::::::::::::::::::::::::: INICIO DE SECCION DE COMENTARIOS CON BOOTSTRAP CRISPY  :::::::::::::::::::::::::::::::::::::::-->
-<!-- Sección de comentarios -->
-<section id="comments" class="mt-5">
-    <h3 class="mb-4">Deja un Comentario</h3>
+                <!-- ::::::::::::::::::::::::::::::::::::::::: INICIO DE SECCION DE COMENTARIOS :::::::::::::::::::::::::::::::::::::::-->
+                <section id="comments" class="mt-5 comments-section">
+                    <button id="toggleCommentForm" class="btn btn-primary mb-3">Dejar un Comentario</button>
+                
+                    <!-- Formulario oculto por defecto -->
+                    <div id="commentFormContainer" class="comment-form-wrapper" style="display: none;">
+                        <h3 class="mb-4">Deja un Comentario</h3>
+                        <form method="post" class="comment-form">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="char-count">
+                                <small id="char-count">0 / 400 caracteres</small>
+                            </div>
+                            <button type="submit" class="btn btn-success mt-2">Enviar</button>
+                        </form>
+                    </div>
+                
+                    <!-- Lista de Comentarios con Scroll -->
+                    <h3 class="mt-4">Comentarios</h3>
+                    <div class="comment-scroll">
+                        {% for comment in comments %}
+                            <div class="comment p-3 mb-3 border rounded">
+                                <p class="mb-2">
+                                    <strong class="nick">@{{ comment.nick }}</strong>
+                                    <small class="date">- {{ comment.created_at|date:"d M Y, H:i" }}</small>
+                                </p>
+                                <div class="comment-text">
+                                    {{ comment.text|linebreaks }}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted">No hay comentarios aún. ¡Sé el primero en comentar!</p>
+                        {% endfor %}
+                    </div>
+                </section>
+                
 
-    <form method="post" class="comment-form">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <div class="char-count">
-            <small id="char-count">0 / 400 caracteres</small>
-        </div>
-        <button type="submit" class="btn btn-success mt-2">Enviar</button>
-    </form>
-
-    <!-- Lista de Comentarios con Scroll -->
-    <h3 class="mt-4">Comentarios</h3>
-    <div class="comment-scroll">
-        {% for comment in comments %}
-            <div class="comment p-3 mb-3 border rounded bg-light shadow-sm">
-                <p class="mb-2">
-                    <strong>@{{ comment.nick }}</strong>
-                    <small class="text-muted">- {{ comment.created_at|date:"d M Y, H:i" }}</small>
-                </p>
-                <div class="comment-text">
-                    {{ comment.text|linebreaks }}
-                </div>
-            </div>
-        {% empty %}
-            <p class="text-muted">No hay comentarios aún. ¡Sé el primero en comentar!</p>
-        {% endfor %}
-    </div>
-</section>
 
 <!-- Ventana de Confirmación -->
 {% if comment_success %}
@@ -196,27 +201,27 @@
             
             </div>
         </div>
-
-<script>
-    // Inicializar Fancybox
-    Fancybox.bind("[data-fancybox]", {
-        Toolbar: true,
-        smallBtn: "auto",
-        buttons: ["close"],
-    });
-</script>
     </footer>
 
     <script>
+        // Inicializar Fancybox
+        Fancybox.bind("[data-fancybox]", {
+            Toolbar: true,
+            smallBtn: "auto",
+            buttons: ["close"],
+        });
+    </script>
+    
+    <script>
+        // Contador de caracteres para el textarea
         document.addEventListener("DOMContentLoaded", function () {
-            const textArea = document.getElementById("id_text"); // ID del campo de texto
+            const textArea = document.getElementById("id_text");
             const charCount = document.getElementById("char-count");
     
             textArea.addEventListener("input", function () {
                 const currentLength = textArea.value.length;
                 charCount.textContent = `${currentLength} / 400 caracteres`;
     
-                // Cambiar el color si supera el límite
                 if (currentLength > 400) {
                     charCount.style.color = "red";
                 } else {
@@ -226,8 +231,8 @@
         });
     </script>
     
-
     <script>
+        // Control del modal de confirmación
         document.addEventListener("DOMContentLoaded", function () {
             const closeModal = document.getElementById("closeModal");
             const modal = document.getElementById("commentModal");
@@ -239,8 +244,80 @@
             }
         });
     </script>
-
     
+    <script>
+        // Manejo del formulario y actualización dinámica de comentarios
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButton = document.getElementById("toggleCommentForm");
+            const commentFormContainer = document.getElementById("commentFormContainer");
+            const form = document.querySelector(".comment-form");
+            const modal = document.getElementById("commentModal");
+    
+            // Alternar visibilidad del formulario
+            toggleButton.addEventListener("click", function () {
+                const isVisible = commentFormContainer.classList.contains("show");
+                if (isVisible) {
+                    commentFormContainer.classList.remove("show");
+                    setTimeout(() => {
+                        commentFormContainer.style.display = "none";
+                    }, 300);
+                } else {
+                    commentFormContainer.style.display = "block";
+                    setTimeout(() => {
+                        commentFormContainer.classList.add("show");
+                    }, 10);
+                }
+            });
+    
+            // Enviar el formulario y actualizar comentarios
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+    
+                const formData = new FormData(form);
+    
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Error al enviar el formulario.");
+                        }
+                        return response.text();
+                    })
+                    .then(() => {
+                        // Ocultar el formulario después del envío
+                        commentFormContainer.classList.remove("show");
+                        setTimeout(() => {
+                            commentFormContainer.style.display = "none";
+                        }, 300);
+    
+                        // Actualizar dinámicamente los comentarios
+                        fetch(window.location.href)
+                            .then((res) => res.text())
+                            .then((html) => {
+                                const doc = new DOMParser().parseFromString(html, "text/html");
+                                const newComments = doc.querySelector(".comment-scroll").innerHTML;
+                                document.querySelector(".comment-scroll").innerHTML = newComments;
+                            });
+    
+                        // Mostrar el modal de confirmación
+                        if (modal) {
+                            modal.style.display = "block";
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error al enviar el formulario:", error);
+                        alert("Hubo un error al enviar el comentario. Inténtalo de nuevo.");
+                    });
+            });
+        });
+    </script>
+    
+
     
     
 </body>
