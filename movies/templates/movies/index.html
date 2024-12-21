@@ -18,6 +18,8 @@
     
 </head>
 <body>
+
+    
     <header>
         <a href="{% url 'movie_list' %}" class="header-link">
             <div id="img-header">
@@ -40,6 +42,12 @@
     <main>
         <section id="movie-posters">
             <h2>Últimas Películas Disponibles</h2>
+            <div class="movie-counter">
+                <a href="{% url 'dynamic_genre_movies' %}">
+                    Total de Películas: {{ total_movies }}
+                </a>
+            </div>
+            
             <div class="posters-grid">
                 {% for movie in movies %}
                 <div class="poster-box">

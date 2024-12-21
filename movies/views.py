@@ -45,9 +45,12 @@ def movie_list(request):
     else:
         movies = Movie.objects.all().order_by('-id')
 
-    # Paginador para mostrar 16 películas por página
-    paginator = Paginator(movies, 16)
+    # Paginador para mostrar 15 películas por página
+    paginator = Paginator(movies, 15)
     page_obj = paginator.get_page(page_number)
+
+    # Contador total de películas
+    total_movies = Movie.objects.count()
 
     # Procesar el formulario de contacto
     if request.method == "POST":
@@ -68,7 +71,9 @@ def movie_list(request):
         'query': query,                  # Valor del campo de búsqueda
         'form': form,                    # Formulario de contacto
         'request_success': request_success,  # Variable para mostrar el modal
+        'total_movies': total_movies,    # Total de películas
     })
+
 
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)

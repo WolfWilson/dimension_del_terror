@@ -84,6 +84,7 @@ header h3 {
     animation: fadeInLeft 1s ease-out forwards; /* Animación al cargar */
 }
 
+
 /* Definimos la animación */
 @keyframes fadeInLeft {
     0% {
@@ -173,6 +174,36 @@ nav ul li a {
 
 /*:::::::::::::::::::::::::::::::::::::: SECCION PRINCIPAL:::::::::::::::::::::::::::::::::::::::::::*/
 
+/*::::::::::::::::::::::::::::::::::::::INICIO DE ESTILO PARA EL CONTADOR DE PELICULAS:::::::::::::::::::::::::::::::::::::::::::*/
+
+.movie-counter {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 5px 15px;
+    background-color: #282c34; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+    font-family: var(--font-secondary);
+    font-size: 0.8rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.movie-counter a {
+    color: inherit; /* Hereda el color del contenedor */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    display: inline-block; /* Hace que el enlace ocupe todo el espacio del contenedor */
+    width: 100%; /* Asegura que el enlace sea clickeable en todo el área */
+    height: 100%;
+}
+
+.movie-counter:hover {
+    background-color: #444951; /* Color más claro al pasar el mouse */
+    transform: translateY(-3px) scale(1.05); /* Eleva ligeramente el elemento */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
 main {
     padding: 2rem;
     flex: 1;
@@ -201,11 +232,12 @@ main {
 
 .posters-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    max-width: 100%;
-    justify-content: center;
+    grid-template-columns: repeat(5, 1fr); /* Cambiado a 5 columnas */
+    gap: 20px; /* Ajusta el espacio entre elementos si es necesario */
+    margin: 20px 0;
+    justify-items: center; /* Centra las tarjetas de películas */
 }
+
 
 .poster-box {
     width: 200px;
