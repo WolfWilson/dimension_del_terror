@@ -4,6 +4,9 @@ import requests
 from .utils import get_movie_data_from_api
 from django.utils.html import strip_tags
 from django_ckeditor_5.fields import CKEditor5Field
+import io
+from PIL import Image
+
 
 
 class Genre(models.Model):
@@ -12,6 +15,14 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+
+from django.db import models
+from django.core.files.base import ContentFile
+import requests
+from PIL import Image
+from io import BytesIO
+from .utils import get_movie_data_from_api
+from django_ckeditor_5.fields import CKEditor5Field
 
 class Movie(models.Model):
     title = models.CharField(max_length=200)
@@ -33,9 +44,6 @@ class Movie(models.Model):
     def save(self, *args, **kwargs):
         print(f"Iniciando guardado de la película: {self.title}")
 
-        # Validación y limpieza de la reseña
-       
-
         # Transformar la URL de Google Drive
         if self.drive_url and "drive.google.com" in self.drive_url:
             if "/view" in self.drive_url or "?usp" in self.drive_url:
@@ -43,10 +51,21 @@ class Movie(models.Model):
                 self.drive_url = f"https://drive.google.com/file/d/{file_id}/preview"
                 print(f"URL de Google Drive transformada: {self.drive_url}")
 
-        # Intentar obtener datos de la API si los campos clave están vacíos
+        # Intentar obtener datos de la API
         if not self.description or not self.release_date or not self.rating or not self.trailer_url:
             print("Intentando obtener datos desde la API...")
-            movie_data = get_movie_data_from_api(self.title)
+
+            movie_data = None
+
+            # Prioridad al enlace de TMDb si está presente
+            if self.tmdb_url:
+                print(f"Usando TMDb URL para buscar la película: {self.tmdb_url}")
+                movie_id = self.tmdb_url.rstrip('/').split('/')[-1]  # Extraer el ID de la película
+                movie_data = get_movie_data_from_api(movie_id=movie_id)
+            else:
+                print(f"Usando el título para buscar la película: {self.title}")
+                movie_data = get_movie_data_from_api(title=self.title)
+
             if movie_data:
                 print(f"Datos obtenidos de la API: {movie_data}")
 
@@ -65,28 +84,22 @@ class Movie(models.Model):
                 if not self.trailer_url and movie_data.get('trailer_url'):
                     self.trailer_url = movie_data['trailer_url']
 
-                # Descargar y asignar el póster
+                # Descargar y redimensionar el póster
                 if not self.poster_image and movie_data.get('poster_path'):
                     poster_url = f"https://image.tmdb.org/t/p/w500{movie_data['poster_path']}"
                     try:
                         response = requests.get(poster_url, timeout=10)
                         response.raise_for_status()
+                        img = Image.open(BytesIO(response.content))
+                        img = img.resize((667, 1000))  # Redimensionar a 667x1000
+                        buffer = BytesIO()
+                        img.save(buffer, format='JPEG', quality=100)
+                        buffer.seek(0)
                         image_name = f"posters/{self.title.replace(' ', '_')}_poster.jpg"
-                        self.poster_image.save(image_name, ContentFile(response.content), save=False)
+                        self.poster_image.save(image_name, ContentFile(buffer.read()), save=False)
                         print(f"Póster descargado y asignado: {image_name}")
                     except requests.RequestException as e:
                         print(f"Error al descargar el póster: {e}")
-
-        # Asignar un header predeterminado si no se proporciona uno personalizado
-        if not self.header_image:
-            default_header_path = 'static/banners/header_default.jpg'
-            print(f"Intentando asignar header predeterminado desde {default_header_path}")
-            try:
-                with open(default_header_path, 'rb') as f:
-                    self.header_image.save('default_header.jpg', ContentFile(f.read()), save=False)
-                    print("Header predeterminado asignado correctamente.")
-            except FileNotFoundError:
-                print(f"No se encontró el archivo predeterminado en {default_header_path}")
 
         # Llamar al método `save` original para guardar los datos
         super().save(*args, **kwargs)
@@ -94,6 +107,8 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+
     
 class Comment(models.Model):
     movie = models.ForeignKey("Movie", on_delete=models.CASCADE, related_name='comments')

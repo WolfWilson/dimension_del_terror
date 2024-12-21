@@ -42,113 +42,127 @@
     </header>
     
     <main>
-        <section id="movie-detail">
-            <h2 class="movie-title">{{ movie.title }} ({{ movie.release_date.year }})</h2>
-            <div class="movie-container">
-                <!-- Contenedor principal de la película -->
-                <div class="movie-info">
-                    <div class="movie-poster">
-                        {% if movie.poster_image %}
-                            <a href="{{ movie.trailer_url }}" 
-                               data-fancybox
-                               data-type="iframe" 
-                               data-caption="Ver Tráiler: {{ movie.title }}">
-                                <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
-                                <div class="hover-content">
-                                    <div class="play-overlay">
-                                        <img src="{% static 'images/play2.png' %}" alt="Play" class="play-icon">
-                                        <div class="hover-text">Ver Tráiler</div>
-                                    </div>
+    <section id="movie-detail">
+        <h2 class="movie-title">{{ movie.title }} ({{ movie.release_date.year }})</h2>
+        <div class="movie-container">
+            <!-- Contenedor principal de la película -->
+            <div class="movie-info">
+                <div class="movie-poster">
+                    {% if movie.poster_image %}
+                        <a href="{{ movie.trailer_url }}" 
+                           data-fancybox
+                           data-type="iframe" 
+                           data-caption="Ver Tráiler: {{ movie.title }}">
+                            <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                            <div class="hover-content">
+                                <div class="play-overlay">
+                                    <img src="{% static 'images/play2.png' %}" alt="Play" class="play-icon">
+                                    <div class="hover-text">Ver Tráiler</div>
                                 </div>
-                            </a>
+                            </div>
+                        </a>
+                    {% else %}
+                        <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+                    {% endif %}
+                </div>
+
+                <div class="movie-details">
+                    <p><strong>Géneros:</strong> 
+                        {% for genre in movie.genres.all %}
+                            <a href="{% url 'movies_by_genre' genre.name %}">{{ genre.name }}</a>
+                            {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p><strong>Sinopsis:</strong> {{ movie.description }}</p>
+                    <p><strong>Fecha de lanzamiento:</strong> {{ movie.release_date }}</p>
+                    <p><strong>Duración:</strong> {{ movie.duration|default:"N/A" }} minutos</p>
+                    <p><strong>Idioma original:</strong> {{ movie.language|default:"No disponible" }}</p>
+                    <p><strong>Director:</strong> 
+                        {% if movie.director %}
+                            <a href="{% url 'movies_by_tag' 'director' movie.director %}">{{ movie.director }}</a>
                         {% else %}
-                            <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+                            No disponible
                         {% endif %}
-                    </div>
-    
-                    <div class="movie-details">
-                        <p><strong>Géneros:</strong> 
-                            {% for genre in movie.genres.all %}
-                                <a href="{% url 'movies_by_genre' genre.name %}">{{ genre.name }}</a>
-                                {% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        </p>
-                        <p><strong>Sinopsis:</strong> {{ movie.description }}</p>
-                        <p><strong>Fecha de lanzamiento:</strong> {{ movie.release_date }}</p>
-                        <p><strong>Duración:</strong> {{ movie.duration|default:"N/A" }} minutos</p>
-                        <p><strong>Idioma original:</strong> {{ movie.language|default:"No disponible" }}</p>
-                        <p><strong>Director:</strong> 
-                            {% if movie.director %}
-                                <a href="{% url 'movies_by_tag' 'director' movie.director %}">{{ movie.director }}</a>
+                    </p>
+                    <p><strong>Reparto:</strong> 
+                        {% if cast_list %}
+                        {% for actor in cast_list %}
+                            <a href="{% url 'movies_by_tag' 'cast' actor %}">{{ actor }}</a>
+                        {% endfor %}
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </p>
+                    <div class="movie-rating">
+                        <div class="tmdb-logo-container">
+                            {% if movie.tmdb_url %}
+                                <a href="{{ movie.tmdb_url }}" target="_blank" rel="noopener noreferrer">
+                                    <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link">
+                                </a>
                             {% else %}
-                                No disponible
+                                <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link disabled">
                             {% endif %}
-                        </p>
-                        <p><strong>Reparto:</strong> 
-                            {% if cast_list %}
-                            {% for actor in cast_list %}
-                                <a href="{% url 'movies_by_tag' 'cast' actor %}">{{ actor }}</a>
-                            {% endfor %}
-                            {% else %}
-                                No disponible
-                            {% endif %}
-                        </p>
-                        <div class="movie-rating">
-                            <div class="tmdb-logo-container">
-                                {% if movie.tmdb_url %}
-                                    <a href="{{ movie.tmdb_url }}" target="_blank" rel="noopener noreferrer">
-                                        <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link">
-                                    </a>
-                                {% else %}
-                                    <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link disabled">
-                                {% endif %}
-                            </div>
-                            <div class="user-rating">
-                                <h3>Puntuación de Usuarios:</h3>
-                                {{ movie.rating|default:"Sin calificación" }}/10
-                            </div>
+                        </div>
+                        <div class="user-rating">
+                            <h3>Puntuación de Usuarios:</h3>
+                            {{ movie.rating|default:"Sin calificación" }}/10
                         </div>
                     </div>
                 </div>
-    
-                <!-- Contenedor de películas similares -->
-                <aside class="similar-movies">
-                    <h3>Películas Similares</h3>
-                    <div class="similar-movies-grid">
-                        {% for similar_movie in similar_movies %}
-                        <div class="similar-movie">
-                            <a href="{% url 'movie_detail' similar_movie.id %}">
-                                {% if similar_movie.poster_image %}
-                                <img src="{{ similar_movie.poster_image.url }}" alt="{{ similar_movie.title }}">
-                                {% else %}
-                                <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
-                                {% endif %}
-                            </a>
-                        </div>
-                        {% empty %}
-                        <p>No hay películas similares disponibles.</p>
-                        {% endfor %}
+            </div>
+
+            <!-- Contenedor de películas similares -->
+            <aside class="similar-movies">
+                <h3>Películas Similares</h3>
+                <div class="similar-movies-grid">
+                    {% for similar_movie in similar_movies %}
+                    <div class="similar-movie">
+                        <a href="{% url 'movie_detail' similar_movie.id %}">
+                            {% if similar_movie.poster_image %}
+                            <img src="{{ similar_movie.poster_image.url }}" alt="{{ similar_movie.title }}">
+                            {% else %}
+                            <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+                            {% endif %}
+                        </a>
                     </div>
-                </aside>
-            </div>
+                    {% empty %}
+                    <p>No hay películas similares disponibles.</p>
+                    {% endfor %}
+                </div>
+            </aside>
+        </div>
+
+        <!-- Sección de reseña -->
+        <div class="movie-review">
+            <h3>Reseña:</h3>
+            <div class="formatted-review">{{ movie.review|safe|default:"<p>Sin reseña disponible.</p>" }}</div>
+        </div>
+
+    </section>
+
+    <section id="movie-frame">
+        <h3>Reproductor</h3>
+                <!-- Enlace para ver en español -->
+                <p><b>Ver en idioma orignal (subtitulado) </b></p>
+        <div class="movie-play">
+            <iframe 
+                src="{{ movie.drive_url }}" 
+                allow="autoplay" 
+                width="720px" 
+                height="480px" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media; fullscreen" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <p style="text-align: center; margin-top: 10px;">
+            <a href="{{ movie.drive_url }}" target="_blank" style="color: #007bff; text-decoration: none;">
+                Ver en Google Drive <i class="fas fa-external-link-alt"></i>
+            </a>
+        </p>
+    </section>
     
-            <!-- Sección de reseña -->
-            <div class="movie-review">
-                <h3>Reseña:</h3>
-                <div class="formatted-review">{{ movie.review|safe|default:"<p>Sin reseña disponible.</p>" }}</div>
-            </div>
     
-            <!-- Enlace para ver en español -->
-            <p><b>Ver en Español 👇</b></p>
-        </section>
-    
-        <!-- Sección de reproductor -->
-        <section id="movie-frame">
-            <h3>Reproductor</h3>
-            <div class="movie-play">
-                <iframe src="{{ movie.drive_url }}" allow="autoplay" width="800px" height="480px" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
-            </div>
-        </section>
          <!-- ::::::::::::::::::::::::::::::::::::::::: FIN DE SECCION DE IFRAME  :::::::::::::::::::::::::::::::::::::::-->
 
                 <!-- ::::::::::::::::::::::::::::::::::::::::: INICIO DE SECCION DE COMENTARIOS :::::::::::::::::::::::::::::::::::::::-->
@@ -336,9 +350,8 @@
             });
         });
     </script>
-    
 
-    
+  
     
 </body>
 </html>

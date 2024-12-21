@@ -99,21 +99,47 @@ header {
 /* ::::::::::::::::::: ESTILO PARA EL POSTER Y TRAILER ::::::::::::::::::: */
 
 .movie-poster {
-    position: relative; /* Para posicionar el overlay */
+    position: relative;
     width: 100%;
     max-width: 380px;
     margin-bottom: 20px;
-    overflow: hidden; /* Evita desbordamientos */
-    border-radius: 10px;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 4px solid transparent;
+    background: linear-gradient(to bottom, #e6e6e6, #cfcfcf);
+    background-clip: padding-box;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3), 0 10px 20px rgba(0, 0, 0, 0.4);
+    animation: border-color-cycle 3s infinite;
 }
+
+@keyframes border-color-cycle {
+    0% {
+        border-color: #ffffff;
+    }
+    33% {
+        border-color: #d9d9d9;
+    }
+    66% {
+        border-color: #bfbfbf;
+    }
+    100% {
+        border-color: #ffffff;
+    }
+}
+
+.movie-poster:hover {
+    transform: scale(1.03); /* Ligero zoom */
+    transition: all 0.3s ease-in-out;
+}
+
+
 
 /* Imagen del póster */
 .movie-poster img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 10px 6px 15px rgba(0, 0, 0, 0.8);
-    transition: transform 0.3s ease; /* Suaviza el zoom */
+    display: block; /* Elimina espacios en blanco causados por el comportamiento inline */
+    border-radius: inherit; /* Asegura que la imagen herede el borde del contenedor */
 }
 
 /* Capa de oscurecimiento */
@@ -135,7 +161,7 @@ header {
 }
 
 .movie-poster:hover img {
-    transform: scale(1.01); /* Ligeramente más grande */
+    transform: none; /* Desactiva el zoom para evitar que los subtítulos se desplacen */
 }
 
 /* Contenido hover (icono y texto) */
@@ -260,46 +286,73 @@ header {
     line-height: 1.6; /* Mantiene un buen espaciado entre líneas */
 }
 
-/*::::::::::::::::::ESTILO PARA EL REPRODUCTOR::::::::::::::::::::::::::*/
+
+/*:::::::::::::::::: INICIO DE ESTILO PARA IFRAME DE LA PELICULA:::::::::::::::::::::::::*/
+/* General del iframe */
+iframe {
+    overflow: visible; /* Asegura que los subtítulos no se recorten */
+    position: relative; /* Posición controlada */
+    display: block; /* Evita espacios fantasma alrededor */
+}
+
+/* Contenedor del reproductor */
 #movie-frame {
     margin-top: 1rem;
     display: flex;
-    justify-content: center; /* Centra el contenedor en la vista */
-    align-items: center;
-    flex-direction: column; /* Coloca el título encima del iframe */
+    justify-content: center; /* Centra el contenedor horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    flex-direction: column; /* Título arriba, reproductor abajo */
     text-align: center;
     width: 100%;
-}
-
-.player-container {
-    width: 100%;
-    max-width: 800px; /* Limita el ancho máximo */
-}
-
-.player-title {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
 }
 
 .movie-play {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+    padding-bottom: 42.85%; /* Relación de aspecto 21:9 */
     height: 0;
     overflow: hidden;
     border-radius: 15px; /* Bordes redondeados */
+    background-color: #000; /* Fondo negro */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); /* Sombra más marcada */
+    border: 3px solid rgba(255, 255, 255, 0.4); /* Borde más visible */
+    transition: all 0.3s ease-in-out; /* Suaviza los cambios */
 }
 
+.movie-play:hover {
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.7); /* Sombra mucho más intensa */
+    border-color: rgba(255, 255, 255, 0.8); /* Borde más brillante */
+    transform: scale(1.03); /* Ligero aumento de tamaño */
+    transition: all 0.3s ease-in-out; /* Suaviza los cambios */
+}
+
+
+
+
+/* El iframe del video */
 .movie-play iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border: 0;
-    border-radius: 15px;
+    border: none; /* Sin bordes */
+    border-radius: 15px; /* Bordes redondeados */
+    overflow: visible; /* Permite que los subtítulos y controles se muestren completamente */
 }
+
+#player-container:fullscreen {
+    width: 100%;
+    height: 100%;
+}
+
+#movie-iframe {
+    width: 100%;
+    height: 100%;
+}
+
+
+
 
 /*:::::::::::::::::::::ESTILO PARA LOS COMENTARIOS::::::::::::::::::::::::::*/
 
