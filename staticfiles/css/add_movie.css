@@ -1,0 +1,142 @@
+/* ::::::::::::::::: --- VARIABLES --- ::::::::::::::::: */
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Roboto Condensed', sans-serif;
+    --font-title: 'Holtwood One SC', serif;
+    --font-body: 'Mulish', sans-serif;
+    --font-accent: 'Bebas Neue', cursive;
+    --font-extra: 'PT Sans Narrow', sans-serif;
+    --font-decorative: 'Ruslan Display', cursive;
+    --color-primary: #000;
+    --color-secondary: #444;
+    --color-light: #f9f9f9;
+    --color-accent: #dba76b;
+    --color-error: #f8d7da;
+    --color-error-text: #721c24;
+}
+
+/* ::::::::::::::::: --- GENERAL --- ::::::::::::::::: */
+/*::::::::::::::::::ESTILO FORMULARIO DE PELÍCULAS::::::::::::::::::*/
+
+body {
+    font-family: var(--font-primary);
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+}
+
+header {
+    background-color: #000;
+    color: #fff;
+    padding: 15px 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+header a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.card-header {
+    border-bottom: none;
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+}
+
+form .form-group {
+    margin-bottom: 1rem;
+}
+
+input, textarea, select {
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: var(--font-secondary);
+    font-weight: bold;
+}
+
+.btn-dark:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+img#image-preview {
+    display: block;
+    margin: 15px auto;
+    max-width: 150px;
+    height: auto;
+    border-radius: 8px;
+}
+
+
+/* ::::::::::::::::: --- MENSAJES DE ERROR --- ::::::::::::::::: */
+.errors {
+    background-color: var(--color-error);
+    color: var(--color-error-text);
+    padding: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.errors ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+/* ::::::::::::::::: --- RESPONSIVE --- ::::::::::::::::: */
+@media (max-width: 768px) {
+    main {
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    form input,
+    form textarea,
+    form button {
+        font-size: 0.9rem;
+    }
+
+    form button {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}

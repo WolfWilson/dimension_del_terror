@@ -168,3 +168,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 load_dotenv()
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+
+import os
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
