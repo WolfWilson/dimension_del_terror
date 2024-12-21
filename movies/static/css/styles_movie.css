@@ -79,9 +79,10 @@ header {
 .movie-info {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre el contenido principal y el panel de similares */
     align-items: flex-start;
 }
+
 
 .movie-details p {
     text-align: justify; /* Justifica el texto de la sinopsis */
@@ -164,6 +165,58 @@ header {
         0px 0px 6px rgba(255, 255, 255, 0.6); /* Sombra brillante */
 }
 
+
+.movie-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.movie-info {
+    flex: 3; /* Toma el 75% del espacio */
+}
+
+/*:::::::::::::::::::::INICIO DE ESTILO PARA PANEL ASIDE DE PELICULAS SIMILARES  ::::::::::::::::::::::::::::::: */
+
+.similar-movies {
+    flex: 1; /* Espacio secundario */
+    padding: 15px;
+    border-radius: 8px;
+    color: #ffffff; /* Conservamos el color blanco del texto */
+    font-family: var(--font-secondary);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle un poco de profundidad */
+    max-width: 300px;
+    background-color: transparent; /* Hacemos el fondo transparente */
+}
+
+.similar-movies h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    font-family: var(--font-secondary);
+    text-align: center;
+    color: #000; /* Ajusta el color si el fondo transparente afecta la legibilidad */
+}
+
+.similar-movies-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 10px;
+}
+
+.similar-movie img {
+    width: 100%;
+    max-width: 120px;
+    border-radius: 5px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.similar-movie img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/*::::::::::::::::::::: FIN DE ESTILO PARA PANEL ASIDE DE PELICULAS SIMILARES  ::::::::::::::::::::::::::::::: */
 
 /* Estilo del contenedor Fancybox */
 

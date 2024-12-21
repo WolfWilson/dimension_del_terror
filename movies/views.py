@@ -10,6 +10,7 @@ from .forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 from .models import Genre, Movie
 from .forms import MovieRequestForm
+from django.db.models import Count
 
 def dynamic_genre_movies(request):
     # Ordena los géneros alfabéticamente
@@ -93,14 +94,27 @@ def movie_detail(request, movie_id):
     # Procesar el reparto como una lista de actores
     cast_list = movie.cast.split(', ') if movie.cast else []
 
+    # Obtener géneros de la película actual
+    movie_genres = movie.genres.all()
+
+    # Encontrar películas similares basadas en coincidencias de géneros
+    similar_movies = (
+        Movie.objects.filter(genres__in=movie_genres)  # Filtrar por géneros en común
+        .exclude(id=movie.id)  # Excluir la película actual
+        .annotate(shared_genres=Count('genres'))  # Contar coincidencias de géneros
+        .order_by('-shared_genres', '-rating')[:4]  # Ordenar por más coincidencias y luego por puntuación
+    )
+
     context = {
         'movie': movie,
         'comments': comments,
         'form': form,
         'cast_list': cast_list,
         'comment_success': comment_success,  # Pasar la bandera al contexto
+        'similar_movies': similar_movies,  # Pasar las películas similares
     }
     return render(request, 'movies/movie_detail.html', context)
+
 
 
 
