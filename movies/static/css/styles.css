@@ -652,172 +652,261 @@ footer {
     }
 }
 
+/*:::::::::::::::::::::::::::::::::::::: AJUSTES GENERALES PARA VISTA MÓVIL ::::::::::::::::::::::::::::::::::::::*/
+/* Estos ajustes aplican para dispositivos con un ancho máximo de 599px */
 @media (max-width: 599px) {
 
-    .poster-info p {
-        margin: 0;
-        font-size: 12px;
-        font-weight: bold;
-    }
-
-    nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    nav ul li {
-        margin: 0.5rem 0;
-    }
-
-    .posters-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
-    }
-
-    .poster-box {
-        width: 120px;
-        height: 180px;
-    }
-
-    .formulario input, .formulario textarea {
-        padding: 0.4rem;
-    }
-
-    .formulario button {
-        padding: 0.4rem;
-    }
-
-    .iframe-container {
-        position: relative;
-        width: 480px;
-        height: 280px;
-        margin: 0 auto;
-        border-radius: 15px;
-    }
-}
-
-.yesteryear-regular {
-    font-family: "Yesteryear", cursive;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.header-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    width: 100%;
-    height: 100%;
-}
-
-/*configuracion de vista movil para el header y nav */
-@media (max-width: 599px) {
+    /* :::::::::::::: Ajustes para el header :::::::::::::: */
     header {
         position: relative;
-        height: 200px;
+        height: 240px; /* Ampliar el tamaño del header */
         display: flex;
         justify-content: center; /* Centra horizontalmente */
         align-items: center; /* Centra verticalmente */
         flex-direction: column;
     }
 
-    #img-header {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        z-index: 1;
+    header h1, header h3 {
+        text-align: center; /* Centrar el texto */
+        position: relative; /* Mantén la posición relativa */
+        z-index: 3; /* Asegura que esté por encima de otros elementos */
+        line-height: 1.2; /* Ajusta el interlineado */
+        margin: 0 0 1rem; /* Agrega un margen inferior para separar del nav */
+        top: 15px; /* Ajusta la posición vertical */
+        max-width: 90%; /* Limita el ancho para evitar que se salga */
+        word-wrap: break-word; /* Asegura que las palabras largas se dividan */
+        overflow-wrap: break-word; /* Compatibilidad adicional para división */
     }
 
     header h1 {
-        position: relative;
-        z-index: 2; /* Mantén el título sobre la imagen */
-        color: #dba76b;
-        font-size: 20px;
-        margin: 0; /* Asegura que no haya márgenes laterales */
-        margin-right: 40px;
-        text-align: center; /* Asegura que el texto esté centrado dentro del h1 */
+        color: #dba76b; /* Color específico del h1 */
+        font-size: 24px; /* Tamaño de fuente específico del h1 */
     }
 
-    /* Para centrar los elementos de la navegación */
-    nav {
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Centra los elementos verticalmente */
-        align-items: center; /* Centra los elementos horizontalmente */
-        z-index: 2; /* Mantén los elementos sobre la imagen */
-        margin-right: 40px;
-        
+    header h3 {
+        color: #ffffff; /* Color específico del h3 */
+        font-size: 1rem; /* Tamaño de fuente específico del h3 */
     }
 
-    nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Centra los elementos de la lista */
-        gap: 0.5rem; /* Añade un espacio entre los elementos */
+    /* :::::::::::::: Ajustes para la barra de búsqueda :::::::::::::: */
+    .search-bar {
+        flex-direction: column; /* Mantiene la barra de búsqueda apilada */
+        width: 100%; /* Ancho completo */
+        max-width: 90%; /* Limita el ancho máximo */
+        margin: 0 auto; /* Centrado horizontal */
     }
 
-    nav ul li {
-        margin: 0; /* Elimina márgenes adicionales */
+    .search-bar input, .search-bar button {
+        width: 100%; /* Ambos ocupan todo el ancho */
+        padding: 10px; /* Ajusta el relleno interno */
+        margin: 5px 0; /* Espaciado entre elementos */
     }
 
-    nav ul li a {
-        color: white;
-        text-decoration: none;
-        font-size: 1.2rem;
+    .search-bar form {
+        width: 100%; /* Asegura que el formulario ocupe el ancho disponible */
+    }
+
+    /*::::::::::::::::::: RESPONSIVE PARA LOS POSTERS:::::::::::::::::::::*/
+    .posters-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas iguales */
+        gap: 0.3rem; /* Espacio reducido entre los pósters */
+        justify-items: center; /* Centrar los pósters dentro de las columnas */
+    }
+    
+    .poster-box {
+        width: 150px; /* Tamaño más grande para los pósters */
+        height: 220px; /* Ajustar la altura proporcionalmente */
         text-align: center;
-        padding: 0.5rem 1rem;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Suaviza las animaciones */
+        border-radius: 10px; /* Mantiene bordes redondeados */
+        will-change: transform, box-shadow; /* Optimiza la animación */
+        overflow: visible; /* Asegura que el título pueda salir del contenedor */
+    }
+    
+    /* Título inicialmente oculto */
+    .poster-info {
+        opacity: 0; /* Oculto por defecto */
+        visibility: hidden; /* No interactuable por defecto */
+        position: absolute;
+        top: -25px; /* Aparece por encima del póster */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.6rem; /* Tamaño ajustado */
+        font-weight: bold;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro */
+        padding: 5px 10px;
+        border-radius: 5px; /* Bordes suaves */
+        text-align: center;
+        z-index: 10; /* Asegura que esté encima del póster */
+        white-space: nowrap; /* Evita saltos de línea */
+        overflow: hidden; /* Oculta texto desbordado */
+        text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es muy largo */
+        transition: opacity 0.3s ease, visibility 0.3s ease; /* Suaviza la transición */
+    }
+    
+    /* Mostrar título y efecto de hover */
+    .poster-box:hover .poster-info {
+        opacity: 1; /* Muestra el título */
+        visibility: visible; /* Lo hace interactuable */
+    }
+    
+    .poster-box:hover {
+        transform: scale(1.2); /* Agranda ligeramente el póster */
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+        z-index: 10; /* Eleva el póster en el eje Z */
+    }
+    
+    .details-button {
         background-color: transparent;
-        transition: background-color 0.3s ease-in-out;
+        color: #dba76b;
+        padding: 10px 20px;
+        border: 2px solid #dba76b; /* Borde claro */
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease, color 0.3s ease; /* Suaviza el hover */
+    }
+    
+    .details-button:hover {
+        background-color: #dba76b; /* Fondo lleno */
+        color: white; /* Texto claro */
+    }
+    
+    
+    .genres span {
+        font-size: 0.9rem; /* Reducir el tamaño del texto de géneros */
+    }
+    .genres span:nth-child(n+4) {
+        display: none; /* Oculta todos los géneros a partir del tercero */
     }
 
-    nav ul li a:hover {
-        background-color: rgba(219, 167, 107, 0.8); /* Color al pasar el cursor */
-        border-radius: 5px;
+    .rating {
+        font-size: 1rem; /* Ajusta el tamaño de la puntuación */
     }
+
+    /* :::::::::::::: Ajustes para la paginación :::::::::::::: */
+    .pagination {
+        flex-wrap: wrap; /* Permite que los botones se ajusten */
+        gap: 5px; /* Reduce el espacio entre los botones */
+    }
+
+    .pagination a {
+        padding: 6px 8px; /* Reduce el tamaño de los botones */
+        flex: 1; /* Asegura que ocupen el mismo espacio disponible */
+        margin: 0; /* Elimina el margen */
+        text-align: center;
+    }
+
+    /* :::::::::::::: Ajustes para el footer :::::::::::::: */
+    .footer-columns {
+        flex-direction: column; /* Apila columnas verticalmente */
+        align-items: center; /* Centra los elementos */
+    }
+
+    .link, .formulario {
+        flex: 1 1 100%; /* Ocupan todo el ancho disponible */
+        margin-bottom: 1rem; /* Espaciado entre bloques */
+        padding: 1rem; /* Relleno interno */
+        max-width: 90%; /* Limita el ancho del formulario */
+        margin: 0 auto; /* Centra horizontalmente */
+    }
+
+    .socials {
+        justify-content: center; /* Centra los iconos de redes sociales */
+        margin-bottom: 1rem; /* Añade un margen inferior */
+    }
+
+    .socials a {
+        margin: 0 10px; /* Espaciado entre iconos */
+    }
+
+    .formulario form {
+        display: flex;
+        flex-direction: column; /* Apila los campos */
+        align-items: center; /* Centra los elementos */
+        width: 100%; /* Ajuste al ancho disponible */
+    }
+
+    .formulario input, .formulario textarea {
+        width: 100%; /* Ajuste al ancho completo */
+        max-width: 90%; /* Limita el ancho máximo */
+        margin-bottom: 1rem; /* Separación entre campos */
+    }
+
+    .formulario button {
+        width: auto; /* Ajuste automático */
+        padding: 0.6rem 1.2rem; /* Ajusta el tamaño del botón */
+    }
+
+    /* :::::::::::::: Otros ajustes :::::::::::::: */
+    .iframe-container {
+        position: relative;
+        width: 100%; /* Ocupa el ancho completo */
+        height: auto;
+        max-width: 480px; /* Limita el ancho máximo */
+        margin: 0 auto; /* Centrado horizontal */
+        border-radius: 15px;
+  
+  
+    }
+
+/* :::::::::::::: AJUSTES DE NAVBAR :::::::::::::: */
+nav.navbar {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    flex-direction: column; /* Asegura la alineación en columna */
+    position: relative; /* Relativo para controlar el desplazamiento */
+    z-index: 3; /* Asegura que esté en la parte superior */
+    margin: 0 auto; /* Centra el `nav` dentro del `header` */
+    top: 15px; /* Ajusta la posición vertical */
+    max-width: 80%; /* Limita el ancho */
+    word-wrap: break-word; /* Divide palabras largas si es necesario */
+    overflow-wrap: break-word; /* Compatibilidad adicional */
+    
 }
 
+nav.navbar ul {
+    display: flex;
+    justify-content: space-between; /* Distribuye espacio uniforme entre las opciones */
+    align-items: center; /* Centra verticalmente */
+    list-style: none; /* Sin viñetas */
+    padding: 8px 12px; /* Espaciado interno */
+    margin: 0; /* Sin márgenes */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+    border-radius: 8px; /* Bordes redondeados */
+ 
+}
 
+nav.navbar ul li {
+    flex: 1; /* Igual ancho para todas las opciones */
+    text-align: center; /* Centra el texto */
+    margin: 0; /* Sin margen entre elementos */
+   
+}
+nav.navbar ul li:last-child {
+    margin-right: 35px; /* Ajusta el espacio según lo necesario */
+}
 
+nav.navbar ul li a {
+    color: white; /* Color de texto */
+    text-decoration: none; /* Sin subrayado */
+    padding: 8px 12px; /* Espaciado interno */
+    display: inline-block;
+    font-size: 0.95rem; /* Tamaño de texto */
+    border-radius: 5px; /* Bordes suaves */
+    line-height: 1.2; /* Espaciado vertical interno */
+    white-space: nowrap; /* Evita divisiones de palabras largas */
+    transition: background-color 0.3s ease-in-out;
+}
 
+nav.navbar ul li a:hover {
+    background-color: rgba(219, 167, 107, 0.8); /* Efecto hover */
+}
 
-    @media (max-width: 599px) {
-        .footer-columns {
-            flex-direction: column; /* Apilar las columnas verticalmente */
-            align-items: center; /* Centra los elementos */
-        }
-    
-        .link, .formulario {
-            flex: 1 1 100%; /* Asegura que ocupen todo el ancho disponible */
-            margin-bottom: 1rem; /* Añade espacio entre los bloques en móviles */
-            padding: 1rem; /* Añade relleno para que los bloques tengan más espacio */
-        }
-    
-        .formulario form {
-            display: flex;
-            flex-direction: column;
-            width: 100%; /* Asegura que el formulario se ajuste al 100% del contenedor */
-        }
-    
-        .formulario input, .formulario textarea {
-            width: 100%; /* Campos de texto ajustados al 100% del contenedor */
-            margin-bottom: 1rem;
-        }
-    
-        .formulario button {
-            width: 100%; /* Botón ajustado al 100% del ancho disponible */
-            padding: 0.5rem;
-        }
-    }
-    
-
-    
-
-
-
+        
+}
