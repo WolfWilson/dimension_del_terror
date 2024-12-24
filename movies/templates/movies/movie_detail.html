@@ -45,9 +45,12 @@
     <section id="movie-detail">
         <h2 class="movie-title">{{ movie.title }} ({{ movie.release_date.year }})</h2>
         <div class="movie-container">
+            
             <!-- Contenedor principal de la película -->
             <div class="movie-info">
                 <div class="movie-poster">
+                    <a href="#ver-original-label" class="btn-watch-online">Ver Online</a>
+
                     {% if movie.poster_image %}
                         <a href="{{ movie.trailer_url }}" 
                            data-fancybox
@@ -65,6 +68,9 @@
                         <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
                     {% endif %}
                 </div>
+                
+
+                
 
                 <div class="movie-details">
                     <p><strong>Géneros:</strong> 
@@ -142,14 +148,13 @@
 
     <section id="movie-frame">
         <h3>Reproductor</h3>
-                <!-- Enlace para ver en español -->
-                <p><b>Ver en idioma orignal (subtitulado) </b></p>
+        <!-- Enlace para ver en español -->
+        <p id="ver-original-label"><b>Ver en idioma original (subtitulado)</b></p>
+    
         <div class="movie-play">
             <iframe 
                 src="{{ movie.drive_url }}" 
                 allow="autoplay" 
-                width="720px" 
-                height="480px" 
                 frameborder="0" 
                 allow="autoplay; encrypted-media; fullscreen" 
                 allowfullscreen>
@@ -161,6 +166,7 @@
             </a>
         </p>
     </section>
+    
     
     
          <!-- ::::::::::::::::::::::::::::::::::::::::: FIN DE SECCION DE IFRAME  :::::::::::::::::::::::::::::::::::::::-->
@@ -351,7 +357,6 @@
         });
     </script>
 
-  
     
 </body>
 </html>

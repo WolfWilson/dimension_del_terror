@@ -289,47 +289,29 @@ header {
 
 /*:::::::::::::::::: INICIO DE ESTILO PARA IFRAME DE LA PELICULA:::::::::::::::::::::::::*/
 /* General del iframe */
-iframe {
-    overflow: visible; /* Asegura que los subtítulos no se recorten */
-    position: relative; /* Posición controlada */
-    display: block; /* Evita espacios fantasma alrededor */
+/* Estilo general */
+#movie-frame {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Contenedor del reproductor */
-#movie-frame {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center; /* Centra el contenedor horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    flex-direction: column; /* Título arriba, reproductor abajo */
-    text-align: center;
-    width: 100%;
-}
-
 .movie-play {
     position: relative;
     width: 100%;
-    padding-bottom: 42.85%; /* Relación de aspecto 21:9 */
+    max-width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
     height: 0;
     overflow: hidden;
-    border-radius: 15px; /* Bordes redondeados */
-    background-color: #000; /* Fondo negro */
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); /* Sombra más marcada */
-    border: 3px solid rgba(255, 255, 255, 0.4); /* Borde más visible */
-    transition: all 0.3s ease-in-out; /* Suaviza los cambios */
+    border-radius: 10px; /* Bordes redondeados */
+    margin-bottom: 1rem;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); /* Sombra ligera */
+    background-color: transparent; /* Asegura que no haya fondo adicional */
 }
 
-.movie-play:hover {
-    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.7); /* Sombra mucho más intensa */
-    border-color: rgba(255, 255, 255, 0.8); /* Borde más brillante */
-    transform: scale(1.03); /* Ligero aumento de tamaño */
-    transition: all 0.3s ease-in-out; /* Suaviza los cambios */
-}
-
-
-
-
-/* El iframe del video */
 .movie-play iframe {
     position: absolute;
     top: 0;
@@ -337,9 +319,22 @@ iframe {
     width: 100%;
     height: 100%;
     border: none; /* Sin bordes */
-    border-radius: 15px; /* Bordes redondeados */
-    overflow: visible; /* Permite que los subtítulos y controles se muestren completamente */
+    border-radius: 10px;
+    z-index: 1; /* Prioridad al iframe */
+    background: transparent; /* Sin fondo adicional */
+    pointer-events: auto; /* Asegura interacción directa */
 }
+
+
+
+
+.movie-play:hover {
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.7); /* Sombra mucho más intensa */
+    border-color: rgba(255, 255, 255, 0.8); /* Borde más brillante */
+ 
+}
+
+
 
 #player-container:fullscreen {
     width: 100%;
@@ -715,6 +710,8 @@ footer {
     display: inline-block;
 }
 
+
+/* Estilo general del contenedor de hover */
 .hover-overlay {
     position: absolute;
     top: 0;
@@ -732,8 +729,54 @@ footer {
 }
 
 .movie-poster:hover .hover-overlay {
-    opacity: 1;
+    opacity: 1; /* Mostrar overlay al pasar el cursor */
 }
+
+/* Botón Ver Online */
+
+
+.btn-watch-online {
+    position: absolute;
+    top: 10px; /* Ubicado en la parte superior del póster */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2; /* Asegura que esté sobre otros elementos */
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    color: #fff; /* Texto blanco */
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Borde semitransparente */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none; /* Sin subrayado */
+    box-sizing: border-box; /* Asegura consistencia en las dimensiones */
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-watch-online:hover {
+    background: linear-gradient(90deg, #00c6ff, #0072ff); /* Degradado de celeste a azul */
+    border-color: #0072ff; /* Borde azul para reforzar el degradado */
+    color: #000; /* Texto oscuro para contraste */
+    text-decoration: none; /* Asegura que no aparezca el subrayado */
+}
+
+.btn-watch-online:active {
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente al hacer clic */
+    border-color: rgba(255, 255, 255, 0.4); /* Borde más tenue */
+    transform: translateX(-50%); /* Fija la posición */
+    padding: 10px 20px; /* Mantiene las dimensiones */
+    box-shadow: none; /* Sin sombras adicionales */
+}
+
+
+/* Estilo adicional para asegurar la posición */
+.movie-poster {
+    position: relative; /* Asegura que los elementos dentro se posicionen relativos al contenedor */
+    overflow: hidden; /* Evita que elementos se desborden */
+}
+
 
 
 /* Ajustes Responsive */
