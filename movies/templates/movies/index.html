@@ -2,41 +2,103 @@
 <html lang="es">
 <head>
     {% load static %}
-    {% load crispy_forms_tags %} <!-- Cargar las etiquetas de Crispy Forms -->
+    {% load crispy_forms_tags %} <!-- Carga de Crispy Forms -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimensión del Terror</title>
+    
+    <!-- :::::::::::::::::: CSS LOCAL ::::::::::::::::: -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_movie.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_pagination.css' %}">
+
+    <!-- :::::::::::::::::: FAVICON ::::::::::::::::: -->
     <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EOx6jGO1ABrBCmOl5FnyUpTK5Id0xv5iOsOvO3B1rlyqESwlHIZ3cVxXepmYJ7+H" crossorigin="anonymous">
-    <!-- Swiper CSS -->
-<link
-rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
-/>
 
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <!-- :::::::::::::::::: FONTAWESOME ::::::::::::::::: -->
+    <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" 
+    />
 
+    <!-- :::::::::::::::::: GOOGLE FONTS ::::::::::::::::: -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Poppins -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Roboto Condensed -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Holtwood One SC -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Mulish -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- PT Sans Narrow -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Ruslan Display -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Ruslan+Display&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Bebas Neue -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Bruno Ace SC -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" 
+        rel="stylesheet"
+    >
 
+    <!-- :::::::::::::::::: BOOTSTRAP ::::::::::::::::: -->
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-EOx6jGO1ABrBCmOl5FnyUpTK5Id0xv5iOsOvO3B1rlyqESwlHIZ3cVxXepmYJ7+H" 
+        crossorigin="anonymous"
+    >
 
-    
+    <!-- :::::::::::::::::: SWIPER ::::::::::::::::: -->
+    <link 
+        rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    >
+    <script 
+        src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js">
+    </script>
 </head>
-<body>
 
-    
+<body>
+    <!-- :::::::::::::::::: HEADER ::::::::::::::::: -->
     <header>
+        <!-- Link al listado de películas con banner -->
         <a href="{% url 'movie_list' %}" class="header-link">
             <div id="img-header">
-                <img src="{% static 'banners/banner_red.jpg' %}"  alt="Banner Predeterminado">
+                <img src="{% static 'banners/banner_red.jpg' %}" alt="Banner Predeterminado">
             </div> 
             <h1>La Dimensión del Terror</h1>
             <h3>Colección de Cine de Terror, Sci-Fi y Fantástico</h3>
         </a>
+
+        <!-- :::::::::::::::::: NAV ::::::::::::::::: -->
         <nav class="navbar">
             <ul>
                 <li><a href="{% url 'movie_list' %}">Películas</a></li>
@@ -44,42 +106,51 @@ href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
                 <li><a href="#contact-form">Pídeme una peli!</a></li>
             </ul>
         </nav>
-        
-        </nav>
     </header>
 
+    <!-- :::::::::::::::::: MAIN ::::::::::::::::: -->
     <main>
         <section id="movie-posters">
+            <!-- Título de sección -->
             <h2>Últimas Películas Disponibles</h2>
+
+            <!-- Contador de películas -->
             <div class="movie-counter">
                 <a href="{% url 'dynamic_genre_movies' %}">
                     Total de Películas: {{ total_movies }}
                 </a>
             </div>
             
+            <!-- Grid de pósters -->
             <div class="posters-grid">
                 {% for movie in movies %}
                 <div class="poster-box">
                     <div class="poster-content">
-                        <!-- Verifica si hay una imagen cargada -->
                         {% if movie.poster_image %}
-                        <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                            <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
                         {% else %}
-                        <!-- Imagen por defecto si no se cargó ninguna -->
-                        <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+                            <!-- Imagen por defecto si no se cargó ninguna -->
+                            <img 
+                                src="{% static 'images/default_poster.jpg' %}" 
+                                alt="Imagen no disponible"
+                            >
                         {% endif %}
+                        <!-- Overlay con datos de la película -->
                         <div class="hover-overlay">
                             <div class="rating">
                                 <span class="star">&#9733;</span> {{ movie.rating }} / 10
                             </div>
                             <div class="genres">
                                 {% for genre in movie.genres.all %}
-                                <span>{{ genre.name }}</span>
+                                    <span>{{ genre.name }}</span>
                                 {% endfor %}
                             </div>
-                            <a href="{% url 'movie_detail' movie.id %}" class="details-button">Ver</a>
+                            <a href="{% url 'movie_detail' movie.id %}" class="details-button">
+                                Ver
+                            </a>
                         </div>
                     </div>
+                    <!-- Título del póster -->
                     <div class="poster-info">
                         <p>{{ movie.title }} ({{ movie.release_date.year }})</p>
                     </div>
@@ -87,72 +158,102 @@ href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
                 {% endfor %}
             </div>
 
+            <!-- Paginación -->
             <div class="pagination">
                 {% if is_paginated %}
                     {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
                     {% endif %}
-                    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+                    <span>
+                        Página {{ page_obj.number }} 
+                        de {{ page_obj.paginator.num_pages }}
+                    </span>
+
                     {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">Siguiente &raquo;</a>
+                        <a href="?page={{ page_obj.next_page_number }}">
+                            Siguiente &raquo;
+                        </a>
                     {% endif %}
                 {% endif %}
             </div>
 
+            <!-- Barra de búsqueda -->
             <div class="search-bar">
                 <form method="get" action="{% url 'movie_list' %}">
-                    <input type="text" name="q" placeholder="Buscar película por su titulo original..." value="{{ query }}">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        placeholder="Buscar película por su título original..." 
+                        value="{{ query }}"
+                    >
                     <button type="submit">Buscar</button>
                 </form>
             </div>
-                  
         </section>
     </main>
 
+    <!-- :::::::::::::::::: FOOTER ::::::::::::::::: -->
     <footer>
         <div class="container-footer">
-            <div class="text-footer">&copy; 2024 By Will™. Todos los derechos reservados.</div>
+            <!-- Texto Footer -->
+            <div class="text-footer">
+                &copy; 2024 By Will™. Todos los derechos reservados.
+            </div>
+
             <div class="footer-columns">
+                <!-- Redes Sociales -->
                 <div class="link">
                     <h2>Mis Redes</h2>
                     <div class="socials">
-                        <a href="https://x.com/WolfWilson86"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.linkedin.com/in/wilson-wolf-330a70257/"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://github.com/WolfWilson/"><i class="fab fa-github"></i></a>
+                        <a href="https://x.com/WolfWilson86">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/wilson-wolf-330a70257/">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/WolfWilson/">
+                            <i class="fab fa-github"></i>
+                        </a>
                     </div>
                 </div>
-              <!-- Formulario de contacto -->
-<div id="contact-form" class="formulario">
-    <h2>Contacto</h2>
-    <p>Haz tu pedido aquí:</p>
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-success mt-2">Enviar</button>
-    </form>
-</div>
 
-<!-- Ventana de Confirmación -->
-{% if request_success %}
-<div id="requestModal" class="modal-overlay">
-    <div class="modal-content">
-        <img src="{% static 'images/brains.png' %}" alt="Confirmación" class="modal-image">
-        <h3>¡Pedido enviado exitosamente!</h3>
-        <p>Gracias por tu solicitud. Pronto nos pondremos en contacto.</p>
-        <button id="closeModal" class="btn btn-success">Cerrar</button>
-    </div>
-</div>
-{% endif %}
+                <!-- Formulario de contacto -->
+                <div id="contact-form" class="formulario">
+                    <h2>Contacto</h2>
+                    <p>Haz tu pedido aquí:</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-success mt-2">Enviar</button>
+                    </form>
+                </div>
 
+                <!-- Modal de confirmación -->
+                {% if request_success %}
+                <div id="requestModal" class="modal-overlay">
+                    <div class="modal-content">
+                        <img 
+                            src="{% static 'images/brains.png' %}" 
+                            alt="Confirmación" 
+                            class="modal-image"
+                        >
+                        <h3>¡Pedido enviado exitosamente!</h3>
+                        <p>Algún día, tal vez.....</p>
+                        <button id="closeModal" class="btn btn-success">Cerrar</button>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </footer>
 
+    <!-- :::::::::::::::::: SCRIPT PARA EL MODAL ::::::::::::::::: -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const closeModal = document.getElementById("closeModal");
             const modal = document.getElementById("requestModal");
-    
+
             if (closeModal && modal) {
                 closeModal.addEventListener("click", function () {
                     modal.style.display = "none";
@@ -160,7 +261,5 @@ href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
             }
         });
     </script>
-
-
 </body>
 </html>

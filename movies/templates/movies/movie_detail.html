@@ -145,12 +145,11 @@
         </div>
 
     </section>
-
     <section id="movie-frame">
         <h3>Reproductor</h3>
         <!-- Enlace para ver en español -->
         <p id="ver-original-label"><b>Ver en idioma original (subtitulado)</b></p>
-    
+        
         <div class="movie-play">
             <iframe 
                 src="{{ movie.drive_url }}" 
@@ -161,8 +160,9 @@
             </iframe>
         </div>
         <p style="text-align: center; margin-top: 10px;">
-            <a href="{{ movie.drive_url }}" target="_blank" style="color: #007bff; text-decoration: none;">
-                Ver en Google Drive <i class="fas fa-external-link-alt"></i>
+            <a href="{{ movie.drive_url }}" target="_blank" 
+               style="color: #007bff; text-decoration: none;">
+               Ver en Google Drive <i class="fas fa-external-link-alt"></i>
             </a>
         </p>
     </section>
@@ -356,7 +356,36 @@
             });
         });
     </script>
-
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const watchOnlineBtn = document.querySelector(".btn-watch-online");
+    
+        // Si no existe el botón o la URL de drive, no hacemos nada
+        if (!watchOnlineBtn || !watchOnlineBtn.href) return;
+        
+        // Función para revisar el ancho y cambiar el comportamiento
+        function checkScreenSize() {
+            if (window.matchMedia("(max-width: 599px)").matches) {
+                // En pantallas menores a 599px
+                watchOnlineBtn.setAttribute("href", "{{ movie.drive_url }}");
+                watchOnlineBtn.setAttribute("target", "_blank");
+                watchOnlineBtn.setAttribute("rel", "noopener noreferrer");
+            } else {
+                // En pantallas de 600px en adelante
+                watchOnlineBtn.setAttribute("href", "#ver-original-label");
+                watchOnlineBtn.removeAttribute("target");
+                watchOnlineBtn.removeAttribute("rel");
+            }
+        }
+    
+        // Revisamos el tamaño inicial
+        checkScreenSize();
+    
+        // Escuchamos cuando se cambie el tamaño de la pantalla (por si redimensionan)
+        window.addEventListener("resize", checkScreenSize);
+    });
+    </script>
+    
     
 </body>
 </html>
