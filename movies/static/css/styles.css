@@ -208,6 +208,73 @@ main {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+/*:::::::::::::::::::::::::::::::::  Filtro container :::::::::::::::::::::::::: */
+/* :::::::::::::::::::::::::::::::::::: Filtro container ::::::::::::::::::::::::::::::::: */
+.filters-container {
+    display: flex;
+    justify-content: center; 
+    margin: 1rem auto;
+    width: 100%;
+    max-width: 800px; /* Ajusta según gustes */
+}
+
+.filters-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center; /* Centra los selectores horizontalmente */
+    gap: 1rem;
+}
+
+.filters-form label {
+    font-weight: bold;
+    margin-right: 0.3rem;
+    color: #333; /* o #fff si es un tema oscuro */
+}
+
+.filters-form select {
+    padding: 0.4rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5; 
+    color: #333;
+    min-width: 120px;
+}
+
+.btn-filter {
+    width: 100%; /* Ocupará todo el ancho disponible */
+    max-width: 200px; /* Ajusta según desees */
+    text-align: center;
+    margin-top: 1rem; /* Espaciado entre los selectores y el botón */
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #dba76b; 
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-filter:hover {
+    background-color: #c4935a;
+}
+
+/* Responsivo para móvil */
+@media (max-width: 599px) {
+    .filters-form {
+        flex-direction: column;
+        align-items: center; /* Centra los elementos verticalmente */
+    }
+
+    .btn-filter {
+        width: 100%;
+        max-width: 200px;
+        margin-top: 1rem;
+    }
+}
+
+  
+
 /* :::::::::::::::::: SECCIÓN DE POSTERS ::::::::::::::::: */
 #movie-posters {
     text-align: center;

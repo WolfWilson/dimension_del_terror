@@ -113,41 +113,85 @@ def dynamic_genre_movies(request):
 
 def movie_list(request):
     """
-    Vista principal (index) que muestra la lista de películas.
-    - Soporta búsqueda por 'title__icontains' si se manda 'q'.
-    - Paginación de 20 películas por página.
-    - Formulario de MovieRequest (peticiones) en la misma página.
-    - Genera una lista de páginas (display_pages) para la paginación.
+    Vista principal con soporte para múltiples filtros combinados: género, año, y ordenamiento.
     """
-    query = request.GET.get('q', '')
-    page_number = request.GET.get('page')
+    query = request.GET.get('q', '')  # Filtro por búsqueda
+    page_number = request.GET.get('page')  # Paginación
     request_success = request.session.pop('request_success', False)
 
-    # Búsqueda opcional
-    if query:
-        movies = Movie.objects.filter(title__icontains=query).order_by('-id')
-    else:
-        movies = Movie.objects.all().order_by('-id')
+    # Filtros adicionales
+    year_segment = request.GET.get('year_segment', 'Todos')  # Filtro por año
+    sort_by = request.GET.get('sort_by', 'reciente')  # Orden
+    genre_id = request.GET.get('genre_id', 'Todos')  # Género seleccionado
 
-    # Paginación: 20 por página
-    paginator = Paginator(movies, 20)
+    # Base queryset (todas las películas)
+    movies = Movie.objects.all()
+
+    # 1. FILTRAR POR BÚSQUEDA
+    if query:
+        movies = movies.filter(title__icontains=query)
+
+    # 2. FILTRAR POR GÉNERO
+    if genre_id != 'Todos':
+        try:
+            genre_id_int = int(genre_id)
+            movies = movies.filter(genres__id=genre_id_int)
+        except ValueError:
+            pass  # Si no es un número válido, ignora el filtro
+
+    # 3. FILTRAR POR AÑO/SEGMENTO
+    if year_segment != 'Todos':
+        if year_segment.isdigit():
+            # Año exacto
+            movies = movies.filter(release_date__year=int(year_segment))
+        elif '-' in year_segment:
+            try:
+                # Rango de años (e.g., "2000-2009")
+                start_year, end_year = map(int, year_segment.split('-'))
+                movies = movies.filter(
+                    release_date__year__gte=start_year,
+                    release_date__year__lte=end_year
+                )
+            except ValueError:
+                pass  # Si el rango no es válido, ignora el filtro
+      
+
+    # 4. ORDENAMIENTO
+    if sort_by == 'alf_asc':
+        movies = movies.order_by('title')
+    elif sort_by == 'alf_desc':
+        movies = movies.order_by('-title')
+    elif sort_by == 'antiguo':
+        movies = movies.order_by('release_date')  # Películas más antiguas
+    elif sort_by == 'rating':
+        movies = movies.order_by('-rating')  # Puntuación TMDb descendente
+    else:
+        # Default: "reciente" (películas más nuevas primero)
+        movies = movies.order_by('-id')
+
+    # 5. PAGINACIÓN
+    paginator = Paginator(movies, 20)  # Mostrar 20 películas por página
     page_obj = paginator.get_page(page_number)
 
+    # Total de películas (para mostrar en el contador)
     total_movies = Movie.objects.count()
 
-    # Generar la lista de páginas con la lógica de display_pages
+    # Lógica para páginas dinámicas (paginación)
     display_pages = get_display_pages(page_obj, max_pages=8)
 
-    # Procesar el formulario de solicitud (MovieRequestForm)
+    # Procesar formulario de peticiones
     if request.method == "POST":
         form = MovieRequestForm(request.POST)
         if form.is_valid():
             form.save()
-            request.session['request_success'] = True
-            # Redirigir conservando parámetros de búsqueda y paginación
-            return redirect(f'{request.path}?q={query}&page={page_number}')
+            return redirect(f'{request.path}?q={query}&page={page_number}'
+                            f'&year_segment={year_segment}&sort_by={sort_by}'
+                            f'&genre_id={genre_id}')
     else:
         form = MovieRequestForm()
+
+    # Lista de géneros (para popular el dropdown)
+    all_genres = Genre.objects.all().order_by('name')
 
     context = {
         'movies': page_obj,
@@ -158,8 +202,21 @@ def movie_list(request):
         'request_success': request_success,
         'total_movies': total_movies,
         'display_pages': display_pages,
+
+        # Valores actuales para no perder selección
+        'current_year_segment': year_segment,
+        'current_sort_by': sort_by,
+        'current_genre_id': genre_id,
+
+        # Lista de géneros para el select
+        'all_genres': all_genres,
     }
     return render(request, 'movies/index.html', context)
+
+
+
+
+
 
 
 def movie_detail(request, movie_id):
