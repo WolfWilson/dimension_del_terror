@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
 
 </head>
 <body>
@@ -23,23 +23,24 @@
         <a href="{% url 'movie_list' %}" class="header-link">
             <div id="img-header">
                 {% if movie.header_image %}
-                    <img src="{{ movie.header_image.url }}" alt="{{ movie.title }} Banner">
+                    <!-- Carga diferida para el header dinámico -->
+                    <img data-src="{{ movie.header_image.url }}" alt="{{ movie.title }} Banner" class="lazyload">
                 {% else %}
-                    <img src="{% static 'banners/header_default.jpg' %}" alt="Banner Predeterminado">
+                    <!-- Carga diferida para el header por defecto -->
+                    <img data-src="{% static 'banners/header_default.jpg' %}" alt="Black Cat Cinema" class="lazyload">
                 {% endif %}
             </div>
-            
             <h1>La Dimensión del Terror</h1>
             <h3>Colección de Cine de Terror, Sci-Fi y Fantástico</h3>
         </a>
         <nav class="navbar">
             <ul>
                 <li><a href="{% url 'movie_list' %}">Películas</a></li>
-                <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
-               <!--<a href="#contact-form">Pídeme una peli!</a></li> -->
+                <li><a href="{% url 'search_movies' %}">Buscar por Géneros</a></li>
             </ul>
         </nav>
     </header>
+    
     
     <main>
     <section id="movie-detail">
