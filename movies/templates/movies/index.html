@@ -159,24 +159,65 @@
             </div>
 
             <!-- Paginación -->
+            {% if is_paginated %}
             <div class="pagination">
-                {% if is_paginated %}
-                    {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
-                    {% endif %}
-
-                    <span>
-                        Página {{ page_obj.number }} 
-                        de {{ page_obj.paginator.num_pages }}
-                    </span>
-
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">
-                            Siguiente &raquo;
-                        </a>
-                    {% endif %}
+              <ul>
+                <!-- BOTÓN "Primero" si no estamos en la página 1 -->
+                {% if page_obj.number > 1 %}
+                  <li>
+                    <a href="?page=1">&laquo; First</a>
+                  </li>
                 {% endif %}
+            
+                <!-- BOTÓN "Anterior" si hay página previa -->
+                {% if page_obj.has_previous %}
+                  <li>
+                    <a href="?page={{ page_obj.previous_page_number }}">
+                      &laquo; Previous
+                    </a>
+                  </li>
+                {% endif %}
+            
+                <!-- Iterar sobre display_pages, que puede ser número o "..." -->
+                {% for p in display_pages %}
+                  {% if p == '...' %}
+                    <li class="dots"><span>...</span></li>
+                  {% else %}
+                    {% if p == page_obj.number %}
+                      <!-- Página actual -->
+                      <li class="active"><span>{{ p }}</span></li>
+                    {% else %}
+                      <li><a href="?page={{ p }}">{{ p }}</a></li>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+            
+                <!-- BOTÓN "Siguiente" -->
+                {% if page_obj.has_next %}
+                  <li>
+                    <a href="?page={{ page_obj.next_page_number }}">
+                      Next &raquo;
+                    </a>
+                  </li>
+                {% endif %}
+            
+                <!-- BOTÓN "Último" si no estamos en la última -->
+                {% if page_obj.number < page_obj.paginator.num_pages %}
+                  <li>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">
+                      Last &raquo;&raquo;
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            
+              <!-- Texto "Página X de Y" (opcional) -->
+              <div class="page-info">
+                <small>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</small>
+              </div>
             </div>
+            {% endif %}
+            
 
             <!-- Barra de búsqueda -->
             <div class="search-bar">
