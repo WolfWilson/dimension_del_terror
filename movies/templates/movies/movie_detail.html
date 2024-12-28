@@ -4,6 +4,7 @@
     {% load static %}
     {% load widget_tweaks %}
     {% load crispy_forms_tags %}
+    {% load language_tags %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ movie.title }} ({{ movie.release_date.year }})</title>
@@ -83,7 +84,10 @@
                     <p><strong>Sinopsis:</strong> {{ movie.description }}</p>
                     <p><strong>Fecha de lanzamiento:</strong> {{ movie.release_date }}</p>
                     <p><strong>Duración:</strong> {{ movie.duration|default:"N/A" }} minutos</p>
-                    <p><strong>Idioma original:</strong> {{ movie.language|default:"No disponible" }}</p>
+                    <p><strong>Idioma original:</strong> 
+                        {{ movie.language|translate_language }}
+                    </p>
+                    
                     <p><strong>Director:</strong> 
                         {% if movie.director %}
                             <a href="{% url 'movies_by_tag' 'director' movie.director %}">{{ movie.director }}</a>
