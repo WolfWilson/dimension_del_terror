@@ -588,34 +588,61 @@ footer {
     margin-top: 1rem;
 }
 
-/* :::::::::::::::::: RESEÑAS FORMATTEADAS ::::::::::::::::: */
-.formatted-review {
-    font-family: var(--font-body);
-    line-height: 1.6;
-    margin-top: 1rem;
-    color: #333;
-}
-
-.formatted-review p {
-    margin-bottom: 1rem;
-}
-
-/* :::::::::::::::::: LOGO TMDB ::::::::::::::::: */
-.movie-rating h3 {
+/* :::::::::::::::::: RESEÑAS FORMATEADAS ::::::::::::::::: */
+.movie-rating {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 18px;
+    font-family: var(--font-primary); /* Fuente principal */
+    font-size: 16px;
     color: #333;
-    margin: 0;
+    margin-top: 1.2rem; /* Margen superior personalizado */
 }
 
-.movie-rating img {
-    width: 50px;
-    height: 50px;
+.tmdb-logo-container img {
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     object-fit: cover;
+    transition: transform 0.3s;
 }
+
+.tmdb-logo-container img:hover {
+    transform: scale(1.1);
+}
+
+.user-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-secondary); /* Fuente secundaria */
+}
+
+.user-rating h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #555;
+    font-weight: 600;
+}
+
+.user-rating span {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+
+.user-rating .star-icon {
+    font-size: 16px;
+    color: #f5c518; /* Color dorado para la estrella */
+    margin-left: 5px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.user-rating .star-icon:hover {
+    transform: scale(1.2); /* Efecto al pasar el mouse sobre la estrella */
+}
+
 
 /* :::::::::::::::::: OVERLAY / BOTÓN "VER ONLINE" ::::::::::::::::: */
 .hover-overlay {

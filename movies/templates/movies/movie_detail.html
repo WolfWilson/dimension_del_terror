@@ -82,8 +82,8 @@
                         {% endfor %}
                     </p>
                     <p><strong>Sinopsis:</strong> {{ movie.description }}</p>
-                    <p><strong>Fecha de lanzamiento:</strong> {{ movie.release_date }}</p>
-                    <p><strong>Duración:</strong> {{ movie.duration|default:"N/A" }} minutos</p>
+                    <p><strong>Fecha de lanzamiento:</strong> {{ movie.release_date|format_date_es }}</p>
+                    <p><strong>Duración:</strong> {{ movie.duration|format_duration }}</p>
                     <p><strong>Idioma original:</strong> 
                         {{ movie.language|translate_language }}
                     </p>
@@ -104,21 +104,25 @@
                             No disponible
                         {% endif %}
                     </p>
+
                     <div class="movie-rating">
-                        <div class="tmdb-logo-container">
-                            {% if movie.tmdb_url %}
-                                <a href="{{ movie.tmdb_url }}" target="_blank" rel="noopener noreferrer">
-                                    <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link">
-                                </a>
-                            {% else %}
-                                <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link disabled">
-                            {% endif %}
-                        </div>
-                        <div class="user-rating">
-                            <h3>Puntuación de Usuarios:</h3>
-                            {{ movie.rating|default:"Sin calificación" }}/10
-                        </div>
-                    </div>
+    <div class="tmdb-logo-container">
+        {% if movie.tmdb_url %}
+            <a href="{{ movie.tmdb_url }}" target="_blank" rel="noopener noreferrer">
+                <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link">
+            </a>
+        {% else %}
+            <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link disabled">
+        {% endif %}
+    </div>
+    <div class="user-rating">
+        <h3>Puntuación de Usuarios:</h3>
+        <span>{{ movie.rating|default:"Sin calificación" }}/10</span>
+        <i class="fa fa-star star-icon" aria-hidden="true"></i>
+    </div>
+</div>
+
+                    
                 </div>
             </div>
 
