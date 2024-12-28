@@ -226,6 +226,35 @@ header {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
+.similar-movie {
+    position: relative;
+}
+
+.similar-movie[data-title]:hover::after {
+    content: attr(data-title); /* Obtiene el contenido del atributo `data-title` */
+    position: absolute;
+    bottom: -30px; /* Coloca el tooltip debajo del póster */
+    left: 50%; /* Centrado horizontal */
+    transform: translateX(-50%); /* Asegura el centrado horizontal perfecto */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro translúcido */
+    color: #fff; /* Texto blanco */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 0.9rem; /* Tamaño de fuente del tooltip */
+    border-radius: 5px; /* Bordes redondeados */
+    white-space: nowrap; /* Evita que el texto se corte en varias líneas */
+    z-index: 10; /* Asegura que el tooltip esté encima de otros elementos */
+    opacity: 1; /* Hace que el tooltip sea visible */
+    visibility: visible; /* Asegura que el tooltip sea visible */
+    transition: opacity 0.3s ease; /* Transición suave */
+}
+
+.similar-movie[data-title]::after {
+    content: ''; /* Por defecto, el tooltip no se muestra */
+    opacity: 0;
+    visibility: hidden;
+}
+
+
 /* :::::::::::::::::: FANCYBOX (MODAL/REPRODUCTOR) ::::::::::::::::: */
 .fancybox__content {
     border: 5px solid rgba(255, 255, 255, 0.9);

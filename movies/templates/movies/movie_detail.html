@@ -36,7 +36,7 @@
         <nav class="navbar">
             <ul>
                 <li><a href="{% url 'movie_list' %}">Películas</a></li>
-                <li><a href="{% url 'search_movies' %}">Buscar por Géneros</a></li>
+                <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
             </ul>
         </nav>
     </header>
@@ -123,7 +123,7 @@
                 <h3>Películas Similares</h3>
                 <div class="similar-movies-grid">
                     {% for similar_movie in similar_movies %}
-                    <div class="similar-movie">
+                    <div class="similar-movie" data-title="{{ similar_movie.title }} ({{ similar_movie.release_date.year }})">
                         <a href="{% url 'movie_detail' similar_movie.id %}">
                             {% if similar_movie.poster_image %}
                             <img src="{{ similar_movie.poster_image.url }}" alt="{{ similar_movie.title }}">
@@ -137,6 +137,7 @@
                     {% endfor %}
                 </div>
             </aside>
+            
         </div>
 
         <!-- Sección de reseña -->
