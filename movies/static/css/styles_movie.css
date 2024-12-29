@@ -5,7 +5,7 @@
     box-sizing: border-box;
 }
 
-/* ::::::::::::::::::::::::: --- VARIABLES --- ::::::::::::::::::::::::: */
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
 :root {
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Roboto Condensed', sans-serif;
@@ -13,18 +13,47 @@
     --font-body: 'Mulish', sans-serif;
     --font-accent: 'Bebas Neue', cursive;
     --font-extra: 'PT Sans Narrow', sans-serif;
-    --font-decorative: 'Ruslan Display', cursive; /* Variable para Ruslan Display */
+    --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+    --font-special: 'Bruno Ace SC', sans-serif; /* Nueva variable para Bruno Ace SC */
+
+    /* Colores modo claro (por defecto) */
+    --bg-color: radial-gradient(
+        100% 100% at 50% 50%,
+        rgba(252, 252, 252, 1) 12%,
+        rgba(247, 222, 181, 1) 84%,
+        rgba(232, 229, 220, 1) 96%
+    );
+    --text-color: rgb(44, 41, 41);
+    --text-color_red: rgb(128, 10, 10);
+    --accent-color: #dba76b;
+    --hover-color: #c4935a;
+}
+
+/* Modo oscuro */
+.dark-mode {
+    --bg-color: radial-gradient(
+        circle at center,
+        rgba(45, 45, 45, 1) 10%,
+        rgba(20, 20, 20, 1) 40%,
+        rgba(5, 5, 5, 1) 90%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    background-attachment: fixed;
+    --text-color: rgb(230, 230, 230);
+    --accent-color: #c4935a;
+    --hover-color: #dba76b;
 }
 
 /* ::::::::::::::::::::::::: ESTILOS GENERALES ::::::::::::::::::::::::: */
+/*
 body {
     font-family: var(--font-secondary);
-    background-color: #f4f4f4;
-    color: #333;
+   
     line-height: 1.6;
 }
 
 /* ::::::::::::::::::::::::: MAIN ::::::::::::::::::::::::: */
+/*
 main {
     font-family: var(--font-secondary);
     padding: 2rem;
@@ -70,7 +99,7 @@ header {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    margin-top: 4.2rem;
+   
 }
 
 .movie-title {
@@ -84,6 +113,26 @@ header {
     gap: 20px; /* Espacio entre el contenido principal y el panel de similares */
     align-items: flex-start;
 }
+/* Estilo general para enlaces en modo claro y oscuro */
+.movie-details a {
+    color: var(--accent-color); /* Utiliza la variable del modo claro */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.movie-details a:hover {
+    color: var(--hover-color); /* Color de hover */
+}
+
+/* Modo oscuro: enlaces adaptados */
+.dark-mode .movie-details a {
+    color: var(--accent-color); /* Color definido para modo oscuro */
+}
+
+.dark-mode .movie-details a:hover {
+    color: var(--hover-color); /* Hover en modo oscuro */
+}
+
 
 .movie-details {
     flex: 1;
@@ -206,7 +255,7 @@ header {
     margin-bottom: 15px;
     font-family: var(--font-secondary);
     text-align: center;
-    color: #000; 
+    color: var(--text-color); /* Texto en modo claro */
 }
 
 .similar-movies-grid {
@@ -599,6 +648,8 @@ footer {
     margin-top: 1.2rem; /* Margen superior personalizado */
 }
 
+/* :::::::::::::::::: LOGO Y RATING ::::::::::::::::: */
+
 .tmdb-logo-container img {
     width: 30px;
     height: 30px;
@@ -621,13 +672,13 @@ footer {
 .user-rating h3 {
     font-size: 16px;
     margin: 0;
-    color: #555;
+    color: var(--text-color);
     font-weight: 600;
 }
 
 .user-rating span {
     font-size: 16px;
-    color: #333;
+    color: var(--text-color);
     font-weight: bold;
 }
 

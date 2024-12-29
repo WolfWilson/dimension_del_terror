@@ -23,6 +23,8 @@
         crossorigin="anonymous" 
         referrerpolicy="no-referrer" 
     />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
     <!-- :::::::::::::::::: GOOGLE FONTS ::::::::::::::::: -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,6 +112,7 @@
 
     <!-- :::::::::::::::::: MAIN ::::::::::::::::: -->
     <main>
+        
         <section id="movie-posters">
             <!-- Título de sección -->
             <h2>Últimas Películas Disponibles</h2>
@@ -211,66 +214,63 @@
                 {% endfor %}
             </div>
 
-            <!-- Paginación -->
-            {% if is_paginated %}
-            <div class="pagination">
-              <ul>
-                <!-- BOTÓN "Primero" si no estamos en la página 1 -->
-                {% if page_obj.number > 1 %}
-                  <li>
-                    <a href="?page=1">&laquo; First</a>
-                  </li>
-                {% endif %}
-            
-                <!-- BOTÓN "Anterior" si hay página previa -->
-                {% if page_obj.has_previous %}
-                  <li>
-                    <a href="?page={{ page_obj.previous_page_number }}">
-                      &laquo; Previous
-                    </a>
-                  </li>
-                {% endif %}
-            
-                <!-- Iterar sobre display_pages, que puede ser número o "..." -->
-                {% for p in display_pages %}
-                  {% if p == '...' %}
-                    <li class="dots"><span>...</span></li>
-                  {% else %}
-                    {% if p == page_obj.number %}
-                      <!-- Página actual -->
-                      <li class="active"><span>{{ p }}</span></li>
-                    {% else %}
-                      <li><a href="?page={{ p }}">{{ p }}</a></li>
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-            
-                <!-- BOTÓN "Siguiente" -->
-                {% if page_obj.has_next %}
-                  <li>
-                    <a href="?page={{ page_obj.next_page_number }}">
-                      Next &raquo;
-                    </a>
-                  </li>
-                {% endif %}
-            
-                <!-- BOTÓN "Último" si no estamos en la última -->
-                {% if page_obj.number < page_obj.paginator.num_pages %}
-                  <li>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">
-                      Last &raquo;&raquo;
-                    </a>
-                  </li>
-                {% endif %}
-              </ul>
-            
-              <!-- Texto "Página X de Y" (opcional) -->
-              <div class="page-info">
-                <small>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</small>
-              </div>
-            </div>
-            {% endif %}
-            
+<!-- Paginación -->
+{% if is_paginated %}
+<div class="pagination">
+  <ul>
+    <!-- BOTÓN "Primero" -->
+    {% if page_obj.number > 1 %}
+      <li>
+        <a href="?page=1&q={{ query }}&genre_id={{ current_genre_id }}&year_segment={{ current_year_segment }}&sort_by={{ current_sort_by }}">&laquo; First</a>
+      </li>
+    {% endif %}
+
+    <!-- BOTÓN "Anterior" -->
+    {% if page_obj.has_previous %}
+      <li>
+        <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&genre_id={{ current_genre_id }}&year_segment={{ current_year_segment }}&sort_by={{ current_sort_by }}">&laquo; Previous</a>
+      </li>
+    {% endif %}
+
+    <!-- Números de página -->
+    {% for p in display_pages %}
+      {% if p == '...' %}
+        <li class="dots"><span>...</span></li>
+      {% else %}
+        {% if p == page_obj.number %}
+          <!-- Página actual -->
+          <li class="active"><span>{{ p }}</span></li>
+        {% else %}
+          <li>
+            <a href="?page={{ p }}&q={{ query }}&genre_id={{ current_genre_id }}&year_segment={{ current_year_segment }}&sort_by={{ current_sort_by }}">{{ p }}</a>
+          </li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    <!-- BOTÓN "Siguiente" -->
+    {% if page_obj.has_next %}
+      <li>
+        <a href="?page={{ page_obj.next_page_number }}&q={{ query }}&genre_id={{ current_genre_id }}&year_segment={{ current_year_segment }}&sort_by={{ current_sort_by }}">Next &raquo;</a>
+      </li>
+    {% endif %}
+
+    <!-- BOTÓN "Último" -->
+    {% if page_obj.number < page_obj.paginator.num_pages %}
+      <li>
+        <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&genre_id={{ current_genre_id }}&year_segment={{ current_year_segment }}&sort_by={{ current_sort_by }}">Last &raquo;&raquo;</a>
+      </li>
+    {% endif %}
+  </ul>
+
+  <!-- Información de la página -->
+  <div class="page-info">
+    <small>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</small>
+  </div>
+</div>
+{% endif %}
+
+      
 
             <!-- Barra de búsqueda -->
             <div class="search-bar">
@@ -355,5 +355,64 @@
             }
         });
     </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Crear el botón para el toggle
+    const toggleButton = document.createElement("button");
+    const toggleIcon = document.createElement("span");
+    
+    // Configuración del botón
+    toggleButton.style.position = "fixed";
+    toggleButton.style.bottom = "10px";
+    toggleButton.style.right = "10px";
+    toggleButton.style.zIndex = "1000";
+    toggleButton.style.padding = "10px";
+    toggleButton.style.border = "none";
+    toggleButton.style.backgroundColor = "var(--accent-color)";
+    toggleButton.style.color = "var(--text-color)";
+    toggleButton.style.borderRadius = "50%";
+    toggleButton.style.cursor = "pointer";
+    toggleButton.style.display = "flex";
+    toggleButton.style.justifyContent = "center";
+    toggleButton.style.alignItems = "center";
+    toggleButton.style.width = "50px";
+    toggleButton.style.height = "50px";
+    toggleButton.style.boxShadow = "0px 4px 6px rgba(0, 0, 0, 0.3)";
+
+    // Configuración del icono
+    toggleIcon.classList.add("material-icons");
+    toggleIcon.style.fontSize = "24px";
+    toggleIcon.textContent = "dark_mode"; // Icono inicial
+    toggleButton.appendChild(toggleIcon);
+
+    // Añadir el botón al body
+    document.body.appendChild(toggleButton);
+
+    // Comprobar el modo actual en localStorage
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        toggleIcon.textContent = "light_mode"; // Cambiar icono a "light_mode"
+    }
+
+    // Alternar entre modos
+    toggleButton.addEventListener("click", function () {
+        if (document.body.classList.contains("dark-mode")) {
+            document.body.classList.remove("dark-mode");
+            localStorage.setItem("theme", "light"); // Guardar preferencia en localStorage
+            toggleIcon.textContent = "dark_mode"; // Cambiar icono a "dark_mode"
+        } else {
+            document.body.classList.add("dark-mode");
+            localStorage.setItem("theme", "dark"); // Guardar preferencia en localStorage
+            toggleIcon.textContent = "light_mode"; // Cambiar icono a "light_mode"
+        }
+    });
+});
+
+</script>
+
+
+
 </body>
 </html>

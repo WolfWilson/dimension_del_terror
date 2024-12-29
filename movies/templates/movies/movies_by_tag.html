@@ -65,5 +65,13 @@
     <footer>
         <p>&copy; 2024 Black Cat Cinema. Todos los derechos reservados.</p>
     </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Aplicar el modo oscuro si está configurado en localStorage
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+            }
+        });
+    </script>
 </body>
 </html>
