@@ -1,7 +1,11 @@
-/* Estilos generales */
+/* :::::::::::::::::: RESETEO BÁSICO Y BOX SIZING :::::::::::::::::: */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/*::::::::::::::::::::: --- VARIABLES---::::::::::::::::::::::::::*/
-
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
 :root {
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Roboto Condensed', sans-serif;
@@ -10,31 +14,58 @@
     --font-accent: 'Bebas Neue', cursive;
     --font-extra: 'PT Sans Narrow', sans-serif;
     --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+    --font-special: 'Bruno Ace SC', sans-serif; /* Nueva variable para Bruno Ace SC */
+
+    /* Colores modo claro (por defecto) */
+    --bg-color: radial-gradient(
+        100% 100% at 50% 50%,
+        rgba(252, 252, 252, 1) 12%,
+        rgba(247, 222, 181, 1) 84%,
+        rgba(232, 229, 220, 1) 96%
+    );
+    --text-color: rgb(44, 41, 41);
+    --text-color_red: rgb(128, 10, 10);
+    --accent-color: #dba76b;
+    --hover-color: #c4935a;
 }
 
+/* Modo oscuro */
+.dark-mode {
+    --bg-color: radial-gradient(
+        circle at center,
+        rgba(45, 45, 45, 1) 10%,
+        rgba(20, 20, 20, 1) 40%,
+        rgba(5, 5, 5, 1) 90%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    background-attachment: fixed;
+    --text-color: rgb(230, 230, 230);
+    --accent-color: #c4935a;
+    --hover-color: #dba76b;
+}
+
+/* ::::::::::::::::::::::::: ESTILOS GENERALES ::::::::::::::::::::::::: */
+/*
 body {
     font-family: var(--font-secondary);
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
+   
     line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
-    box-sizing: border-box;
 }
 
+/* ::::::::::::::::::::::::: MAIN ::::::::::::::::::::::::: */
+/*
 main {
     font-family: var(--font-secondary);
     padding: 2rem;
     width: 100%;
-    max-width: 800px; /* Mantener dentro de este ancho máximo */
+    max-width: 800px;
     margin: 0 auto;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* ::::::::::::::::::::::::: HEADER ::::::::::::::::::::::::: */
 header {
     background-color: #272B2C;
     color: white;
@@ -53,7 +84,6 @@ header {
 
 .navbar ul {
     list-style: none;
-    padding: 0;
     display: flex;
     gap: 1rem;
 }
@@ -62,13 +92,14 @@ header {
     color: white;
     text-decoration: none;
 }
-/*::::::::::::::::::ESTILO PARA LOS DATOS DE LA PELICULA:::::::::::::::::::::::::*/
 
+/* :::::::::::::::::: DATOS DE LA PELÍCULA ::::::::::::::::: */
 #movie-detail {
     width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+   
 }
 
 .movie-title {
@@ -82,12 +113,26 @@ header {
     gap: 20px; /* Espacio entre el contenido principal y el panel de similares */
     align-items: flex-start;
 }
-
-
-.movie-details p {
-    text-align: justify; /* Justifica el texto de la sinopsis */
-    line-height: 1.6;
+/* Estilo general para enlaces en modo claro y oscuro */
+.movie-details a {
+    color: var(--accent-color); /* Utiliza la variable del modo claro */
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
+
+.movie-details a:hover {
+    color: var(--hover-color); /* Color de hover */
+}
+
+/* Modo oscuro: enlaces adaptados */
+.dark-mode .movie-details a {
+    color: var(--accent-color); /* Color definido para modo oscuro */
+}
+
+.dark-mode .movie-details a:hover {
+    color: var(--hover-color); /* Hover en modo oscuro */
+}
+
 
 .movie-details {
     flex: 1;
@@ -95,11 +140,15 @@ header {
     margin-left: 20px;
 }
 
+.movie-details p {
+    text-align: justify;
+    line-height: 1.6;
+}
 
-/* ::::::::::::::::::: ESTILO PARA EL POSTER Y TRAILER ::::::::::::::::::: */
-
+/* :::::::::::::::::: POSTER Y TRAILER ::::::::::::::::: */
 .movie-poster {
     position: relative;
+    display: inline-block;
     width: 100%;
     max-width: 380px;
     margin-bottom: 20px;
@@ -108,77 +157,64 @@ header {
     border: 4px solid transparent;
     background: linear-gradient(to bottom, #e6e6e6, #cfcfcf);
     background-clip: padding-box;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3), 0 10px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 
+        inset 0 0 10px rgba(255, 255, 255, 0.3), 
+        0 10px 20px rgba(0, 0, 0, 0.4);
     animation: border-color-cycle 3s infinite;
+    transition: transform 0.3s ease-in-out;
 }
 
 @keyframes border-color-cycle {
-    0% {
-        border-color: #ffffff;
-    }
-    33% {
-        border-color: #d9d9d9;
-    }
-    66% {
-        border-color: #bfbfbf;
-    }
-    100% {
-        border-color: #ffffff;
-    }
+    0% { border-color: #ffffff; }
+    33% { border-color: #d9d9d9; }
+    66% { border-color: #bfbfbf; }
+    100% { border-color: #ffffff; }
 }
 
 .movie-poster:hover {
-    transform: scale(1.03); /* Ligero zoom */
-    transition: all 0.3s ease-in-out;
+    transform: scale(1.03);
 }
 
-
-
-/* Imagen del póster */
 .movie-poster img {
     width: 100%;
     height: auto;
-    display: block; /* Elimina espacios en blanco causados por el comportamiento inline */
-    border-radius: inherit; /* Asegura que la imagen herede el borde del contenedor */
+    display: block; 
+    border-radius: inherit;
 }
 
 /* Capa de oscurecimiento */
 .movie-poster::before {
-    content: ""; /* Pseudo-elemento para la capa oscura */
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0); /* Inicialmente transparente */
-    transition: background 0.3s ease; /* Suaviza la aparición */
-    z-index: 1; /* Encima del póster */
-    border-radius: 10px; /* Bordes redondeados */
+    background: transparent;
+    transition: background 0.3s ease;
+    z-index: 1;
+    border-radius: 10px;
 }
 
 .movie-poster:hover::before {
-    background: rgba(0, 0, 0, 0.3); /* Oscurece la capa al hacer hover */
-}
-
-.movie-poster:hover img {
-    transform: none; /* Desactiva el zoom para evitar que los subtítulos se desplacen */
+    background: rgba(0, 0, 0, 0.3);
 }
 
 /* Contenido hover (icono y texto) */
-.movie-poster .hover-content {
+.hover-content {
     position: absolute;
-    bottom: 20px; /* Cerca del borde inferior */
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    z-index: 2; /* Encima del overlay */
+    z-index: 2;
 }
 
 .hover-content .play-icon {
-    width: 80px; /* Tamaño del icono */
+    width: 80px;
     height: 60px;
-    margin-bottom: 5px; /* Espacio entre el icono y el texto */
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.8)); /* Sombra */
+    margin-bottom: 5px;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.8));
 }
 
 .hover-content .hover-text {
@@ -186,11 +222,10 @@ header {
     color: #fff;
     font-size: 1.2rem;
     font-weight: bold;
-    text-shadow: 
-        1px 1px 4px rgba(0, 0, 0, 0.8), /* Sombra negra */
-        0px 0px 6px rgba(255, 255, 255, 0.6); /* Sombra brillante */
+    text-shadow:
+        1px 1px 4px rgba(0, 0, 0, 0.8),
+        0px 0px 6px rgba(255, 255, 255, 0.6);
 }
-
 
 .movie-container {
     display: flex;
@@ -200,20 +235,19 @@ header {
 }
 
 .movie-info {
-    flex: 3; /* Toma el 75% del espacio */
+    flex: 3;
 }
 
-/*:::::::::::::::::::::INICIO DE ESTILO PARA PANEL ASIDE DE PELICULAS SIMILARES  ::::::::::::::::::::::::::::::: */
-
+/* :::::::::::::::::: ASIDE DE PELÍCULAS SIMILARES ::::::::::::::::: */
 .similar-movies {
-    flex: 1; /* Espacio secundario */
+    flex: 1;
     padding: 15px;
     border-radius: 8px;
-    color: #ffffff; /* Conservamos el color blanco del texto */
+    color: #ffffff;
     font-family: var(--font-secondary);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle un poco de profundidad */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 300px;
-    background-color: transparent; /* Hacemos el fondo transparente */
+    background-color: transparent;
 }
 
 .similar-movies h3 {
@@ -221,12 +255,12 @@ header {
     margin-bottom: 15px;
     font-family: var(--font-secondary);
     text-align: center;
-    color: #000; /* Ajusta el color si el fondo transparente afecta la legibilidad */
+    color: var(--text-color); /* Texto en modo claro */
 }
 
 .similar-movies-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
 
@@ -242,144 +276,253 @@ header {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-/*::::::::::::::::::::: FIN DE ESTILO PARA PANEL ASIDE DE PELICULAS SIMILARES  ::::::::::::::::::::::::::::::: */
+.similar-movie {
+    position: relative;
+}
 
-/* Estilo del contenedor Fancybox */
+.similar-movie[data-title]:hover::after {
+    content: attr(data-title); /* Obtiene el contenido del atributo `data-title` */
+    position: absolute;
+    bottom: -30px; /* Coloca el tooltip debajo del póster */
+    left: 50%; /* Centrado horizontal */
+    transform: translateX(-50%); /* Asegura el centrado horizontal perfecto */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro translúcido */
+    color: #fff; /* Texto blanco */
+    padding: 5px 10px; /* Espaciado interno */
+    font-size: 0.9rem; /* Tamaño de fuente del tooltip */
+    border-radius: 5px; /* Bordes redondeados */
+    white-space: nowrap; /* Evita que el texto se corte en varias líneas */
+    z-index: 10; /* Asegura que el tooltip esté encima de otros elementos */
+    opacity: 1; /* Hace que el tooltip sea visible */
+    visibility: visible; /* Asegura que el tooltip sea visible */
+    transition: opacity 0.3s ease; /* Transición suave */
+}
 
-/* :::::: Estilo para el reproductor Fancybox :::::: */
+.similar-movie[data-title]::after {
+    content: ''; /* Por defecto, el tooltip no se muestra */
+    opacity: 0;
+    visibility: hidden;
+}
 
-/* Estilo del contenedor del reproductor */
+
+/* :::::::::::::::::: FANCYBOX (MODAL/REPRODUCTOR) ::::::::::::::::: */
 .fancybox__content {
-    border: 5px solid rgba(255, 255, 255, 0.9); /* Borde blanco semitransparente */
-    border-radius: 15px; /* Bordes redondeados */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7); /* Sombra pronunciada */
-    overflow: hidden; /* Evita desbordes de contenido */
-    background-color: #000; /* Fondo negro dentro del reproductor */
+    border: 5px solid rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    background-color: #000;
 }
 
-/* Fondo oscuro del reproductor */
 .fancybox__backdrop {
-    background: rgba(0, 0, 0, 0.85); /* Fondo oscuro semitransparente */
+    background: rgba(0, 0, 0, 0.85);
 }
 
-/* Efecto hover para los botones de cierre y navegación */
 .fancybox__button {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 .fancybox__button:hover {
-    transform: scale(1.1); /* Botones ligeramente más grandes al pasar el mouse */
-    filter: brightness(1.4); /* Botones más brillantes */
+    transform: scale(1.1);
+    filter: brightness(1.4);
 }
 
-/* Ajuste del video o iframe dentro de Fancybox */
 .fancybox__content iframe,
 .fancybox__content video {
-    border-radius: 15px; /* Bordes redondeados para el contenido del video */
+    border-radius: 15px;
 }
 
-
-
-/*:::::::::::::::::: FIN DE ESTILO PARA EL POSTER Y TRAILER:::::::::::::::::::::::::*/
-
+/* :::::::::::::::::: RESEÑAS ::::::::::::::::: */
 .movie-review p {
-    text-align: justify; /* Justifica el texto para que ocupe todo el ancho disponible */
-    line-height: 1.6; /* Mantiene un buen espaciado entre líneas */
+    text-align: justify;
+    line-height: 1.6;
 }
 
-
-/*:::::::::::::::::: INICIO DE ESTILO PARA IFRAME DE LA PELICULA:::::::::::::::::::::::::*/
-/* General del iframe */
-iframe {
-    overflow: visible; /* Asegura que los subtítulos no se recorten */
-    position: relative; /* Posición controlada */
-    display: block; /* Evita espacios fantasma alrededor */
-}
-
-/* Contenedor del reproductor */
+/* :::::::::::::::::: IFRAME DE LA PELÍCULA ::::::::::::::::: */
 #movie-frame {
     margin-top: 1rem;
-    display: flex;
-    justify-content: center; /* Centra el contenedor horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    flex-direction: column; /* Título arriba, reproductor abajo */
-    text-align: center;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .movie-play {
     position: relative;
     width: 100%;
-    padding-bottom: 42.85%; /* Relación de aspecto 21:9 */
-    height: 0;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    background-color: #000;
     overflow: hidden;
-    border-radius: 15px; /* Bordes redondeados */
-    background-color: #000; /* Fondo negro */
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); /* Sombra más marcada */
-    border: 3px solid rgba(255, 255, 255, 0.4); /* Borde más visible */
-    transition: all 0.3s ease-in-out; /* Suaviza los cambios */
+}
+
+.movie-play iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    background: #000;
 }
 
 .movie-play:hover {
-    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.7); /* Sombra mucho más intensa */
-    border-color: rgba(255, 255, 255, 0.8); /* Borde más brillante */
-    transform: scale(1.03); /* Ligero aumento de tamaño */
-    transition: all 0.3s ease-in-out; /* Suaviza los cambios */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.8);
 }
 
-
-
-
-/* El iframe del video */
-.movie-play iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none; /* Sin bordes */
-    border-radius: 15px; /* Bordes redondeados */
-    overflow: visible; /* Permite que los subtítulos y controles se muestren completamente */
-}
-
-#player-container:fullscreen {
-    width: 100%;
-    height: 100%;
-}
-
-#movie-iframe {
-    width: 100%;
-    height: 100%;
-}
-
-
-
-
-/*:::::::::::::::::::::ESTILO PARA LOS COMENTARIOS::::::::::::::::::::::::::*/
-
-/* ::::::::::::::::::::::::::::: SECCION DE COMENTARIOS ::::::::::::::::::::::::::::: */
+/* :::::::::::::::::: SECCIÓN DE COMENTARIOS ::::::::::::::::: */
 .comments-section {
-    background-color: #2a2a2a; /* Negro grisáceo claro */
-    color: #fff; /* Texto blanco */
+    background-color: #2a2a2a;
+    color: #fff;
     width: 100%;
-    padding: 30px 20px; /* Más espacio alrededor */
-    border-radius: 12px; /* Bordes redondeados del contenedor general */
-    margin-top: 40px; /* Espaciado con el iframe */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8); /* Sombra para mayor profundidad */
-    border: 2px solid #444; /* Borde gris oscuro */
+    padding: 30px 20px;
+    border-radius: 12px;
+    margin-top: 40px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+    border: 2px solid #444;
 }
 
+/* FORMULARIO DE COMENTARIOS */
 .comment-form-wrapper {
-    background-color: #1e1e1e; /* Fondo más oscuro para el formulario */
-    border-radius: 10px; /* Bordes redondeados */
+    background-color: #333;
+    color: #fff;
     padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
     max-width: 600px;
-    margin: 0 auto 30px auto;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8); /* Sombra intensa */
-    border: 2px solid #555; /* Borde más visible */
+    margin: 0 auto;
 }
 
+.comment-form-wrapper h3 {
+    color: #dba76b;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.comment-form textarea, 
+.comment-form input[type="text"], 
+.comment-form input[type="email"] {
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.comment-form textarea:focus, 
+.comment-form input[type="text"]:focus, 
+.comment-form input[type="email"]:focus {
+    border-color: #dba76b;
+    outline: none;
+}
+
+.char-count {
+    text-align: right;
+    font-size: 0.9rem;
+    color: #555; 
+    margin-top: 0.5rem;
+}
+
+.char-count.red {
+    color: red; 
+}
+
+.comment-form button {
+    background: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.comment-form button:hover {
+    background: #dba76b;
+    transform: scale(1.05);
+}
+
+.comment-form button:active {
+    transform: scale(0.95);
+}
+
+/* BOTÓN PARA MOSTRAR FORMULARIO */
+#toggleCommentForm {
+    background: #333;
+    color: #fff;
+    padding: 8px 16px; /* Reduce el tamaño del botón */
+    border: 2px solid #555;
+    border-radius: 20px; /* Bordes redondeados más suaves */
+    font-size: 0.9rem; /* Tamaño de fuente reducido */
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    /* Centrado dentro de su contenedor */
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#toggleCommentForm:hover {
+    background: #555;
+    border-color: #777;
+}
+
+/* TRANSICIÓN PARA MOSTRAR FORMULARIO */
+#commentFormContainer {
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    transform: scale(0.95);
+    display: none; /* Para no ocupar espacio cuando esté oculto */
+}
+
+#commentFormContainer.show {
+    display: block !important;
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* CADA COMENTARIO */
+.comment {
+    background-color: #242424;
+    border-radius: 8px;
+    padding: 15px;
+    border: 2px solid #444;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.comment .nick {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.comment .date {
+    color: #bbb;
+    font-size: 0.9rem;
+}
+
+.comment .comment-text {
+    color: #eaeaea;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+
+/* SCROLL EN LOS COMENTARIOS */
 .comment-scroll {
-    max-height: 400px; /* Altura máxima con scroll */
+    max-height: 400px;
     overflow-y: auto;
     padding: 0 15px;
 }
@@ -397,68 +540,14 @@ iframe {
     background: #777;
 }
 
-/* Estilo de cada comentario */
-.comment {
-    background-color: #242424; /* Fondo oscuro para los comentarios */
-    border-radius: 8px;
-    padding: 15px;
-    border: 2px solid #444; /* Borde gris más claro */
-    color: #fff; /* Texto blanco */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Sombra */
-    margin-bottom: 10px; /* Separación entre comentarios */
-}
-
-.comment .nick {
-    color: #d9534f; /* Nick en rojo (Bootstrap Danger) */
-    font-weight: bold;
-}
-
-.comment .date {
-    color: #bbb; /* Fecha en gris tenue */
-    font-size: 0.9rem;
-}
-
-.comment .comment-text {
-    color: #eaeaea;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-top: 10px;
-}
-
-.comment-form button {
-    background-color: transparent;
-    border: 2px solid #fff;
-    color: #fff;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.comment-form button:hover {
-    background-color: #fff;
-    color: #000;
-}
-
-#commentFormContainer {
-    transition: all 0.3s ease-in-out; /* Suaviza la aparición y desaparición */
-    opacity: 0;
-    transform: scale(0.95); /* Reducido inicialmente */
-}
-
-#commentFormContainer.show {
-    display: block !important;
-    opacity: 1;
-    transform: scale(1); /* Tamaño normal al mostrarse */
-}
-
-
-
-/* Estilos para el modal */
+/* :::::::::::::::::: MODAL ::::::::::::::::: */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(20, 20, 20, 0.95); /* Fondo oscuro semi-transparente */
+    background: rgba(20, 20, 20, 0.95);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -482,7 +571,7 @@ iframe {
 }
 
 .modal-content h3 {
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-primary);
     color: #333;
     margin-bottom: 0.5rem;
 }
@@ -507,8 +596,6 @@ iframe {
     background-color: #218838;
 }
 
-
-
 /* Animación de entrada */
 @keyframes fadeIn {
     from {
@@ -521,19 +608,7 @@ iframe {
     }
 }
 
-.char-count {
-    text-align: right;
-    font-size: 0.9rem;
-    color: #555; /* Color inicial del texto */
-    margin-top: 0.5rem;
-}
-
-.char-count.red {
-    color: red; /* Cambia a rojo si supera el límite */
-}
-
-
-/*::::::::::::::::::ESTILO PARA EL FOOTER::::::::::::::::::::::::::*/
+/* :::::::::::::::::: FOOTER ::::::::::::::::: */
 footer {
     background-color: #272B2C;
     color: #fff;
@@ -568,87 +643,72 @@ footer {
     margin-top: 1rem;
 }
 
-/*::::::::::::::::::ESTILO PARA LAS RESEÑAS::::::::::::::::::::::::::*/
-
-.formatted-review {
-    font-family: var(--font-body);
-    line-height: 1.6;
-    margin-top: 1rem;
-    color: #333;
-}
-.formatted-review p {
-    margin-bottom: 1rem; /* Espaciado entre párrafos */
-}
-
-
-/*::::::::::::::::::ESTILO PARA EL LOGO TMBD::::::::::::::::::::::::::*/
-
-.movie-rating h3 {
+/* :::::::::::::::::: RESEÑAS FORMATEADAS ::::::::::::::::: */
+.movie-rating {
     display: flex;
-    align-items: center; /* Alinea el texto y la imagen verticalmente */
-    gap: 10px; /* Espaciado entre la imagen y el texto */
-    font-size: 18px; /* Ajusta el tamaño del texto */
-    color: #333; /* Color de texto */
-    margin: 0; /* Quita el margen */
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-primary); /* Fuente principal */
+    font-size: 16px;
+    color: #333;
+    margin-top: 1.2rem; /* Margen superior personalizado */
 }
 
-/* Estilo para la imagen */
-.movie-rating img {
-    width: 50px; /* Tamaño reducido de la imagen */
-    height: 50px; /* Tamaño reducido de la imagen */
-    border-radius: 50%; /* Imagen circular */
-    object-fit: cover; /* Asegura que la imagen se recorte correctamente si es necesario */
+/* :::::::::::::::::: LOGO Y RATING ::::::::::::::::: */
+
+.tmdb-logo-container img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.tmdb-logo-container img:hover {
+    transform: scale(1.1);
+}
+
+.user-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-secondary); /* Fuente secundaria */
+}
+
+.user-rating h3 {
+    font-size: 16px;
+    margin: 0;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.user-rating span {
+    font-size: 16px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.user-rating .star-icon {
+    font-size: 16px;
+    color: #f5c518; /* Color dorado para la estrella */
+    margin-left: 5px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.user-rating .star-icon:hover {
+    transform: scale(1.2); /* Efecto al pasar el mouse sobre la estrella */
 }
 
 
-
-/* Ajustes Responsive */
-@media (max-width: 768px) {
-    main {
-        padding: 1rem;
-        max-width: 100%;
-    }
-
-    .movie-info {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .movie-details {
-        padding-right: 0;
-        margin-left: 0;
-    }
-
-    .movie-poster {
-        max-width: 75%;
-    }
-
-    .movie-play {
-        padding-bottom: 75%; /* Mayor altura para móviles */
-    }
-
-    .player-title {
-        font-size: 1.2rem; /* Texto más pequeño para pantallas pequeñas */
-    }
-
-    footer {
-        text-align: center;
-    }
-}
-
-/* Efectos adicionales */
-.movie-poster {
-    position: relative;
-    display: inline-block;
-}
-
+/* :::::::::::::::::: OVERLAY / BOTÓN "VER ONLINE" ::::::::::::::::: */
 .hover-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Oscurece el fondo */
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -659,5 +719,126 @@ footer {
 }
 
 .movie-poster:hover .hover-overlay {
+    opacity: 1;
+}
+
+.btn-watch-online {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-watch-online:hover {
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    border-color: #0072ff;
+    color: #000;
+}
+
+.btn-watch-online:active {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    box-shadow: none;
+}
+
+/* :::::::::::::::::: MEDIA QUERIES ::::::::::::::::: */
+@media (max-width: 768px) {
+    .movie-info {
+        flex-direction: column;
+        align-items: center;
+    }
+    .movie-details {
+        width: 100%;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    .movie-poster {
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+    .similar-movies {
+        width: 100%;
+        order: 3;
+        margin-top: 1rem;
+    }
+    .similar-movies-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .movie-play {
+        width: 100%;
+        max-width: none;
+        margin: 0 auto 1rem auto;
+        aspect-ratio: 4 / 3;
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        background-color: #000;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    .movie-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .comment-form-wrapper {
+        padding: 15px;
+        margin: 0 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+    .comment-form-wrapper h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    .comment-form textarea, 
+    .comment-form input[type="text"], 
+    .comment-form input[type="email"] {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    .comment-form textarea {
+        height: 100px;
+    }
+    .char-count {
+        font-size: 0.75rem;
+        margin-top: -10px;
+    }
+    .comment-form button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+    #toggleCommentForm {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+        border-radius: 20px;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 599px) {
+    #movie-frame {
+        display: none;
+    }
+}
+.lazyload {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.lazyloaded {
     opacity: 1;
 }

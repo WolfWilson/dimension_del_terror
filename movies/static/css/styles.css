@@ -485,9 +485,11 @@ footer {
 }
 .socials {
     display: flex;
-    justify-content: flex-start;
-    margin-top: 0.5rem;
+    justify-content: center; /* Cambiado de flex-start a center */
+    align-items: center; /* Asegura que estén alineados verticalmente */
+    margin-top: 1rem; /* Ajuste para separarlo del resto del contenido */
 }
+
 .socials a {
     display: inline-block;
     min-height: 40px;
@@ -499,13 +501,49 @@ footer {
     border-radius: 50%;
     color: #c4935a;
     font-size: 20px;
+    transition: background-color 0.3s ease;
 }
+
+.socials a:hover {
+    background-color: #c4935a;
+    color: #272B2C;
+}
+
 .link a:hover {
     color: #ffffff;
 }
-.socials a:hover {
-    background-color: #c4935a;
+
+.hidden {
+    display: none;
 }
+/* Botón como parte de las redes sociales */
+.social-button {
+    display: inline-block;
+    min-height: 40px;
+    width: 40px;
+    background-color: #000;
+    margin: 0 10px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #c4935a;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none; /* Elimina bordes extras */
+}
+
+.social-button:hover {
+    background-color: #c4935a;
+    color: #272B2C;
+}
+
+.social-button .material-icons {
+    font-size: 20px; /* Tamaño consistente con los íconos de redes sociales */
+    line-height: 40px; /* Centrado vertical */
+}
+
+
 
 /* Formulario en el footer */
 .formulario {
@@ -642,20 +680,26 @@ footer {
     }
 }
 
-  
+
+
 /* :::::::::::::::::: MODAL ::::::::::::::::: */
 .modal-overlay {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(20, 20, 20, 0.95);
-    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
+
+.modal-overlay.hidden {
+    display: none; /* Oculta el modal dinámicamente */
+}
+
 .modal-content {
     background: #fff;
     padding: 2rem;
@@ -665,6 +709,8 @@ footer {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.5s ease-in-out;
 }
+
+
 .modal-content img {
     max-width: 100px;
     margin-bottom: 1rem;
@@ -1000,3 +1046,5 @@ footer {
     background-color: var(--hover-color);
     color: #fff;
 }
+
+

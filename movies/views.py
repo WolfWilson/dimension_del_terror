@@ -364,3 +364,87 @@ def movies_by_tag(request, tag_type, tag):
         'tag_type': tag_type,
         'tag': tag,
     })
+
+
+
+from django.db.models import Q
+#VISTA PARA FILTRAR PELIS CON RESEÑAS
+
+def reviews(request):
+    """
+    Vista que muestra las películas con reseñas escritas válidas.
+    """
+    query = request.GET.get('q', '')  # Filtro por búsqueda
+    page_number = request.GET.get('page')  # Paginación
+    year_segment = request.GET.get('year_segment', 'Todos')  # Filtro por año
+    sort_by = request.GET.get('sort_by', 'reciente')  # Orden
+    genre_id = request.GET.get('genre_id', 'Todos')  # Género seleccionado
+
+    # Base queryset: Películas con reseñas válidas
+    movies_with_reviews = Movie.objects.filter(
+        review__isnull=False
+    ).exclude(
+        Q(review__regex=r'^\s*$') |  # Excluye reseñas vacías
+        Q(review__regex=r'^(&nbsp;|\s|<[^>]*>)*$')  # Excluye contenido vacío o con solo etiquetas
+    )
+
+    # Filtro por búsqueda
+    if query:
+        movies_with_reviews = movies_with_reviews.filter(title__icontains=query)
+
+    # Filtro por género
+    if genre_id != 'Todos':
+        try:
+            genre_id_int = int(genre_id)
+            movies_with_reviews = movies_with_reviews.filter(genres__id=genre_id_int)
+        except ValueError:
+            pass
+
+    # Filtro por año
+    if year_segment != 'Todos':
+        if year_segment.isdigit():
+            movies_with_reviews = movies_with_reviews.filter(release_date__year=int(year_segment))
+        elif '-' in year_segment:
+            try:
+                start_year, end_year = map(int, year_segment.split('-'))
+                movies_with_reviews = movies_with_reviews.filter(
+                    release_date__year__gte=start_year,
+                    release_date__year__lte=end_year
+                )
+            except ValueError:
+                pass
+
+    # Ordenamiento
+    if sort_by == 'alf_asc':
+        movies_with_reviews = movies_with_reviews.order_by('title')
+    elif sort_by == 'alf_desc':
+        movies_with_reviews = movies_with_reviews.order_by('-title')
+    elif sort_by == 'antiguo':
+        movies_with_reviews = movies_with_reviews.order_by('release_date')
+    elif sort_by == 'rating':
+        movies_with_reviews = movies_with_reviews.order_by('-rating')
+    else:
+        movies_with_reviews = movies_with_reviews.order_by('-id')
+
+    # Paginación
+    paginator = Paginator(movies_with_reviews, 20)
+    page_obj = paginator.get_page(page_number)
+
+    # Géneros para el dropdown
+    all_genres = Genre.objects.all().order_by('name')
+
+    context = {
+        'movies': page_obj,
+        'is_paginated': page_obj.has_other_pages(),
+        'page_obj': page_obj,
+        'query': query,
+        'total_movies': movies_with_reviews.count(),
+        'all_genres': all_genres,
+        'current_year_segment': year_segment,
+        'current_sort_by': sort_by,
+        'current_genre_id': genre_id,
+    }
+
+    return render(request, 'movies/reviews.html', context)
+
+

@@ -9,4 +9,5 @@ urlpatterns = [
     path('<str:tag_type>/<str:tag>/', views.movies_by_tag, name='movies_by_tag'),  # Filtrar por etiqueta
     path('<int:movie_id>/', views.movie_detail, name='movie_detail'),  # Detalles de película
     path('dynamic-genres/', views.dynamic_genre_movies, name='dynamic_genre_movies'),
+    path('reviews/', views.reviews, name='reviews'),
 ]

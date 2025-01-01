@@ -458,13 +458,18 @@ header {
 #toggleCommentForm {
     background: #333;
     color: #fff;
-    padding: 12px 24px;
+    padding: 8px 16px; /* Reduce el tamaño del botón */
     border: 2px solid #555;
-    border-radius: 25px;
-    font-size: 1rem;
+    border-radius: 20px; /* Bordes redondeados más suaves */
+    font-size: 0.9rem; /* Tamaño de fuente reducido */
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+
+    /* Centrado dentro de su contenedor */
+    display: block;
+    margin: 0 auto;
+    text-align: center;
 }
 
 #toggleCommentForm:hover {
@@ -485,6 +490,7 @@ header {
     opacity: 1;
     transform: scale(1);
 }
+
 
 /* CADA COMENTARIO */
 .comment {
