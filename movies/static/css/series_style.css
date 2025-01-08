@@ -200,6 +200,49 @@ footer {
     width: 100%;
 }
 
+/* Fondo oscuro para el popup */
+.fancybox-bg {
+    background-color: rgba(0, 0, 0, 0.95); /* Fondo negro más oscuro */
+}
+
+/* Estilo del contenedor del iframe */
+.fancybox-content {
+    background-color: #1c1c1c; /* Fondo oscuro dentro del iframe */
+    border: 6px solid #fff; /* Borde blanco para destacar */
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.8); /* Sombra para profundidad */
+    overflow: hidden; /* Evita contenido desbordado */
+}
+
+/* Animaciones al abrir/cerrar */
+.fancybox-slide--iframe .fancybox-content {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.fancybox-slide--iframe .fancybox-content.open {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.fancybox-slide--iframe .fancybox-content.close {
+    transform: scale(0.9);
+    opacity: 0;
+}
+
+/* Estilo del botón cerrar (opcional) */
+.fancybox-button--close {
+    background: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+    border-radius: 50%;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.fancybox-button--close:hover {
+    background: rgba(255, 255, 255, 1); /* Fondo más opaco al pasar el ratón */
+    color: #000;
+}
+
+
 /* Responsiveness */
 @media (max-width: 1024px) {
     .series-details {

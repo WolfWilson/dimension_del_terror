@@ -263,6 +263,22 @@ class Episode(models.Model):
     screenshot = models.ImageField(upload_to="episode_screenshots/", blank=True, null=True)
     drive_url = models.URLField(null=True, blank=True)
 
+    def get_drive_preview_url(self):
+        """
+        Devuelve la URL en formato de vista previa de Google Drive si la URL original es válida.
+        Si no es una URL de Google Drive, devuelve la URL tal como está.
+        """
+        if self.drive_url and "drive.google.com" in self.drive_url:
+            # Extraer el file_id de la URL
+            if "id=" in self.drive_url:
+                file_id = self.drive_url.split("id=")[-1]
+                return f"https://drive.google.com/file/d/{file_id}/preview"
+            elif "/file/d/" in self.drive_url:
+                file_id = self.drive_url.split("/file/d/")[1].split("/")[0]
+                return f"https://drive.google.com/file/d/{file_id}/preview"
+        return self.drive_url
+
     def __str__(self):
         return f"{self.season.series.title} - T{self.season.season_number}E{self.episode_number}: {self.title}"
+
 

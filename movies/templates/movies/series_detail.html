@@ -7,11 +7,13 @@
     <title>{{ series.title }} - Detalles</title>
 
     <!-- :::::::::::::::::: CSS LOCAL ::::::::::::::::: -->
-    
     <link rel="stylesheet" href="{% static 'css/series_style.css' %}">
 
     <!-- :::::::::::::::::: FONTAWESOME ::::::::::::::::: -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+
+    <!-- :::::::::::::::::: FANCYBOX ::::::::::::::::: -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
 </head>
 <body>
     <header>
@@ -54,8 +56,6 @@
                             <div class="episode-image">
                                 {% if episode.screenshot %}
                                     <img src="{{ episode.screenshot.url }}" alt="E{{ episode.episode_number }}: {{ episode.title }}">
-                                {% else %}
-                                    <img src="{% static 'images/default_episode.jpg' %}" alt="Sin imagen">
                                 {% endif %}
                             </div>
                             <div class="episode-content">
@@ -68,19 +68,67 @@
                                 <p class="episode-description">
                                     {{ episode.description }}
                                 </p>
-                                <div class="episode-expand">Expand</div>
+                                {% if episode.drive_url %}
+                                <!-- Botón para abrir Fancybox -->
+                                <a href="{{ episode.get_drive_preview_url }}" 
+                                   data-fancybox 
+                                   data-type="iframe" 
+                                   data-caption="Reproducir Episodio: {{ episode.title }}" 
+                                   class="episode-expand">Reproducir</a>
+                                {% else %}
+                                <div class="episode-expand" style="opacity: 0.5; cursor: not-allowed;">Sin video</div>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}
                     </div>
+                    
                 </div>
             {% endfor %}
         </section>
-        
     </main>
 
     <footer>
         <p>&copy; 2024 By Will™. Todos los derechos reservados.</p>
     </footer>
+
+    <!-- :::::::::::::::::: SCRIPTS ::::::::::::::::: -->
+    <script>
+        $(document).ready(function () {
+            $('[data-fancybox]').fancybox({
+                iframe: {
+                    css: {
+                        width: '80%',
+                        height: '80%',
+                    },
+                },
+                transitionEffect: "fade", // Efecto de transición
+                beforeShow: function (instance, slide) {
+                    $(".fancybox-content").addClass("open");
+                },
+                beforeClose: function (instance, slide) {
+                    $(".fancybox-content").removeClass("open").addClass("close");
+                },
+            });
+        });
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-fancybox]').fancybox({
+                iframe: {
+                    css: {
+                        width: '80%',
+                        height: '80%',
+                    },
+                },
+            });
+        });
+    </script>
+
+
 </body>
 </html>
