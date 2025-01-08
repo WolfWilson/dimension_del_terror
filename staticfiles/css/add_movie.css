@@ -1,142 +1,146 @@
-/* ::::::::::::::::: --- VARIABLES --- ::::::::::::::::: */
-:root {
-    --font-primary: 'Poppins', sans-serif;
-    --font-secondary: 'Roboto Condensed', sans-serif;
-    --font-title: 'Holtwood One SC', serif;
-    --font-body: 'Mulish', sans-serif;
-    --font-accent: 'Bebas Neue', cursive;
-    --font-extra: 'PT Sans Narrow', sans-serif;
-    --font-decorative: 'Ruslan Display', cursive;
-    --color-primary: #000;
-    --color-secondary: #444;
-    --color-light: #f9f9f9;
-    --color-accent: #dba76b;
-    --color-error: #f8d7da;
-    --color-error-text: #721c24;
-}
-
-/* ::::::::::::::::: --- GENERAL --- ::::::::::::::::: */
-/*::::::::::::::::::ESTILO FORMULARIO DE PELÍCULAS::::::::::::::::::*/
-
-body {
-    font-family: var(--font-primary);
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-}
-
-header {
-    background-color: #000;
-    color: #fff;
-    padding: 15px 0;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.2rem;
-}
-
-header a {
-    color: #ddd;
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.card {
-    border-radius: 10px;
-    background-color: #fff;
-}
-
-.card-header {
-    border-bottom: none;
-    font-family: var(--font-title);
-    font-size: 1.5rem;
-}
-
-form .form-group {
-    margin-bottom: 1rem;
-}
-
-input, textarea, select {
-    font-size: 1rem;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
-}
-
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: #666;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-}
-
-.btn {
-    font-size: 1rem;
-    padding: 10px;
-    border-radius: 5px;
-    font-family: var(--font-secondary);
-    font-weight: bold;
-}
-
-.btn-dark:hover {
-    background-color: #444;
-    color: #fff;
-}
-
-img#image-preview {
-    display: block;
-    margin: 15px auto;
-    max-width: 150px;
-    height: auto;
-    border-radius: 8px;
-}
-
-
-/* ::::::::::::::::: --- MENSAJES DE ERROR --- ::::::::::::::::: */
-.errors {
-    background-color: var(--color-error);
-    color: var(--color-error-text);
-    padding: 15px;
-    border: 1px solid #f5c6cb;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-.errors ul {
+/* :::::::::::::::::: RESETEO BÁSICO Y BOX SIZING :::::::::::::::::: */
+* {
     margin: 0;
     padding: 0;
-    list-style-type: none;
+    box-sizing: border-box;
 }
 
-/* ::::::::::::::::: --- RESPONSIVE --- ::::::::::::::::: */
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
+:root {
+
+        --font-secondary: 'Roboto Condensed', sans-serif;
+        --font-title: 'Holtwood One SC', serif;
+        --font-body: 'Mulish', sans-serif;
+        --font-accent: 'Bebas Neue', cursive;
+        --font-extra: 'PT Sans Narrow', sans-serif;
+        --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+        --font-special: 'Bruno Ace SC', sans-serif; /* Nueva variable para Bruno Ace SC */
+
+
+        --bg-gradient: linear-gradient(180deg, #000000, #1a1a1a, #333333); /* Fondo degradado de negros */
+    --bg-color: #1a1a1a; /* Fondo oscuro */
+    --card-bg: #2a2a2a; /* Fondo de tarjetas */
+    --text-color: #42a4b8; /* Texto claro */
+    --input-border: #555; /* Borde de inputs */
+    --button-bg: #4a90e2; /* Botón principal */
+    --button-hover-bg: #357abd; /* Hover del botón */
+    --button-text-color: #fff; /* Texto del botón */
+    --link-color: #a0d4f0; /* Enlaces */
+    --link-hover-color: #74b9e6; /* Hover de enlaces */
+}
+
+
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-gradient); /* Aplicar el degradado como fondo */
+    color: var(--text-color); /* Color del texto */
+    margin: 0;
+
+}
+
+body h4 {
+    font-family: var(--font-secondary);
+    color: var(--button-bg)
+}
+
+/* :::::::::::::::::: DISEÑO DE GÉNEROS :::::::::::::::::: */
+.genre-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columnas */
+    gap: 15px; /* Espacio entre los elementos */
+    padding: 10px 0; /* Espaciado superior e inferior */
+    justify-content: center;
+}
+
+.genre-checkbox {
+    display: flex;
+    flex-direction: column; /* Cambiar para que el texto esté debajo del checkbox */
+    align-items: center; /* Centrar horizontalmente */
+    justify-content: center; /* Centrar verticalmente */
+    font-size: 0.9rem;
+    font-family: var(--font-body); /* Usar la fuente principal del cuerpo */
+    color: var(--text-color); /* Color de texto claro */
+    text-align: center; /* Centrar el texto */
+}
+
+.genre-checkbox input[type="checkbox"] {
+    margin-bottom: 5px; /* Espacio entre el checkbox y el texto */
+    transform: scale(1.2); /* Ampliar ligeramente los checkboxes */
+    accent-color: var(--button-bg); /* Color del checkbox */
+}
+
+.genre-checkbox label {
+    cursor: pointer; /* Cambiar el cursor para indicar que es clickeable */
+    font-weight: 500;
+    transition: color 0.3s ease;
+    text-align: center; /* Centrar el texto */
+}
+
+.genre-checkbox label:hover {
+    color: var(--link-hover-color); /* Cambiar color al pasar el cursor */
+}
+
+/* :::::::::::::::::: ESTILOS GENERALES :::::::::::::::::: */
+.card {
+    background-color: var(--card-bg); /* Fondo oscuro de las tarjetas */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra suave */
+}
+
+label {
+    font-family: var(--font-secondary); /* Fuente secundaria */
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    display: block; /* Etiquetas alineadas */
+    text-align: center; /* Centrar el texto */
+}
+
+input, select, textarea {
+    background-color: #333; /* Fondo oscuro */
+    color: var(--text-color); /* Texto claro */
+    border: 1px solid var(--input-border); /* Borde personalizado */
+    border-radius: 5px;
+    padding: 10px;
+    font-family: var(--font-secondary); /* Fuente del cuerpo */
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 15px; /* Espaciado entre campos */
+}
+
+button {
+    background-color: var(--button-bg);
+    color: var(--button-text-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-family: var(--font-accent);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 0 auto; /* Centrado horizontal */
+}
+
+button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+
+/* :::::::::::::::::: RESPONSIVE :::::::::::::::::: */
 @media (max-width: 768px) {
-    main {
-        padding: 15px;
-        margin: 20px auto;
+    .genre-checkboxes {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas pequeñas */
     }
 
-    form input,
-    form textarea,
-    form button {
+    .genre-checkbox {
+        font-size: 0.85rem; /* Reducir un poco el tamaño del texto */
+    }
+
+    button {
         font-size: 0.9rem;
-    }
-
-    form button {
-        padding: 10px;
-    }
-
-    header h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.5rem;
+        padding: 10px 16px;
     }
 }

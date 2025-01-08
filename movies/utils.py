@@ -107,3 +107,75 @@ def get_movie_data_from_api(title=None, movie_id=None):
     except requests.RequestException as e:
         print(f"Otro error de solicitud: {e}")
         return None
+
+
+def get_series_data_from_api(tmdb_url):
+    """
+    Obtiene datos de una serie desde la API de TMDb, incluyendo temporadas y episodios.
+    """
+    # Cargar la clave API desde las variables de entorno
+    api_key = os.getenv("TMDB_API_KEY")
+    if not api_key:
+        raise ValueError("La clave API no está configurada. Asegúrate de tener TMDB_API_KEY en tu archivo .env")
+
+    # Determinar si estamos en desarrollo
+    is_dev = os.getenv("DEV_MODE", "false").lower() == "true"
+    verify_ssl = not is_dev
+
+    # Extraer el ID de la serie desde la URL de TMDb
+    try:
+        series_id = tmdb_url.rstrip('/').split('/')[-1]
+        print(f"ID de la serie extraído: {series_id}")
+
+        # 1. Obtener detalles generales de la serie
+        details_url = f"https://api.themoviedb.org/3/tv/{series_id}"
+        details_response = requests.get(details_url, params={"api_key": api_key, "language": "es-ES"}, verify=certifi.where() if verify_ssl else False)
+        details_response.raise_for_status()
+        details_data = details_response.json()
+
+        # Formatear datos básicos de la serie
+        series_data = {
+            "title": details_data.get("name"),
+            "description": details_data.get("overview"),
+            "release_date": details_data.get("first_air_date"),
+            "rating": details_data.get("vote_average"),
+            "language": details_data.get("original_language"),
+            "poster_path": details_data.get("poster_path"),
+            "header_path": details_data.get("backdrop_path"),
+            "seasons": []
+        }
+
+        # 2. Obtener las temporadas de la serie
+        for season in details_data.get("seasons", []):
+            season_number = season.get("season_number")
+            season_details_url = f"https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}"
+            season_response = requests.get(season_details_url, params={"api_key": api_key, "language": "es-ES"}, verify=certifi.where() if verify_ssl else False)
+            season_response.raise_for_status()
+            season_data = season_response.json()
+
+            # Formatear datos de la temporada
+            formatted_season = {
+                "season_number": season_data.get("season_number"),
+                "title": season_data.get("name"),
+                "description": season_data.get("overview"),
+                "episodes": []
+            }
+
+            # 3. Obtener los episodios de la temporada
+            for episode in season_data.get("episodes", []):
+                formatted_episode = {
+                    "episode_number": episode.get("episode_number"),
+                    "title": episode.get("name"),
+                    "description": episode.get("overview"),
+                    "air_date": episode.get("air_date"),
+                    "screenshot_path": episode.get("still_path")
+                }
+                formatted_season["episodes"].append(formatted_episode)
+
+            series_data["seasons"].append(formatted_season)
+
+        return series_data
+
+    except requests.RequestException as e:
+        print(f"Error al obtener datos de la serie: {e}")
+        return None

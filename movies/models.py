@@ -6,7 +6,9 @@ from django.utils.html import strip_tags
 from django_ckeditor_5.fields import CKEditor5Field
 import io
 from PIL import Image
-
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
 
 
 class Genre(models.Model):
@@ -15,14 +17,6 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
-
-from django.db import models
-from django.core.files.base import ContentFile
-import requests
-from PIL import Image
-from io import BytesIO
-from .utils import get_movie_data_from_api
-from django_ckeditor_5.fields import CKEditor5Field
 
 class Movie(models.Model):
     title = models.CharField(max_length=200)
@@ -142,4 +136,133 @@ for genre_name in new_genres:
 print("Géneros agregados exitosamente.")'''
 
     
+
+
+
+from django.db import models
+from django.core.files.base import ContentFile
+from .utils import get_series_data_from_api
+from io import BytesIO
+from PIL import Image
+import requests
+
+
+class Series(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    release_date = models.DateField(null=True, blank=True)
+    rating = models.FloatField(null=True, blank=True)
+    language = models.CharField(max_length=50, null=True, blank=True)
+    tmdb_url = models.URLField(null=True, blank=True)
+    poster_image = models.ImageField(upload_to='series_posters/', blank=True, null=True)
+    header_image = models.ImageField(upload_to='series_headers/', blank=True, null=True)
+    genres = models.ManyToManyField("Genre", related_name='series')
+
+    def save(self, *args, **kwargs):
+        """
+        Sobrescribe el método save para obtener datos de TMDb y poblar los campos automáticamente.
+        """
+        # Guardar inicialmente para garantizar un ID válido
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+
+        if is_new and self.tmdb_url:
+            # Obtener datos de la API
+            series_data = get_series_data_from_api(self.tmdb_url)
+            if series_data:
+                # Poblar campos con datos de la API si están vacíos
+                self.description = series_data.get('description', self.description)
+                self.release_date = series_data.get('release_date', self.release_date)
+                self.rating = series_data.get('rating', self.rating)
+                self.language = series_data.get('language', self.language)
+
+                # Descargar imágenes del póster y encabezado
+                if not self.poster_image and series_data.get('poster_path'):
+                    self.poster_image = self.download_image(
+                        series_data['poster_path'],
+                        f"series_posters/{self.title.replace(' ', '_')}.jpg"
+                    )
+
+                if not self.header_image and series_data.get('header_path'):
+                    self.header_image = self.download_image(
+                        series_data['header_path'],
+                        f"series_headers/{self.title.replace(' ', '_')}_header.jpg"
+                    )
+
+                # Guardar nuevamente los cambios
+                super().save(update_fields=['description', 'release_date', 'rating', 'language', 'poster_image', 'header_image'])
+
+                # Crear temporadas y episodios
+                self.create_seasons_and_episodes(series_data)
+
+    def create_seasons_and_episodes(self, series_data):
+        """
+        Crea temporadas y episodios basados en los datos obtenidos de la API.
+        """
+        for season_data in series_data.get('seasons', []):
+            season, created = Season.objects.get_or_create(
+                series=self,
+                season_number=season_data['season_number'],
+                defaults={
+                    'title': season_data['title'],
+                    'description': season_data['description'],
+                }
+            )
+            for episode_data in season_data.get('episodes', []):
+                Episode.objects.get_or_create(
+                    season=season,
+                    episode_number=episode_data['episode_number'],
+                    defaults={
+                        'title': episode_data['title'],
+                        'description': episode_data['description'],
+                        'air_date': episode_data['air_date'],
+                        'screenshot': self.download_image(
+                            episode_data['screenshot_path'],
+                            f"episode_screenshots/{self.title.replace(' ', '_')}_T{season.season_number}_E{episode_data['episode_number']}.jpg"
+                        ) if episode_data['screenshot_path'] else None
+                    }
+                )
+
+    @staticmethod
+    def download_image(url, file_name):
+        """
+        Descarga una imagen desde una URL y la retorna como un archivo ContentFile.
+        """
+        try:
+            response = requests.get(f"https://image.tmdb.org/t/p/original{url}", timeout=10)
+            response.raise_for_status()
+            img = Image.open(BytesIO(response.content))
+            buffer = BytesIO()
+            img.save(buffer, format='JPEG')
+            buffer.seek(0)
+            return ContentFile(buffer.read(), name=file_name)
+        except requests.RequestException as e:
+            print(f"Error al descargar imagen: {e}")
+            return None
+
+    def __str__(self):
+        return self.title
+
+
+class Season(models.Model):
+    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name="seasons")
+    season_number = models.PositiveIntegerField()
+    title = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.series.title} - Temporada {self.season_number}"
+
+
+class Episode(models.Model):
+    season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name="episodes")
+    episode_number = models.PositiveIntegerField()
+    title = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    air_date = models.DateField(null=True, blank=True)
+    screenshot = models.ImageField(upload_to="episode_screenshots/", blank=True, null=True)
+    drive_url = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.season.series.title} - T{self.season.season_number}E{self.episode_number}: {self.title}"
 

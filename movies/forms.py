@@ -237,3 +237,26 @@ class MovieFrontendForm(forms.ModelForm):
             if "drive.google.com" not in parsed_url.netloc:
                 raise ValidationError("La URL debe ser un enlace de Google Drive válido.")
         return url
+
+
+
+from django import forms
+from .models import Series, Genre, Season, Episode
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Fieldset, Row, Column
+from django.core.exceptions import ValidationError
+
+class SeriesForm(forms.ModelForm):
+    class Meta:
+        model = Series
+        fields = [
+            'title',
+            'description',
+            'release_date',
+            'rating',
+            'language',
+            'tmdb_url',
+            'poster_image',
+            'header_image',
+            'genres',
+        ]

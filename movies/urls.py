@@ -7,8 +7,14 @@ urlpatterns = [
     path('add-movie/', views.add_movie_frontend, name='add_movie_frontend'),
     path('add/', views.add_movie, name='add_movie'),  # Agregar películas
     path('genre/<str:genre_name>/', views.movies_by_genre, name='movies_by_genre'),  # Filtrar por género
-    path('<str:tag_type>/<str:tag>/', views.movies_by_tag, name='movies_by_tag'),  # Filtrar por etiqueta
-    path('<int:movie_id>/', views.movie_detail, name='movie_detail'),  # Detalles de película
     path('dynamic-genres/', views.dynamic_genre_movies, name='dynamic_genre_movies'),
     path('reviews/', views.reviews, name='reviews'),
+
+    # Series - rutas para series
+    path('series/', views.series_list, name='series_list'),  # Vista de la lista de series
+    path('series/<int:series_id>/', views.series_detail, name='series_detail'),  # Vista de detalles de series
+
+    # Películas - asegúrate de que esta ruta esté después de las rutas específicas
+    path('<int:movie_id>/', views.movie_detail, name='movie_detail'),  # Detalles de película
+    path('<str:tag_type>/<str:tag>/', views.movies_by_tag, name='movies_by_tag'),  # Filtrar por etiqueta
 ]

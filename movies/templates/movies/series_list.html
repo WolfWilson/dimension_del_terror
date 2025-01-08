@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimensión del Terror - Series</title>
+    
+    <!-- :::::::::::::::::: CSS LOCAL ::::::::::::::::: -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_series.css' %}">
+    
+    <!-- :::::::::::::::::: FONTAWESOME ::::::::::::::::: -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    
+    <!-- :::::::::::::::::: GOOGLE FONTS ::::::::::::::::: -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <a href="{% url 'series_list' %}" class="header-link">
+            <div id="img-header">
+                <img src="{% static 'banners/header_series.jpg' %}" alt="Banner Series">
+            </div>
+            <h1>La Dimensión del Terror</h1>
+            <h3>Series de Terror, Sci-Fi y Fantástico</h3>
+        </a>
+    </header>
+
+    <main>
+        <section id="series-posters">
+            <h2>Últimas Series Disponibles</h2>
+
+            <!-- Grid de series -->
+            <div class="posters-grid">
+                {% for series in series_list %}
+                <div class="poster-box">
+                    <div class="poster-content">
+                        {% if series.poster_image %}
+                            <img src="{{ series.poster_image.url }}" alt="{{ series.title }}">
+                        {% else %}
+                            <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+                        {% endif %}
+                        <div class="hover-overlay">
+                            <div class="rating">
+                                <span class="star">&#9733;</span> {{ series.rating }} / 10
+                            </div>
+                            <a href="{% url 'series_detail' series.id %}" class="details-button">Ver</a>
+
+
+                        </div>
+                    </div>
+                    <div class="poster-info">
+                        <p class="series-title">{{ series.title }} ({{ series.release_date.year }})</p>
+                        <p class="series-genres">
+                            {% for genre in series.genres.all %}
+                                <span class="genre-tag">{{ genre.name }}</span>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container-footer">
+            <div class="text-footer">
+                &copy; 2024 By Wiaaall™. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

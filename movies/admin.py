@@ -1,8 +1,6 @@
 # Register your models here.
 from django.contrib import admin
-from .models import Movie, Comment
-from .models import Genre
-from .models import MovieRequest
+from .models import Movie, Comment, Genre, MovieRequest, Series
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
@@ -23,22 +21,42 @@ class MovieAdmin(admin.ModelAdmin):
         'director',
         'cast',
         'tmdb_url',
-        'trailer_url', #enlace a youtube
+        'trailer_url',  # Enlace a YouTube
         'poster_image',
         'header_image',  # Campo para el encabezado personalizado
         'drive_url',
         'genres',
-        'review'
+        'review',
     )
 
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('movie', 'created_at')
-    search_fields = ('movie__title',)
+# :::::::::::::: Series ::::::::::::::
+from .models import Series, Season, Episode, Genre
 
-@admin.register(MovieRequest)
-class MovieRequestAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'message', 'created_at')  # Campos a mostrar en la lista
-    search_fields = ('name', 'email', 'message')  # Campos por los que se puede buscar
-    list_filter = ('created_at',)  # Agrega un filtro por fecha
-    ordering = ('-created_at',)  # Ordena los resultados de forma descendente por fecha
+@admin.register(Series)
+class SeriesAdmin(admin.ModelAdmin):
+    list_display = ('title', 'release_date', 'rating')
+    search_fields = ('title',)
+    list_filter = ('genres', 'release_date')
+    fields = (
+        'title',
+        'description',
+        'release_date',
+        'rating',
+        'language',
+        'tmdb_url',
+        'poster_image',
+        'header_image',
+        'genres',
+    )
+
+@admin.register(Season)
+class SeasonAdmin(admin.ModelAdmin):
+    list_display = ('series', 'season_number', 'title')
+    search_fields = ('series__title', 'title')
+    list_filter = ('series',)
+
+@admin.register(Episode)
+class EpisodeAdmin(admin.ModelAdmin):
+    list_display = ('season', 'episode_number', 'title', 'air_date')
+    search_fields = ('season__series__title', 'title')
+    list_filter = ('season__series', 'air_date')

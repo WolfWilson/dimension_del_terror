@@ -491,3 +491,52 @@ def reviews(request):
     return render(request, 'movies/reviews.html', context)
 
 
+#:::::::::::::::::::::::VISTA DE SERIES :::::::::::::::::::::::::::::
+
+
+from .models import Series  # Importa el modelo de series
+
+def series_list(request):
+    series_list = Series.objects.all()
+    print(request.resolver_match.func.__name__)  # Imprime el nombre de la función vista
+
+    return render(request, 'movies/series_list.html', {'series_list': series_list})
+
+
+def series_detail(request, series_id):
+    """
+    Vista detallada de una serie.
+    - Muestra los detalles de la serie, sus temporadas y episodios.
+    """
+    series = get_object_or_404(Series, id=series_id)
+    
+    # Temporadas de la serie
+    seasons = series.seasons.all().order_by('season_number')
+
+    # Géneros de la serie
+    series_genres = series.genres.all()
+
+    # Formulario de comentarios (opcional, si se implementa)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.series = series
+            new_comment.save()
+    else:
+        form = CommentForm()
+
+    context = {
+        'series': series,
+        'seasons': seasons,
+        'form': form,
+        'series_genres': series_genres,
+    }
+
+    return render(request, 'movies/series_detail.html', context)
+
+
+  
+
+
+
