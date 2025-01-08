@@ -1,3 +1,6 @@
+<!-- ============================= -->
+<!-- REFACTORED HTML (detalle serie) -->
+<!-- ============================= -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,84 +8,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ series.title }} - Detalles</title>
-
-    <!-- :::::::::::::::::: CSS LOCAL ::::::::::::::::: -->
+        <!-- :::::::::::::::::: FAVICON ::::::::::::::::: -->
+        <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
+    
+    <!-- ::::::::::::: CSS LOCAL ::::::::::::: -->
     <link rel="stylesheet" href="{% static 'css/series_style.css' %}">
 
-    <!-- :::::::::::::::::: FONTAWESOME ::::::::::::::::: -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    <!-- ::::::::::::: FONTAWESOME ::::::::::::: -->
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+          crossorigin="anonymous">
 
-    <!-- :::::::::::::::::: FANCYBOX ::::::::::::::::: -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+              <!-- Roboto Condensed -->
+    <link 
+    href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" 
+    rel="stylesheet"
+>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <!-- ::::::::::::: FANCYBOX ::::::::::::: -->
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
 </head>
 <body>
-    <header>
-        <h1>{{ series.title }}</h1>
+
+    <!-- Encabezado principal de la serie -->
+    <header class="series-header" 
+        {% if series.header_image %}
+            data-bg-url="{{ series.header_image.url }}"
+        {% else %}
+            data-bg-url="{% static 'images/default_header.jpg' %}"
+        {% endif %}
+    >
+        <div class="header-overlay">
+            <h1>{{ series.title }}</h1>
+        </div>
     </header>
 
     <main>
+        <!-- Bloque con la imagen y la info superpuesta -->
         <section class="series-details">
             <div class="header-image">
+                <div class="series-info-overlay">
+                    <p><strong>Sinopsis:</strong> {{ series.description }}</p>
+                    <p><strong>Fecha de Lanzamiento:</strong> {{ series.release_date }}</p>
+                    <p><strong>Calificación:</strong> {{ series.rating }}</p>
+                    <p><strong>Idioma:</strong> {{ series.language }}</p>
+                    <p><strong>Géneros:</strong>
+                        {% for genre in series_genres %}
+                            {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p><strong>Cantidad de Temporadas:</strong> {{ series.seasons.count }}</p>
+                </div>
                 {% if series.header_image %}
                     <img src="{{ series.header_image.url }}" alt="{{ series.title }}">
                 {% else %}
                     <img src="{% static 'images/default_header.jpg' %}" alt="Sin imagen">
                 {% endif %}
             </div>
-
-            <div class="series-info">
-                <p><strong>Descripción:</strong> {{ series.description }}</p>
-
-                <p><strong>Fecha de Lanzamiento:</strong> {{ series.release_date }}</p>
-                <p><strong>Calificación:</strong> {{ series.rating }}</p>
-                <p><strong>Idioma:</strong> {{ series.language }}</p>
-                <p><strong>Géneros:</strong> 
-                    {% for genre in series_genres %}
-                        {{ genre.name }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
-            </div>
         </section>
 
+        <!-- Bloque con todas las temporadas y episodios -->
         <section class="series-seasons">
             <h2>Temporadas</h2>
             {% for season in seasons %}
                 <div class="season">
-                    <h3>Temporada {{ season.season_number }}: {{ season.title }}</h3>
+                    <h3>
+                        Temporada {{ season.season_number }}: 
+                        {% if season.episodes.count > 0 %}
+                            {{ season.episodes.count }} episodios
+                        {% else %}
+                            Sin episodios
+                        {% endif %}
+                    </h3>
+
                     <p>{{ season.description }}</p>
+
                     <div class="episodes-container">
                         {% for episode in season.episodes.all %}
-                        <div class="episode-card">
-                            <div class="episode-image">
-                                {% if episode.screenshot %}
-                                    <img src="{{ episode.screenshot.url }}" alt="E{{ episode.episode_number }}: {{ episode.title }}">
-                                {% endif %}
+                            <div class="episode-card">
+                                <div class="episode-image">
+                                    {% if episode.screenshot %}
+                                        <img src="{{ episode.screenshot.url }}"
+                                             alt="E{{ episode.episode_number }}: {{ episode.title }}">
+                                    {% endif %}
+                                </div>
+                                <div class="episode-content">
+                                    <h4 class="episode-title">
+                                        {{ episode.episode_number }}. {{ episode.title }}
+                                    </h4>
+                                    <p class="episode-meta">
+                                        {{ episode.air_date }} &bullet; {{ episode.duration }}m
+                                    </p>
+                                    <p class="episode-description">
+                                        {{ episode.description }}
+                                    </p>
+
+                                    {% if episode.drive_url %}
+                                        <!-- Botón para abrir Fancybox -->
+                                        <a href="{{ episode.get_drive_preview_url }}"
+                                           data-fancybox
+                                           data-type="iframe"
+                                           data-caption="Reproducir Episodio: {{ episode.title }}"
+                                           class="episode-expand">
+                                           Reproducir
+                                        </a>
+                                    {% else %}
+                                        <div class="episode-expand" 
+                                             style="opacity: 0.5; cursor: not-allowed;">
+                                            Sin video
+                                        </div>
+                                    {% endif %}
+                                </div>
                             </div>
-                            <div class="episode-content">
-                                <h4 class="episode-title">
-                                    {{ episode.episode_number }}. {{ episode.title }}
-                                </h4>
-                                <p class="episode-meta">
-                                    {{ episode.air_date }} &bullet; {{ episode.duration }}m
-                                </p>
-                                <p class="episode-description">
-                                    {{ episode.description }}
-                                </p>
-                                {% if episode.drive_url %}
-                                <!-- Botón para abrir Fancybox -->
-                                <a href="{{ episode.get_drive_preview_url }}" 
-                                   data-fancybox 
-                                   data-type="iframe" 
-                                   data-caption="Reproducir Episodio: {{ episode.title }}" 
-                                   class="episode-expand">Reproducir</a>
-                                {% else %}
-                                <div class="episode-expand" style="opacity: 0.5; cursor: not-allowed;">Sin video</div>
-                                {% endif %}
-                            </div>
-                        </div>
                         {% endfor %}
                     </div>
-                    
                 </div>
             {% endfor %}
         </section>
@@ -92,43 +134,9 @@
         <p>&copy; 2024 By Will™. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- :::::::::::::::::: SCRIPTS ::::::::::::::::: -->
-    <script>
-        $(document).ready(function () {
-            $('[data-fancybox]').fancybox({
-                iframe: {
-                    css: {
-                        width: '80%',
-                        height: '80%',
-                    },
-                },
-                transitionEffect: "fade", // Efecto de transición
-                beforeShow: function (instance, slide) {
-                    $(".fancybox-content").addClass("open");
-                },
-                beforeClose: function (instance, slide) {
-                    $(".fancybox-content").removeClass("open").addClass("close");
-                },
-            });
-        });
-    </script>
-
-
+    <!-- ::::::::::::: SCRIPTS ::::::::::::: -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('[data-fancybox]').fancybox({
-                iframe: {
-                    css: {
-                        width: '80%',
-                        height: '80%',
-                    },
-                },
-            });
-        });
-    </script>
-
-
+    <script src="{% static 'js/series.js' %}"></script>
 </body>
 </html>

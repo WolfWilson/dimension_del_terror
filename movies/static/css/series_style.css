@@ -1,30 +1,137 @@
-/* Global Styles */
-body {
-    font-family: 'Roboto', Arial, sans-serif;
+/* ============================= */
+/* REFACTORED CSS (series_style) */
+/* ============================= */
+
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Roboto Condensed', sans-serif;
+    --font-title: 'Holtwood One SC', serif;
+    --font-body: 'Mulish', sans-serif;
+    --font-accent: 'Bebas Neue', cursive;
+    --font-extra: 'PT Sans Narrow', sans-serif;
+    --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+    --font-special: 'Bruno Ace SC', sans-serif;   /* Nueva variable para Bruno Ace SC */
+
+    /* Colores modo claro (por defecto) */
+    --bg-color: radial-gradient(
+        100% 100% at 50% 50%,
+        rgba(252, 252, 252, 1) 12%,
+        rgb(208, 202, 192) 84%,
+        rgb(223, 222, 219) 96%
+    );
+    --text-color: rgb(0, 0, 0);
+    --text-color_red: rgb(128, 10, 10);
+
+    --link-color: #1d4856;      /* Color de enlaces para modo claro */
+    --link-hover-color: #8e3cf9;/* Hover para enlaces */
+    --title-color: rgb(44, 41, 41);
+
+    /* Fondo “base” y otros por defecto */
+    --background-color: #ffffff;
+    --card-background: #e1e6d9; /* Para paneles o tarjetas (series-details, season, etc.) */
+    --footer-background: #222;  /* Para footer */
+
+    /* Ajustes para las tarjetas de episodios */
+    --episode-card-bg: #ffffff; /* Fondo limpio para la tarjeta de episodio */
+    --episode-card-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    --episode-card-radius: 10px;
+}
+
+/* Modo oscuro */
+.dark-mode {
+    --bg-color: radial-gradient(
+        circle at center,
+        rgba(45, 45, 45, 1) 10%,
+        rgba(20, 20, 20, 1) 40%,
+        rgba(5, 5, 5, 1) 90%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    background-attachment: fixed;
+
+    --text-color: #e6e6e6;
+    --link-color: #a0d4f0;
+    --link-hover-color: #74b9e6;
+    --title-color: rgb(143, 102, 41);
+
+    /* Fondo “base” y otros para modo oscuro */
+    --background-color: #121212;
+    --card-background: #1f1f1f;
+    --footer-background: #000;
+
+    /* Tarjeta de episodio en modo oscuro */
+    --episode-card-bg: #2b2b2b;
+    --episode-card-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajustes globales para evitar scroll horizontal accidental */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden; /* Oculta cualquier scroll horizontal */
+    width: 100%;
+    max-width: 100%;
+}
+
+/* BODY: aplica las variables globales */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Header */
-header {
+/* Fondo general del `main` */
+main {
+    background: var(--bg-color); /* Fondo degradado (modo claro) o radial (modo oscuro) */
+    padding: 2rem;
+    transition: background 0.3s ease;
+}
+
+/* Encabezado principal de la serie */
+.series-header {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Superposición para el texto del encabezado */
+.header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    background: linear-gradient(90deg, #1a202c, #2d3748);
-    color: #fff;
-    padding: 2rem 1rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+.header-overlay h1 {
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Título principal interno (si se usa fuera del overlay) */
 header h1 {
     margin: 0;
     font-size: 2.5rem;
     font-family: 'Roboto', sans-serif;
 }
 
-/* Series Details Section */
+/* Sección de detalles de la serie */
 .series-details {
     max-width: 1200px;
     margin: 2rem auto;
@@ -33,37 +140,56 @@ header h1 {
     flex-wrap: wrap;
     gap: 2rem;
     align-items: flex-start;
-    background: #fff;
+    background-color: var(--card-background);
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
 }
 
+/* Imagen de cabecera dentro de los detalles */
 .header-image {
-    flex: 1 1 40%;
+    position: relative;
+    width: 100%;
+    height: 500px; 
+    overflow: hidden; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .header-image img {
     width: 100%;
-    border-radius: 5px;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.series-info {
-    flex: 1 1 55%;
-    padding: 1rem;
-    border-left: 2px solid #ddd;
+/* Capa con la info superpuesta sobre la imagen */
+.series-info-overlay {
+    position: relative;
+    z-index: 1;
+    width: 50%;
+    color: #fff;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
 
-.series-info p {
-    margin: 0.5rem 0;
+.series-info-overlay h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.series-info-overlay p {
     font-size: 1rem;
-    color: #555;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
 }
 
-.series-info p strong {
-    color: #222;
-}
-
-/* Series Seasons Section */
+/* Sección de temporadas */
 .series-seasons {
     max-width: 1200px;
     margin: 2rem auto;
@@ -73,17 +199,19 @@ header h1 {
 .season {
     margin-bottom: 2rem;
     padding: 1rem;
-    background: #f9f9f9;
+    background-color: var(--bg-color);
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
 .season h3 {
     margin-bottom: 1rem;
     font-size: 1.5rem;
-    color: #444;
+    color: var(--title-color);
 }
 
+/* GRID de episodios (si lo usas) */
 .episodes-grid {
     display: flex;
     flex-wrap: wrap;
@@ -92,7 +220,7 @@ header h1 {
     justify-content: space-between;
 }
 
-/* Container for Episodes */
+/* Contenedor general de episodios */
 .episode-container {
     max-width: 1200px;
     margin: 2rem auto;
@@ -102,95 +230,164 @@ header h1 {
     gap: 1.5rem;
 }
 
-/* Individual Episode Card */
+/* ============================= */
+/* TARJETAS DE EPISODIOS        */
+/* ============================= */
+
 .episode-card {
+    background-color: var(--episode-card-bg); /* Fondo claro en modo claro, oscuro en dark-mode */
+    color: var(--text-color);
+    border-radius: var(--episode-card-radius);
+    box-shadow: var(--episode-card-shadow);
     display: flex;
+    align-items: flex-start;
     gap: 1rem;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
     padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.2s;
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+/* Hover sobre la tarjeta (opcional) */
 .episode-card:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Episode Image */
-.episode-image {
-    flex: 0 0 120px;
-    height: 120px;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.episode-image img {
-    width: 100%;
-    height: 100%;
+/* Imagen del episodio */
+.episode-card .episode-image img {
+    width: 160px;       /* Más ancho para una vista similar a la captura */
+    height: auto;       /* Ajusta la altura de forma proporcional */
     object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Episode Content */
-.episode-content {
+/* Contenido del episodio */
+.episode-card .episode-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; /* Para alinear “Expand” al final, si procede */
 }
 
-.episode-title {
-    font-size: 1.2rem;
+/* Encabezado con título, rating, etc. (si lo usas) */
+.episode-card .episode-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Número (1), Título y Rating */
+.episode-card .episode-number {
+    font-size: 1.1rem;
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
+}
+
+.episode-card .episode-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--title-color);
     margin: 0;
 }
 
-.episode-meta {
+/* Badge de rating (opcional) */
+.episode-card .episode-rating {
+    background-color: #3367d6; 
+    color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* Metadatos: fecha, duración, etc. */
+.episode-card .episode-meta {
     font-size: 0.9rem;
     color: #777;
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
 }
 
-.episode-description {
+/* Descripción del episodio */
+.episode-card .episode-description {
     font-size: 0.95rem;
-    color: #555;
-    margin-top: 0.5rem;
+    color:var(--text-color);
     line-height: 1.4;
+    margin-top: 0.5rem;
 }
 
-.episode-expand {
-    margin-top: 1rem;
+/* Enlace de reproducción */
+.episode-card .episode-expand {
     font-size: 0.9rem;
+    font-family: 'Roboto', sans-serif; /* Usar Roboto */
     text-align: right;
-    color: #007bff;
+    color: var(--link-color); /* Color dinámico basado en variable */
     cursor: pointer;
-    transition: color 0.2s;
+    text-decoration: none; /* Sin subrayado */
+    position: relative; /* Para efectos */
+    padding-bottom: 2px; /* Espacio para la línea decorativa */
+    padding-right: 15px; /* Asegura margen fijo derecho */
+    transition: color 0.3s ease, transform 0.3s ease; /* Transición suave */
 }
 
-.episode-expand:hover {
-    color: #0056b3;
+/* Efecto hover elegante */
+.episode-card .episode-expand::after {
+    content: ''; /* Línea decorativa */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0; /* Inicia invisible */
+    height: 2px;
+    background-color: var(--link-hover-color); /* Color de hover */
+    transition: width 0.3s ease; /* Anima el ancho */
+    margin-right: 15px; /* Restringe el efecto al contenedor */
 }
 
-/* Responsiveness */
+/* Hover: línea decorativa y zoom */
+.episode-card .episode-expand:hover::after {
+    width: calc(100% - 15px); /* Línea completa menos el margen derecho */
+}
+
+.episode-card .episode-expand:hover {
+    color: var(--link-hover-color); /* Cambia el color del texto */
+    transform: scale(1.05); /* Pequeño zoom */
+}
+
+/* Responsividad */
 @media (max-width: 768px) {
     .episode-card {
         flex-direction: column;
+        align-items: flex-start;
     }
 
-    .episode-image {
-        flex: none;
+    .episode-card .episode-image img {
         width: 100%;
-        height: 200px;
+        height: auto;
+    }
+
+    header h1 {
+        font-size: 2rem;
     }
 }
 
+@media (max-width: 480px) {
+    .episode {
+        width: 100%;
+    }
 
-/* Footer */
+    .series-seasons {
+        padding: 0.5rem;
+    }
+}
+
+/* ============================= */
+/* FOOTER, FANCYBOX, ETC.       */
+/* ============================= */
+
 footer {
     text-align: center;
-    background: #222;
+    background-color: var(--footer-background);
     color: #fff;
     padding: 1rem;
     margin-top: 2rem;
@@ -198,23 +395,22 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
+    transition: background-color 0.3s ease;
 }
 
-/* Fondo oscuro para el popup */
+/* Fancybox overrides */
 .fancybox-bg {
-    background-color: rgba(0, 0, 0, 0.95); /* Fondo negro más oscuro */
+    background-color: rgba(0, 0, 0, 0.95);
 }
 
-/* Estilo del contenedor del iframe */
 .fancybox-content {
-    background-color: #1c1c1c; /* Fondo oscuro dentro del iframe */
-    border: 6px solid #fff; /* Borde blanco para destacar */
-    border-radius: 15px; /* Bordes redondeados */
-    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.8); /* Sombra para profundidad */
-    overflow: hidden; /* Evita contenido desbordado */
+    background-color: #1c1c1c;
+    border: 6px solid #383535;
+    border-radius: 15px;
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
 }
 
-/* Animaciones al abrir/cerrar */
 .fancybox-slide--iframe .fancybox-content {
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
@@ -229,47 +425,53 @@ footer {
     opacity: 0;
 }
 
-/* Estilo del botón cerrar (opcional) */
 .fancybox-button--close {
-    background: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     color: #333;
     transition: background-color 0.3s;
 }
 
 .fancybox-button--close:hover {
-    background: rgba(255, 255, 255, 1); /* Fondo más opaco al pasar el ratón */
+    background: rgba(255, 255, 255, 1);
     color: #000;
 }
 
+/* ============================= */
+/* BOTÓN DE CAMBIO DE MODO       */
+/* ============================= */
 
-/* Responsiveness */
-@media (max-width: 1024px) {
-    .series-details {
-        flex-direction: column;
-    }
-
-    .header-image, .series-info {
-        flex: 1 1 100%;
-    }
+.theme-toggle-button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000;
+    padding: 10px;
+    border: none;
+    background-color: var(--link-color);
+    color: var(--text-color);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2rem;
-    }
-
-    .episode {
-        width: calc(50% - 1rem); /* 2 columnas para pantallas medianas */
-    }
+.theme-toggle-button .material-icons {
+    font-size: 24px;
 }
 
-@media (max-width: 480px) {
-    .episode {
-        width: 100%; /* 1 columna para pantallas pequeñas */
-    }
+.theme-toggle-button:hover {
+    background-color: var(--link-hover-color);
+    transform: scale(1.1);
+}
 
-    .series-seasons {
-        padding: 0.5rem;
-    }
+/* Ajustes para modo oscuro del botón */
+.dark-mode .theme-toggle-button {
+    background-color: var(--link-color);
+    color: var(--text-color);
 }
