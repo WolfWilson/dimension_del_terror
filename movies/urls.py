@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.movie_list, name='movie_list'),  # Lista de películas
     path('search/', views.search_movies, name='search_movies'),  # Búsqueda
+    path('add-movie/', views.add_movie_frontend, name='add_movie_frontend'),
     path('add/', views.add_movie, name='add_movie'),  # Agregar películas
     path('genre/<str:genre_name>/', views.movies_by_genre, name='movies_by_genre'),  # Filtrar por género
     path('<str:tag_type>/<str:tag>/', views.movies_by_tag, name='movies_by_tag'),  # Filtrar por etiqueta

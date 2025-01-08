@@ -11,7 +11,6 @@
     <!-- :::::::::::::::::: CSS LOCAL ::::::::::::::::: -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_movie.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles_pagination.css' %}">
 
     <!-- :::::::::::::::::: FAVICON ::::::::::::::::: -->
     <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
@@ -97,7 +96,8 @@
         <!-- Link al listado de películas con banner -->
         <a href="{% url 'movie_list' %}" class="header-link">
             <div id="img-header">
-                <img src="{% static 'banners/banner_red.jpg' %}" alt="Banner Predeterminado">
+                <img src="{% static 'banners/header_blue.jpg' %}" alt="Banner Predeterminado">
+               <!--  <img src="{% static 'banners/banner_red.jpg' %}" alt="Banner Predeterminado"> -->
             </div> 
             <h1>La Dimensión del Terror</h1>
             <h3>Colección de Cine de Terror, Sci-Fi y Fantástico</h3>

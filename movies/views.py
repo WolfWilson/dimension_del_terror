@@ -18,6 +18,7 @@ from .forms import (
     MovieRequestForm
 )
 from .utils import get_movie_data_from_api
+from .forms import MovieForm, MovieFrontendForm, CommentForm, MovieRequestForm
 
 # ------------------------------------------------------------------------------
 #                                  UTILIDADES
@@ -87,6 +88,7 @@ def get_display_pages(page_obj, max_pages=6):
 # ------------------------------------------------------------------------------
 #                         VISTAS PRINCIPALES
 # ------------------------------------------------------------------------------
+
 
 def dynamic_genre_movies(request):
     """
@@ -282,12 +284,19 @@ def search_movies(request):
 #                      VISTAS PARA AGREGAR MOVIES
 # ------------------------------------------------------------------------------
 
+from django.contrib.auth.decorators import user_passes_test
+
+def is_superuser(user):
+    """
+    Verifica si el usuario es superusuario.
+    """
+    return user.is_authenticated and user.is_superuser
+
 @user_passes_test(is_superuser, login_url='/admin/login/')
 def add_movie(request):
     """
     Vista para añadir una nueva película (sólo superusuario).
-    - Usa MovieForm.
-    - Si se guarda, redirige a la lista de películas.
+    Usa MovieForm.
     """
     if request.method == 'POST':
         form = MovieForm(request.POST, request.FILES)
@@ -298,6 +307,40 @@ def add_movie(request):
         form = MovieForm()
 
     return render(request, 'movies/add_movie.html', {'form': form})
+
+from django.contrib import messages
+
+@user_passes_test(is_superuser, login_url='/admin/login/')
+def add_movie_frontend(request):
+    """
+    Vista para añadir una nueva película (solo para usuarios superusuarios).
+    Usa el formulario simplificado (MovieFrontendForm).
+    """
+    if request.method == 'POST':
+        form = MovieFrontendForm(request.POST)
+        if form.is_valid():
+            try:
+                # Guardar la película
+                movie = form.save(commit=False)  # Guarda el objeto sin enviarlo todavía a la BD
+                movie.save()
+                form.save_m2m()  # Guarda las relaciones de muchos a muchos
+                messages.success(
+                    request,
+                    f'¡Película "{movie.title}" agregada exitosamente! Puedes continuar agregando más.'
+                )
+                # Resetear el formulario después de un envío exitoso
+                form = MovieFrontendForm()
+            except Exception as e:
+                messages.error(request, f'Error al agregar la película: {e}')
+        else:
+            messages.error(request, 'Por favor corrige los errores del formulario.')
+    else:
+        form = MovieFrontendForm()
+
+    return render(request, 'movies/add_movie_frontend.html', {'form': form})
+
+
+
 
 
 def add_movie_with_api(request):

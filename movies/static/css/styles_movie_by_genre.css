@@ -21,7 +21,7 @@
 
 /* Estilo base de los botones de género */
 .genre-button {
-    font-family: var(--font-accent);
+    font-family: var(--font-secondary);
     font-size: 1rem;
     text-transform: uppercase;
     color: #fff;

@@ -18,6 +18,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+       <!-- :::::::::::::::::: Script Principal::::::::::::::::: -->
+<script src="{% static 'js/scripts.js' %}"></script>
 
 
 </head>
@@ -100,13 +102,14 @@
                     </p>
                     <p><strong>Reparto:</strong> 
                         {% if cast_list %}
-                        {% for actor in cast_list %}
-                            <a href="{% url 'movies_by_tag' 'cast' actor %}">{{ actor }}</a>
-                        {% endfor %}
+                            {% for actor in cast_list %}
+                                <a href="{% url 'movies_by_tag' 'cast' actor %}">{{ actor }}</a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
                         {% else %}
                             No disponible
                         {% endif %}
                     </p>
+                    
 
                     <div class="movie-rating">
     <div class="tmdb-logo-container">

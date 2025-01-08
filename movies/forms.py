@@ -182,3 +182,58 @@ class MovieRequestForm(forms.ModelForm):
         if len(message) > 150:
             raise forms.ValidationError("El mensaje no puede tener más de 150 caracteres.")
         return message
+    
+
+
+#:::::::::::::::::::::::: formularuio para el fornted simpificado::::::::::::::::::::::::::::::
+
+from urllib.parse import urlparse
+
+class MovieFrontendForm(forms.ModelForm):
+    genres = forms.ModelMultipleChoiceField(
+        queryset=Genre.objects.all().order_by('name'),  # Ordenar alfabéticamente
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "custom-checkbox"}),
+        label="Géneros (Selecciona de 1 a 3)",
+        required=True
+    )
+
+    class Meta:
+        model = Movie
+        fields = ['title', 'tmdb_url', 'drive_url', 'genres']  # Cambiar 'trailer_url' por 'drive_url'
+        widgets = {
+            'tmdb_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://www.themoviedb.org/...'}),
+            'drive_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://drive.google.com/...'}),  # Actualizar placeholder
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(MovieFrontendForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Fieldset(
+                'Agregar Película',
+                'title',
+                'tmdb_url',
+                'drive_url',  # Cambiar 'trailer_url' por 'drive_url'
+                'genres',
+            ),
+            Submit('submit', 'Guardar Película', css_class='btn btn-success')
+        )
+
+    def clean_genres(self):
+        """Validar que el usuario seleccione entre 1 y 6 géneros."""
+        genres = self.cleaned_data.get('genres')
+        if not genres or len(genres) < 1:
+            raise ValidationError("Debes seleccionar al menos 1 género.")
+        if len(genres) > 6:  # Cambiado de 3 a 6
+            raise ValidationError("No puedes seleccionar más de 6 géneros.")
+        return genres
+
+    def clean_drive_url(self):
+        """Validar que la URL del enlace sea de Google Drive."""
+        url = self.cleaned_data.get('drive_url')
+        if url:
+            parsed_url = urlparse(url)
+            if "drive.google.com" not in parsed_url.netloc:
+                raise ValidationError("La URL debe ser un enlace de Google Drive válido.")
+        return url
