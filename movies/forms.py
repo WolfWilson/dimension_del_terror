@@ -260,3 +260,46 @@ class SeriesForm(forms.ModelForm):
             'header_image',
             'genres',
         ]
+
+
+# forms.py
+from django import forms
+from .models import Episode
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Fieldset, Row, Column
+
+class EpisodeForm(forms.ModelForm):
+    class Meta:
+        model = Episode
+        fields = [
+            'season',
+            'episode_number',
+            'title',
+            'description',
+            'air_date',
+            'duration',
+            'drive_url',
+            'screenshot',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Fieldset(
+                'Información de episodio',
+                Row(
+                    Column('season', css_class='form-group col-md-4 mb-0'),
+                    Column('episode_number', css_class='form-group col-md-4 mb-0'),
+                    Column('duration', css_class='form-group col-md-4 mb-0'),
+                ),
+                Row(
+                    Column('title', css_class='form-group col-md-6 mb-0'),
+                    Column('air_date', css_class='form-group col-md-6 mb-0'),
+                ),
+                'description',
+                'drive_url',
+                'screenshot',
+            ),
+            Submit('submit', 'Guardar')
+        )

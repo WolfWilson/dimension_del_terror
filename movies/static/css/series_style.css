@@ -24,7 +24,7 @@
     --text-color_red: rgb(128, 10, 10);
 
     --link-color: #1d4856;      /* Color de enlaces para modo claro */
-    --link-hover-color: #8e3cf9;/* Hover para enlaces */
+    --link-hover-color: #e8cc6b;/* Hover para enlaces */
     --title-color: rgb(44, 41, 41);
 
     /* Fondo “base” y otros por defecto */
@@ -131,6 +131,8 @@ header h1 {
     font-family: 'Roboto', sans-serif;
 }
 
+
+
 /* Sección de detalles de la serie */
 .series-details {
     max-width: 1200px;
@@ -164,6 +166,142 @@ header h1 {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+/* :::::::::::::::::: HEADER ::::::::::::::::: */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color); /* Fondo dinámico */
+    color: var(--text-color);
+    padding: 1rem 2rem;
+    /*border-bottom: 2px solid var(--link-hover-color);*/
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+/* Header Link con Banner */
+.header-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    font-family: var(--font-primary);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.header-link:hover {
+    color: var(--link-hover-color);
+    transform: scale(1.02); /* Efecto sutil de zoom */
+}
+
+.header-link img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8); /* Sombra moderna */
+    object-fit: cover;
+}
+
+.header-link h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.header-link h3 {
+    font-size: 1rem;
+    margin: 0;
+    font-weight: normal;
+    color: var(--bg-colorr);
+}
+
+/* :::::::::::::::::: NAVBAR ::::::::::::::::: */
+.navbar {
+    width: 100%;
+    background: var(--card-background); /* Fondo de la barra */
+    border-radius: 8px;
+    padding: 0.5rem 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra moderna */
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    margin: 0;
+}
+
+.navbar a {
+    text-decoration: none;
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efectos de hover en enlaces */
+.navbar a:hover {
+    background-color: var(--link-hover-color); /* Color de hover */
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* :::::::::::::::::: RESPONSIVIDAD ::::::::::::::::: */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem;
+    }
+
+    .header-link h1 {
+        font-size: 1.5rem;
+    }
+
+    .header-link h3 {
+        font-size: 0.9rem;
+    }
+
+    .navbar ul {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .navbar a {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-link img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .header-link h1 {
+        font-size: 1.2rem;
+    }
+
+    .navbar ul {
+        gap: 0.5rem;
+    }
 }
 
 /* Capa con la info superpuesta sobre la imagen */

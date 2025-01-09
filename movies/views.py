@@ -497,10 +497,117 @@ def reviews(request):
 from .models import Series  # Importa el modelo de series
 
 def series_list(request):
-    series_list = Series.objects.all()
-    print(request.resolver_match.func.__name__)  # Imprime el nombre de la función vista
+    """
+    Vista principal para listar y filtrar series.
+    Soporta:
+      - Búsqueda por título (q)
+      - Filtro por género (genre_id)
+      - Filtro por año o rango de años (year_segment)
+      - Ordenamiento (sort_by)
+      - Paginación
+      - Formulario 'MovieRequestForm' para solicitudes (opcional)
+    """
+    query = request.GET.get('q', '')
+    page_number = request.GET.get('page')
+    request_success = request.session.pop('request_success', False)
 
-    return render(request, 'movies/series_list.html', {'series_list': series_list})
+    # Filtros
+    year_segment = request.GET.get('year_segment', 'Todos')
+    sort_by = request.GET.get('sort_by', 'reciente')
+    genre_id = request.GET.get('genre_id', 'Todos')
+
+    # Base queryset (todas las series)
+    series_qs = Series.objects.all()
+
+    # 1. FILTRAR POR BÚSQUEDA (título)
+    if query:
+        series_qs = series_qs.filter(title__icontains=query)
+
+    # 2. FILTRAR POR GÉNERO
+    if genre_id != 'Todos':
+        try:
+            genre_id_int = int(genre_id)
+            series_qs = series_qs.filter(genres__id=genre_id_int)
+        except ValueError:
+            pass  # Si no es un número válido, ignora
+
+    # 3. FILTRAR POR AÑO/SEGMENTO
+    if year_segment != 'Todos':
+        if year_segment.isdigit():
+            # Año exacto
+            series_qs = series_qs.filter(release_date__year=int(year_segment))
+        elif '-' in year_segment:
+            # Rango de años (p.e. "2000-2009")
+            try:
+                start_year, end_year = map(int, year_segment.split('-'))
+                series_qs = series_qs.filter(
+                    release_date__year__gte=start_year,
+                    release_date__year__lte=end_year
+                )
+            except ValueError:
+                pass
+
+    # 4. ORDENAMIENTO
+    if sort_by == 'alf_asc':
+        series_qs = series_qs.order_by('title')
+    elif sort_by == 'alf_desc':
+        series_qs = series_qs.order_by('-title')
+    elif sort_by == 'antiguo':
+        # Series más antiguas primero
+        series_qs = series_qs.order_by('release_date')
+    elif sort_by == 'rating':
+        # Puntuación desc
+        series_qs = series_qs.order_by('-rating')
+    else:
+        # Default: más reciente (ID más alto primero)
+        series_qs = series_qs.order_by('-id')
+
+    # 5. PAGINACIÓN
+    paginator = Paginator(series_qs, 20)  # 20 series por página
+    page_obj = paginator.get_page(page_number)
+
+    # Total de series (para el contador)
+    total_series = Series.objects.count()
+
+    # Paginación dinámica (si usas get_display_pages como en movies)
+    display_pages = get_display_pages(page_obj, max_pages=8)
+
+    # Procesar formulario "Pídeme una serie" (reusando MovieRequestForm)
+    if request.method == "POST":
+        form = MovieRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirigir para que no se duplique el post en caso de refrescar
+            return redirect(f'{request.path}?q={query}'
+                            f'&page={page_number}'
+                            f'&year_segment={year_segment}'
+                            f'&sort_by={sort_by}'
+                            f'&genre_id={genre_id}')
+    else:
+        form = MovieRequestForm()
+
+    # Lista de géneros
+    all_genres = Genre.objects.all().order_by('name')
+
+    context = {
+        'series_list': page_obj,
+        'is_paginated': page_obj.has_other_pages(),
+        'page_obj': page_obj,
+        'query': query,
+        'form': form,
+        'request_success': request_success,
+        'total_series': total_series,
+        'display_pages': display_pages,
+
+        # Mantener los valores seleccionados en la interfaz
+        'current_year_segment': year_segment,
+        'current_sort_by': sort_by,
+        'current_genre_id': genre_id,
+
+        # Géneros para el dropdown
+        'all_genres': all_genres,
+    }
+    return render(request, 'movies/series_list.html', context)
 
 
 def series_detail(request, series_id):
@@ -536,7 +643,7 @@ def series_detail(request, series_id):
     return render(request, 'movies/series_detail.html', context)
 
 
-  
+
 
 
 

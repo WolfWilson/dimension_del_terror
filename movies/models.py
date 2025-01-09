@@ -216,12 +216,14 @@ class Series(models.Model):
                         'title': episode_data['title'],
                         'description': episode_data['description'],
                         'air_date': episode_data['air_date'],
+                        'duration': episode_data.get('runtime'),  # Obtener la duración desde la API
                         'screenshot': self.download_image(
                             episode_data['screenshot_path'],
                             f"episode_screenshots/{self.title.replace(' ', '_')}_T{season.season_number}_E{episode_data['episode_number']}.jpg"
-                        ) if episode_data['screenshot_path'] else None
+                        ) if episode_data.get('screenshot_path') else None
                     }
                 )
+
 
     @staticmethod
     def download_image(url, file_name):
@@ -262,6 +264,7 @@ class Episode(models.Model):
     air_date = models.DateField(null=True, blank=True)
     screenshot = models.ImageField(upload_to="episode_screenshots/", blank=True, null=True)
     drive_url = models.URLField(null=True, blank=True)
+    duration = models.PositiveIntegerField(null=True, blank=True)  # Duración en minutos
 
     def get_drive_preview_url(self):
         """

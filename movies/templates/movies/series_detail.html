@@ -34,6 +34,14 @@
 <body>
 
     <!-- Encabezado principal de la serie -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'movie_list' %}">Películas</a></li>
+            <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
+            <li><a href="{% url 'series_list' %}">Series</a></li>
+            <li><a href="{% url 'reviews' %}">Reseñas</a></li>
+        </ul>
+    </nav>
     <header class="series-header" 
         {% if series.header_image %}
             data-bg-url="{{ series.header_image.url }}"
@@ -43,6 +51,7 @@
     >
         <div class="header-overlay">
             <h1>{{ series.title }}</h1>
+
         </div>
     </header>
 
