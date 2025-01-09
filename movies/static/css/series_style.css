@@ -31,6 +31,7 @@
     --background-color: #ffffff;
     --card-background: #e1e6d9; /* Para paneles o tarjetas (series-details, season, etc.) */
     --footer-background: #222;  /* Para footer */
+    
 
     /* Ajustes para las tarjetas de episodios */
     --episode-card-bg: #ffffff; /* Fondo limpio para la tarjeta de episodio */

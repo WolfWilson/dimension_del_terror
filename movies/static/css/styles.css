@@ -138,51 +138,89 @@ header h3 {
 }
 
 /* :::::::::::::::::: NAVEGACIÓN (DESKTOP) ::::::::::::::::: */
-nav ul {
-    list-style: none;
-    padding: 5px 15px; 
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0px;
-    position: relative;
-    z-index: 3;
-    background-color: rgba(0, 0, 0, 0.45);
+/* :::::::::::::::::: NAVBAR ::::::::::::::::: */
+.navbar {
+    width: 100%;
+    background: var(--card-background); /* Fondo de la barra */
     border-radius: 8px;
-}
-nav ul li {
-    margin: 0 0.5rem; 
-}
-nav ul li a {
-    position: relative;
-    font-family: var(--font-secondary);
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-    padding: 5px 8px;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0);
-    transition: all 0.3s ease-in-out;
+    padding: 0.5rem 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra moderna */
 }
 
-/* Efecto hover (color de texto y subrayado animado) */
-nav ul li a:hover {
-    color: #ebd36c;
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+   
 }
-nav ul li a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    background-color: #dba76b;
-    left: 0;
-    bottom: -5px;
-    transition: width 0.3s;
+
+.navbar li {
+    margin: 0;
 }
-nav ul li a:hover::after {
-    width: 100%;
+
+.navbar a {
+    text-decoration: none;
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efectos de hover en enlaces */
+.navbar a:hover {
+    background-color: var(--link-hover-color); /* Color de hover */
+    color: #fff;
+    transform: scale(1.05);
+}
+
+
+/* :::::::::::::::::: RESPONSIVIDAD ::::::::::::::::: */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem;
+    }
+
+    .header-link h1 {
+        font-size: 1.5rem;
+    }
+
+    .header-link h3 {
+        font-size: 0.9rem;
+    }
+
+    .navbar ul {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .navbar a {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-link img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .header-link h1 {
+        font-size: 1.2rem;
+    }
+
+    .navbar ul {
+        gap: 0.5rem;
+    }
 }
 
 /* :::::::::::::::::: SECCIÓN PRINCIPAL / MAIN ::::::::::::::::: */
@@ -974,56 +1012,6 @@ footer {
         border-radius: 15px;
     }
 
-    /* :::::: Ajustes Navbar en Móvil :::::: */
-    nav.navbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        position: relative;
-        z-index: 3;
-        margin: 0 auto;
-        top: 15px;
-        max-width: 80%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-    }
-    nav.navbar ul {
-        display: flex;
-        /* <-- ADICIONADO */
-        flex-wrap: wrap; /* Permite que los enlaces se ajusten en varias filas */
-        justify-content: center; /* Centra en cada "fila" */
-        align-items: center;
-        list-style: none;
-        padding: 8px 12px;
-        margin: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        border-radius: 8px;
-    }
-    nav.navbar ul li {
-        /* <-- ADICIONADO */
-        flex: 0; /* Para que no se estiren todos al mismo ancho */
-        margin: 5px; /* Pequeño margen alrededor */
-        text-align: center;
-    }
-    nav.navbar ul li:last-child {
-        /* <-- MODIFICADO */
-        margin-right: 0; /* Se quita el 35px para no descentrar el menú */
-    }
-    nav.navbar ul li a {
-        color: white;
-        text-decoration: none;
-        padding: 6px 8px; /* <-- Ajustado */
-        display: inline-block;
-        font-size: 0.8rem; /* <-- Ajustado */
-        border-radius: 5px;
-        line-height: 1.2;
-        white-space: nowrap;
-        transition: background-color 0.3s ease-in-out;
-    }
-    nav.navbar ul li a:hover {
-        background-color: rgba(219, 167, 107, 0.8);
-    }
 }
 
 .theme-toggle-button {
@@ -1047,3 +1035,14 @@ footer {
     color: #fff;
 }
 
+
+#series-posters {
+    text-align: center; /* Centra el contenido del contenedor */
+    margin-top: 20px; /* Margen opcional para separación */
+}
+
+#series-posters h2 {
+    font-size: 2rem; /* Ajusta el tamaño del título */
+    margin-bottom: 10px; /* Espaciado entre el título y el contador */
+   
+}

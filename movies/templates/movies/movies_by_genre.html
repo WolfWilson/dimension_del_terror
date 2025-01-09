@@ -19,6 +19,12 @@
 
 </head>
 <body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'movie_list' %}">Películas</a></li>
+            <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
+        </ul>
+    </nav>
     <header>
         <a href="{% url 'movie_list' %}" class="header-link">
             <div id="img-header">
@@ -27,12 +33,6 @@
             <h1>La Dimensión del Terror</h1>
             <h3>Colección de Cine de Terror, Sci-Fi y Fantástico</h3>
         </a>
-        <nav class="navbar">
-            <ul>
-                <li><a href="{% url 'movie_list' %}">Películas</a></li>
-                <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
-            </ul>
-        </nav>
     </header>
 
 

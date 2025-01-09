@@ -15,6 +15,9 @@ from crispy_forms.layout import Layout, Submit, Row, Column, Fieldset
 from django.core.exceptions import ValidationError
 from urllib.parse import urlparse
 
+from .models import Series, Genre, Season, Episode
+from crispy_forms.layout import Layout, Submit, Fieldset, Row, Column
+
 class MovieForm(forms.ModelForm):
     genres = forms.ModelMultipleChoiceField(
         queryset=Genre.objects.all(),
@@ -238,13 +241,6 @@ class MovieFrontendForm(forms.ModelForm):
                 raise ValidationError("La URL debe ser un enlace de Google Drive válido.")
         return url
 
-
-
-from django import forms
-from .models import Series, Genre, Season, Episode
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Fieldset, Row, Column
-from django.core.exceptions import ValidationError
 
 class SeriesForm(forms.ModelForm):
     class Meta:

@@ -93,6 +93,16 @@
 </head>
 
 <body>
+        <!-- :::::::::::::::::: NAV ::::::::::::::::: -->
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'movie_list' %}">Películas</a></li>
+                <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
+                <li><a href="{% url 'reviews' %}">Reseñas</a></li>
+
+
+            </ul>
+        </nav>
     <!-- :::::::::::::::::: HEADER ::::::::::::::::: -->
     <header>
         <!-- Link al listado de películas con banner -->
@@ -104,16 +114,6 @@
             <h3>Colección de Cine de Terror, Sci-Fi y Fantástico</h3>
         </a>
 
-        <!-- :::::::::::::::::: NAV ::::::::::::::::: -->
-        <nav class="navbar">
-            <ul>
-                <li><a href="{% url 'movie_list' %}">Películas</a></li>
-                <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
-                <li><a href="{% url 'reviews' %}">Reseñas</a></li>
-
-
-            </ul>
-        </nav>
     </header>
     <!-- :::::::::::::::::: MAIN ::::::::::::::::: -->
     <main>

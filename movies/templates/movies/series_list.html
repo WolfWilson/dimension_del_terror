@@ -90,6 +90,17 @@
 </head>
 
 <body>
+            <!-- :::::::::::::::::: NAV ::::::::::::::::: -->
+            <nav class="navbar">
+                <ul>
+                    <!-- Ajusta los enlaces según tus URL para Películas/Series -->
+                    <li><a href="{% url 'movie_list' %}">Películas</a></li>
+                    <li><a href="{% url 'series_list' %}">Series</a></li>
+                    <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
+                    <li><a href="{% url 'reviews' %}">Reseñas</a></li>
+                    <li><a href="#contact-form" id="openFormLink">Pídeme una Serie!</a></li>
+                </ul>
+            </nav>
     <!-- :::::::::::::::::: HEADER ::::::::::::::::: -->
     <header>
         <!-- Link al listado de series con banner -->
@@ -101,17 +112,6 @@
             <h3>Series de Terror, Sci-Fi y Fantástico</h3>
         </a>
 
-        <!-- :::::::::::::::::: NAV ::::::::::::::::: -->
-        <nav class="navbar">
-            <ul>
-                <!-- Ajusta los enlaces según tus URL para Películas/Series -->
-                <li><a href="{% url 'movie_list' %}">Películas</a></li>
-                <li><a href="{% url 'series_list' %}">Series</a></li>
-                <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
-                <li><a href="{% url 'reviews' %}">Reseñas</a></li>
-                <li><a href="#contact-form" id="openFormLink">Pídeme una Serie!</a></li>
-            </ul>
-        </nav>
     </header>
 
     <!-- :::::::::::::::::: MAIN ::::::::::::::::: -->
