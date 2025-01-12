@@ -19,7 +19,7 @@
 
         --bg-gradient: linear-gradient(180deg, #000000, #1a1a1a, #333333); /* Fondo degradado de negros */
     --bg-color: #1a1a1a; /* Fondo oscuro */
-    --card-bg: #2a2a2a; /* Fondo de tarjetas */
+    --card-bg: #eee9e4; /* Fondo de tarjetas */
     --text-color: #42a4b8; /* Texto claro */
     --input-border: #555; /* Borde de inputs */
     --button-bg: #4a90e2; /* Botón principal */
@@ -44,103 +44,161 @@ body h4 {
     color: var(--button-bg)
 }
 
-/* :::::::::::::::::: DISEÑO DE GÉNEROS :::::::::::::::::: */
+
+
+/* ============================= */
+/* SELECCIÓN DE GÉNEROS          */
+/* ============================= */
+
 .genre-checkboxes {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columnas */
-    gap: 15px; /* Espacio entre los elementos */
-    padding: 10px 0; /* Espaciado superior e inferior */
+    grid-template-columns: repeat(5, 1fr); /* Mantener 5 columnas */
+    gap: 10px; /* Espacio entre las tarjetas */
+    padding: 10px 0;
     justify-content: center;
 }
 
 .genre-checkbox {
     display: flex;
-    flex-direction: column; /* Cambiar para que el texto esté debajo del checkbox */
-    align-items: center; /* Centrar horizontalmente */
-    justify-content: center; /* Centrar verticalmente */
-    font-size: 0.9rem;
-    font-family: var(--font-body); /* Usar la fuente principal del cuerpo */
-    color: var(--text-color); /* Color de texto claro */
-    text-align: center; /* Centrar el texto */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    color: var(--text-color);
+    text-align: center;
+    background-color: var(--card-bg);
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    cursor: pointer;
+    position: relative; /* Posicionar para usar el checkbox oculto */
 }
 
 .genre-checkbox input[type="checkbox"] {
-    margin-bottom: 5px; /* Espacio entre el checkbox y el texto */
-    transform: scale(1.2); /* Ampliar ligeramente los checkboxes */
-    accent-color: var(--button-bg); /* Color del checkbox */
+    opacity: 0; /* Hacer el checkbox invisible */
+    position: absolute; /* Colocar el checkbox sobre toda la tarjeta */
+    top: 0;
+    left: 0;
+    width: 100%; /* Abarcar todo el ancho de la tarjeta */
+    height: 100%; /* Abarcar toda la altura de la tarjeta */
+    cursor: pointer; /* Cambiar el cursor a mano */
 }
 
 .genre-checkbox label {
-    cursor: pointer; /* Cambiar el cursor para indicar que es clickeable */
-    font-weight: 500;
+    pointer-events: none; /* Evitar que el texto interfiera con el clic */
+    font-weight: bold;
+    text-align: center;
     transition: color 0.3s ease;
-    text-align: center; /* Centrar el texto */
 }
 
-.genre-checkbox label:hover {
-    color: var(--link-hover-color); /* Cambiar color al pasar el cursor */
+/* Hover sobre toda la tarjeta */
+.genre-checkbox:hover {
+    background-color: var(--button-bg);
+    color: var(--button-text-color);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Más sombra */
 }
 
-/* :::::::::::::::::: ESTILOS GENERALES :::::::::::::::::: */
-.card {
-    background-color: var(--card-bg); /* Fondo oscuro de las tarjetas */
+/* Estilo cuando está seleccionado */
+.genre-checkbox input[type="checkbox"]:checked + label {
+    color: var(--button-text-color);
+    background-color: var(--button-hover-bg);
     border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra suave */
+    padding: 5px 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4); /* Sombra más intensa */
+    border: 2px solid var(--button-hover-bg); /* Borde resaltado */
+    transition: all 0.3s ease;
 }
 
-label {
-    font-family: var(--font-secondary); /* Fuente secundaria */
-    font-size: 1rem;
-    color: var(--text-color);
-    margin-bottom: 8px;
-    display: block; /* Etiquetas alineadas */
-    text-align: center; /* Centrar el texto */
+/* Cambios de color al pasar el cursor por encima de un género seleccionado */
+.genre-checkbox input[type="checkbox"]:checked:hover {
+    background-color: var(--link-hover-color);
+    color: var(--button-bg);
 }
 
-input, select, textarea {
-    background-color: #333; /* Fondo oscuro */
-    color: var(--text-color); /* Texto claro */
-    border: 1px solid var(--input-border); /* Borde personalizado */
-    border-radius: 5px;
-    padding: 10px;
-    font-family: var(--font-secondary); /* Fuente del cuerpo */
-    font-size: 1rem;
-    width: 100%;
-    margin-bottom: 15px; /* Espaciado entre campos */
+/* Efectos de foco */
+.genre-checkbox input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--link-hover-color);
+    outline-offset: 4px;
 }
+
+/* ============================= */
+/* BOTÓN PARA FILTRAR            */
+/* ============================= */
 
 button {
     background-color: var(--button-bg);
     color: var(--button-text-color);
     border: none;
     padding: 12px 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     font-family: var(--font-accent);
-    font-size: 1rem;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
     display: block;
-    margin: 0 auto; /* Centrado horizontal */
+    margin: 20px auto; /* Centrado horizontal */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 button:hover {
     background-color: var(--button-hover-bg);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px); /* Efecto de levantamiento */
 }
 
+button:active {
+    transform: translateY(0); /* Regresa al presionar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
-/* :::::::::::::::::: RESPONSIVE :::::::::::::::::: */
+/* Estilo específico para los campos deseados */
+label[for="id_title"],
+label[for="id_tmdb_url"],
+label[for="id_drive_url"] {
+    font-weight: bold;
+    font-size: 1.1rem; /* Opcional: agrandar ligeramente el texto */
+    color: #333; /* Opcional: cambiar el color */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #555;
+    border-radius: 5px;
+    background-color: #333;
+    font-family: 'Mulish', sans-serif;
+    font-size: 1rem;
+    color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    outline: none;
+}
+
+/* ============================= */
+/* RESPONSIVE DESIGN             */
+/* ============================= */
+
 @media (max-width: 768px) {
     .genre-checkboxes {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas pequeñas */
+        grid-template-columns: repeat(2, 1fr); /* Cambia a 2 columnas */
+        gap: 10px; /* Reduce el espacio entre géneros */
     }
 
     .genre-checkbox {
-        font-size: 0.85rem; /* Reducir un poco el tamaño del texto */
+        font-size: 0.9rem; /* Reduce el tamaño del texto */
+        padding: 8px; /* Ajusta el padding */
     }
 
     button {
-        font-size: 0.9rem;
+        font-size: 1rem;
         padding: 10px 16px;
     }
 }

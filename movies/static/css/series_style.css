@@ -265,6 +265,8 @@ header {
     transform: scale(1.05);
 }
 
+
+
 /* :::::::::::::::::: RESPONSIVIDAD ::::::::::::::::: */
 @media (max-width: 768px) {
     header {
@@ -393,7 +395,7 @@ header {
 
 /* Imagen del episodio */
 .episode-card .episode-image img {
-    width: 160px;       /* Más ancho para una vista similar a la captura */
+    width: 260px;       /* Más ancho para una vista similar a la captura */
     height: auto;       /* Ajusta la altura de forma proporcional */
     object-fit: cover;
     border-radius: 8px;
