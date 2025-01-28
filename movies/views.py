@@ -253,7 +253,7 @@ def movie_detail(request, movie_id):
         Movie.objects.filter(genres__in=movie_genres)
         .exclude(id=movie.id)
         .annotate(shared_genres=Count('genres'))
-        .order_by('-shared_genres', '-rating')[:4]
+        .order_by('-shared_genres', '-rating')[:6]
     )
 
     context = {

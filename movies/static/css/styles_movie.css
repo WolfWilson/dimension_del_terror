@@ -44,8 +44,8 @@
     background-attachment: fixed;
     --text-color: rgb(230, 230, 230);
     --link-color: #a0d4f0; /* Celeste pastel claro */
-    --link-hover-color: #74b9e6; /* Hover: un celeste más intenso */
-    --title-color: rgb(143, 102, 41); /* Gris más intenso para los títulos */
+    --link-hover-color: #2e92d4; /* Hover: un celeste más intenso */
+    --title-color: #dba76b; /* Gris más intenso para los títulos */
 }
 
 /* ::::::::::::::::::::::::: ESTILOS GENERALES ::::::::::::::::::::::::: */
