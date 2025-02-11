@@ -19,6 +19,7 @@ from .forms import (
 )
 from .utils import get_movie_data_from_api
 from .forms import MovieForm, MovieFrontendForm, CommentForm, MovieRequestForm
+from django.contrib.auth.decorators import login_required
 
 # ------------------------------------------------------------------------------
 #                                  UTILIDADES
@@ -89,7 +90,7 @@ def get_display_pages(page_obj, max_pages=6):
 #                         VISTAS PRINCIPALES
 # ------------------------------------------------------------------------------
 
-
+@login_required(login_url='login_view')
 def dynamic_genre_movies(request):
     """
     Vista para filtrar películas dinámicamente por géneros.
@@ -112,7 +113,7 @@ def dynamic_genre_movies(request):
     }
     return render(request, 'movies/dynamic_genre_movies.html', context)
 
-
+@login_required(login_url='login_view')
 def movie_list(request):
     """
     Vista principal con soporte para múltiples filtros combinados: género, año, y ordenamiento.
@@ -220,7 +221,7 @@ def movie_list(request):
 
 
 
-
+@login_required(login_url='login_view')
 def movie_detail(request, movie_id):
     """
     Vista detallada de una película, con comentarios asociados.
@@ -266,7 +267,7 @@ def movie_detail(request, movie_id):
     }
     return render(request, 'movies/movie_detail.html', context)
 
-
+@login_required(login_url='login_view')
 def search_movies(request):
     """
     Vista para manejar una búsqueda simple en un template aparte (resultados.html).
@@ -371,7 +372,7 @@ def add_movie_with_api(request):
 # ------------------------------------------------------------------------------
 #                         VISTAS DE FILTRADO ADICIONAL
 # ------------------------------------------------------------------------------
-
+@login_required(login_url='login_view')
 def movies_by_genre(request, genre_name):
     """
     Muestra todas las películas asociadas a un género específico
@@ -385,7 +386,7 @@ def movies_by_genre(request, genre_name):
         'movies': movies,
     })
 
-
+@login_required(login_url='login_view')
 def movies_by_tag(request, tag_type, tag):
     """
     Filtra películas por director o reparto según 'tag_type'.
@@ -412,7 +413,7 @@ def movies_by_tag(request, tag_type, tag):
 
 from django.db.models import Q
 #VISTA PARA FILTRAR PELIS CON RESEÑAS
-
+@login_required(login_url='login_view')
 def reviews(request):
     """
     Vista que muestra las películas con reseñas escritas válidas.
@@ -495,7 +496,7 @@ def reviews(request):
 
 
 from .models import Series  # Importa el modelo de series
-
+@login_required(login_url='login_view')
 def series_list(request):
     """
     Vista principal para listar y filtrar series.
@@ -609,7 +610,7 @@ def series_list(request):
     }
     return render(request, 'movies/series_list.html', context)
 
-
+@login_required(login_url='login_view')
 def series_detail(request, series_id):
     """
     Vista detallada de una serie.
@@ -642,6 +643,37 @@ def series_detail(request, series_id):
 
     return render(request, 'movies/series_detail.html', context)
 
+
+# views.py (extracto final)
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('movie_list')  # O la vista que quieras como "index"
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"¡Bienvenido/a {user.username}!")
+            return redirect('movie_list')  # Asegúrate de que 'index' exista en tus urls
+        else:
+            messages.error(request, "Usuario o contraseña incorrectos.")
+    return render(request, 'movies/login.html')
+
+
+
+def logout_view(request):
+    """
+    Cierra la sesión actual y redirige a la página de login o donde desees.
+    """
+    logout(request)
+    messages.info(request, "Has cerrado sesión correctamente.")
+    return redirect('login_view')
 
 
 

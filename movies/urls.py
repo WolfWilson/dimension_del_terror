@@ -17,4 +17,8 @@ urlpatterns = [
     # Películas - asegúrate de que esta ruta esté después de las rutas específicas
     path('<int:movie_id>/', views.movie_detail, name='movie_detail'),  # Detalles de película
     path('<str:tag_type>/<str:tag>/', views.movies_by_tag, name='movies_by_tag'),  # Filtrar por etiqueta
+
+    # Rutas para login/logout
+    path('login/', views.login_view, name='login_view'),
+    path('logout/', views.logout_view, name='logout_view'),
 ]

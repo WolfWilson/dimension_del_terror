@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
      'widget_tweaks',
+     'axes',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -58,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'blackcatcinema.urls'
@@ -173,3 +176,19 @@ import os
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+LOGIN_URL = 'login_view'  # Nombre de la ruta de tu login
+
+# Mantiene la sesión aunque se cierre el navegador (hasta que expire la cookie)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Duración en segundos (ejemplo: 1 año). Ajusta según tu preferencia
+SESSION_COOKIE_AGE = 31536000  
+
+# Para refrescar la cookie de sesión cada vez que haya actividad
+SESSION_SAVE_EVERY_REQUEST = True
+
+
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 1  # en horas
+AXES_ONLY_USER_FAILURES = True
+AXES_LOCKOUT_PARAMETERS = ['username']  # Control por usuario
