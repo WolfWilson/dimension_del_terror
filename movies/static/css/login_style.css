@@ -1,4 +1,11 @@
-/* :::::::::::::::::: 1. VARIABLES :::::::::::::::::: */
+/* :::::::::::::::::: RESETEO BÁSICO Y BOX SIZING :::::::::::::::::: */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
 :root {
   --font-primary: 'Poppins', sans-serif;
   --font-secondary: 'Roboto Condensed', sans-serif;
@@ -7,7 +14,7 @@
   --font-accent: 'Bebas Neue', cursive;
   --font-extra: 'PT Sans Narrow', sans-serif;
   --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
-  --font-special: 'Bruno Ace SC', sans-serif;   /* Nueva variable para Bruno Ace SC */
+  --font-special: 'Bruno Ace SC', sans-serif; /* Nueva variable para Bruno Ace SC */
 
   /* Colores modo claro (por defecto) */
   --bg-color: radial-gradient(
@@ -17,40 +24,31 @@
       rgba(232, 229, 220, 1) 96%
   );
   --text-color: rgb(44, 41, 41);
-  --accent-color: #dba76b;
-  --hover-color: #c4935a;
-  --text-color_w: #fefefe;
+  --text-color_red: rgb(128, 10, 10);
+
+  /* Colores modo claro (por defecto) */
+  --link-color: var(--accent-color); /* Color de enlaces para modo claro */
+  --link-hover-color: var(--hover-color); /* Hover para enlaces */
+  --title-color: rgb(44, 41, 41); /* Color predeterminado para los títulos */
 }
 
-
-/* :::::::::::::::::: 2. RESETEO BÁSICO :::::::::::::::::: */
-*,
-*::before,
-*::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-
-/* :::::::::::::::::: 3. ESTILO DEL BODY (FONDO) :::::::::::::::::: */
-/*
-   Aplica la imagen de fondo, la hace "cover"
-   y un color de respaldo si no se carga la imagen.
-*/
-body {
-  font-family: var(--font-secondary);
-  min-height: 100vh; /* Asegura que el body ocupe pantalla completa */
-
-  /* Imagen webp optimizada */
-  background: url("../src/background_login.webp") no-repeat center center;
-  background-size: cover;
+/* Modo oscuro */
+.dark-mode {
+  --bg-color: radial-gradient(
+      circle at center,
+      rgba(45, 45, 45, 1) 10%,
+      rgba(20, 20, 20, 1) 40%,
+      rgba(5, 5, 5, 1) 90%,
+      rgba(0, 0, 0, 1) 100%
+  );
   background-attachment: fixed;
-  background-color: #080710; /* color de respaldo */
+  --text-color: rgb(230, 230, 230);
+  --link-color: #a0d4f0; /* Celeste pastel claro */
+  --link-hover-color: #2e92d4; /* Hover: un celeste más intenso */
+  --title-color: #dba76b; /* Gris más intenso para los títulos */
 }
 
-
-/* :::::::::::::::::: 4. HEADER :::::::::::::::::: */
+/* :::::::::::::::::: HEADER :::::::::::::::::: */
 header {
   text-align: center;
   position: relative;
@@ -91,7 +89,7 @@ header h3 {
   font-family: var(--font-secondary);
   font-size: 1.2rem;
   color: #ffffff;
-  z-index: 2;
+  z-index: 2; /* Corrige el valor inválido */
   margin-top: 0;
   position: relative;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
@@ -113,19 +111,23 @@ header h3 {
   }
 }
 
+/* :::::::::::::::::: BODY - FONDO :::::::::::::::::: */
+body {
+  font-family: var(--font-secondary);
+  min-height: 100vh; /* Asegura que el body ocupe pantalla completa */
+  background: url("../src/background_login.webp") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #080710; /* color de respaldo */
+}
 
-/* :::::::::::::::::: 5. FORMULARIO DE LOGIN :::::::::::::::::: */
-/* 
-   Nota: El position: absolute; centrado impide que 
-   el footer aparezca al final de la página 
-   cuando la pantalla es grande. 
-*/
+/* :::::::::::::::::: FORM LOGIN :::::::::::::::::: */
 form {
   width: 400px;
   height: auto;
   background-color: rgba(255, 255, 255, 0.13);
-  position: absolute;     /* <- Esto hace que el form flote */
-  top: 50%;
+  position: absolute; /* El formulario flota */
+  top: 50%;           /* Lo centra verticalmente, puede ajustarse en mobile */
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
@@ -137,14 +139,12 @@ form {
   text-align: center;
 }
 
-/* Título del formulario */
 form h3 {
   font-size: 32px;
   font-weight: 500;
   line-height: 42px;
 }
 
-/* Etiquetas (Username, Password) */
 label {
   display: block;
   margin-top: 30px;
@@ -153,7 +153,6 @@ label {
   text-align: left;
 }
 
-/* Campos de entrada */
 input {
   display: block;
   height: 50px;
@@ -169,12 +168,10 @@ input {
   outline: none;
 }
 
-/* Placeholder */
 ::placeholder {
   color: #e5e5e5;
 }
 
-/* Botón de Login */
 button {
   margin-top: 50px;
   width: 100%;
@@ -188,15 +185,12 @@ button {
   border: none;
 }
 
-/* Efecto hover en el botón */
 button:hover {
   background-color: #e0e0e0;
   transition: background-color 0.3s ease;
 }
 
-
-/* :::::::::::::::::: 6. ALERTAS / REDES SOCIALES :::::::::::::::::: */
-/* Alertas de Django (success, error) */
+/* :::::::::::::::::: ALERTAS / REDES SOCIALES :::::::::::::::::: */
 .alert {
   width: 100%;
   margin: 10px auto;
@@ -214,7 +208,6 @@ button:hover {
   background-color: rgba(220, 53, 69, 0.8); /* rojo */
 }
 
-/* Sección de botones sociales (opcional) */
 .social {
   margin-top: 30px;
   display: flex;
@@ -237,90 +230,92 @@ button:hover {
   margin-right: 4px;
 }
 
-
-/* :::::::::::::::::: 7. FOOTER :::::::::::::::::: */
-/* Asegura que el footer no se superponga sobre el form absolute */
+/* :::::::::::::::::: FOOTER ::::::::::::::::: */
 footer {
+  background-color: #272B2C;
+  color: #fff;
+  padding: 1rem 2rem;
   width: 100%;
-  padding: 1rem 0.5rem;
-  background-color: rgba(0, 0, 0, 0.6);
-  position: relative; /* permanece en el flujo normal, bajo el form */
-  text-align: center;
-  color: #ffffff;
-  margin-top: 2rem; /* separa un poco del contenido si hubiese scroll */
-}
-
-.text-footer {
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  color: #dddddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: auto;
 }
 
 .container-footer {
   display: flex;
-  justify-content: center;
-}
-
-.footer-columns {
-  display: flex;
-  gap: 2rem;
-}
-
-.footer-columns .link h2 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: #dba76b; /* un color de acento */
-}
-
-.socials {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .socials a {
-  color: #ffffff;
-  font-size: 1.2rem;
+  margin: 0 10px;
+  color: white;
+  font-size: 1.5rem;
   transition: color 0.3s ease;
 }
 
 .socials a:hover {
-  color: #dba76b; /* cambia de color al hover */
+  color: #FFD700;
 }
 
+.formulario {
+  margin-top: 1rem;
+}
 
-/* :::::::::::::::::: 8. MEDIA QUERIES MÓVILES :::::::::::::::::: */
+/* :::::::::::::::::: MEDIA QUERIES TABLET :::::::::::::::::: */
+@media (max-width: 768px) {
+  /* Ajustes para tableta */
+  /* ... tu CSS para movies, etc. */
+}
+
+/* :::::::::::::::::: MEDIA QUERIES <= 599PX ::::::::::::::::: */
+@media (max-width: 599px) {
+  #movie-frame {
+    display: none;
+  }
+}
+
+/* :::::::::::::::::: MEDIA QUERIES MÓVILES <= 480PX ::::::::::::::::: */
 @media (max-width: 480px) {
+  header {
+    padding: 1rem 0.5rem;
+    height: auto; /* Permite que el header se adapte al contenido */
+  }
+  header h1 {
+    font-size: 2rem; /* En lugar de 60px */
+    margin-bottom: 0.5rem;
+  }
+  header h3 {
+    font-size: 1rem; /* Reduce el subtítulo */
+    margin-top: 0;
+    opacity: 1; /* Si quieres que sea visible de inmediato en mobile */
+    transform: none;
+    animation: none; /* O quita la animación en mobile si prefieres */
+  }
   form {
     width: 85%;
+    top: 55%; /* Bájalo un poco para no solapar el header */
     padding: 40px 20px;
+    font-size: 1rem; /* Aumenta un poco la fuente en general */
   }
-
   form h3 {
-    font-size: 26px;
+    font-size: 24px;
+    margin-bottom: 1rem;
   }
-
   label {
-    margin-top: 20px;
-    font-size: 14px;
-  }
-
-  input {
-    height: 45px;
-  }
-
-  button {
+    margin-top: 1rem;
     font-size: 16px;
-    padding: 12px 0;
   }
-
-  /* Footer responsive */
-  .footer-columns {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  input {
+    height: 50px;
+    font-size: 16px;
   }
-  .socials {
-    gap: 1rem;
+  button {
+    margin-top: 1.5rem;
+    font-size: 18px;
+    padding: 14px 0;
   }
 }
