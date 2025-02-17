@@ -276,6 +276,46 @@ header {
 }
 
 
+/* :::::::::::::::::: BOTONES DE ACCIONES (FAVORITOS Y "POR VER") :::::::::::::::::: */
+.movie-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.favorite-btn, .watchlist-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.favorite-btn .material-icons {
+    color: #999; /* Gris apagado */
+    transition: color 0.3s ease-in-out;
+}
+
+.favorite-btn .favorite-active {
+    color: red !important; /* Activo - Rojo */
+}
+
+.watchlist-btn .material-icons {
+    color: #999;
+    transition: color 0.3s ease-in-out;
+}
+
+.watchlist-btn .watchlist-active {
+    color: #3498db !important; /* Activo - Azul */
+}
+
+/* Efecto al hacer hover */
+.favorite-btn:hover, .watchlist-btn:hover {
+    transform: scale(1.1);
+}
+
+
 /* :::::::::::::::::: ASIDE DE PELÍCULAS SIMILARES ::::::::::::::::: */
 .similar-movies {
     flex: 1;

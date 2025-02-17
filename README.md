@@ -43,31 +43,35 @@
 ```bash
 git clone https://github.com/tu_usuario/black-cat-cinema.git
 cd black-cat-cinema
+```
 
 🏗️ 2. Crear un Entorno Virtual
-python -m venv venv  
+```python -m venv venv  
 source venv/bin/activate  # macOS/Linux  
 venv\Scripts\activate     # Windows
-
+```
 📦 3. Instalar Dependencias
-pip install -r requirements.txt
+```pip install -r requirements.txt```
 
-⚙️ 4. Configurar Variables de Entorno
+⚙️ 4.Configurar Variables de Entorno
+```
 Crea un archivo .env en la raíz del proyecto con el siguiente contenido:
 DEBUG=True
 SECRET_KEY=tu_clave_secreta
 TMDB_API_KEY=tu_api_key_de_tmdb
+```
 
 📀 5. Aplicar Migraciones y Ejecutar el Servidor
-python manage.py migrate
+```python manage.py migrate
 python manage.py runserver
+```
 
 🔗 Accede a la aplicación en tu navegador:
-http://127.0.0.1:8000/
-
+```http://127.0.0.1:8000/
+```
 
 📂## Estructura del Proyecto
-
+```
 blackcatcinema/
 ├── blackcatcinema/        # Configuración principal de Django
 ├── movies/                # Aplicación principal
@@ -80,7 +84,8 @@ blackcatcinema/
 ├── static/                # Archivos estáticos generales
 ├── manage.py              # Herramienta de administración de Django
 └── requirements.txt       # Dependencias del proyecto
-
+```
+```
 🚀 Tecnologías Utilizadas
 🔹 Backend: Django 5.x
 🔹 Frontend: HTML, CSS, JavaScript
@@ -92,11 +97,11 @@ blackcatcinema/
 📌 Estado del Proyecto
 🔸 Estado: 🔵 En desarrollo | 🟢 Estable | 🔴 En mantenimiento
 🔸 Próximas mejoras:
-
+```
 📌 Integración de usuarios y comentarios
 📌 Soporte para más idiomas
 📌 Mejoras en rendimiento
-
+```
 
 📜 Licencia
 Este proyecto está bajo la licencia MIT. ¡Úsalo, modifícalo y compártelo libremente!

@@ -4,8 +4,8 @@ import requests
 from .utils import get_movie_data_from_api
 from django.utils.html import strip_tags
 from django_ckeditor_5.fields import CKEditor5Field
+from django.contrib.auth.models import User
 import io
-from PIL import Image
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
@@ -35,6 +35,28 @@ class Movie(models.Model):
     genres = models.ManyToManyField('Genre', related_name='movies')
     review = CKEditor5Field('Review', config_name='default', blank=True, null=True)
 
+    # Nuevo: Calificación personal del usuario (opcional, puede ser null)
+    user_ratings = models.ManyToManyField(
+        User,
+        through='MovieRating',
+        related_name='rated_movies',
+        blank=True
+    )
+
+    # Nuevo: Lista de favoritos (puede estar vacía)
+    favorite_by_users = models.ManyToManyField(
+        User,
+        related_name='favorite_movies',
+        blank=True
+    )
+
+    # Nuevo: Lista de "Por Ver" (puede estar vacía)
+    watchlist_by_users = models.ManyToManyField(
+        User,
+        related_name='watchlist_movies',
+        blank=True
+    )
+
     def save(self, *args, **kwargs):
         print(f"Iniciando guardado de la película: {self.title}")
 
@@ -45,7 +67,7 @@ class Movie(models.Model):
                 self.drive_url = f"https://drive.google.com/file/d/{file_id}/preview"
                 print(f"URL de Google Drive transformada: {self.drive_url}")
 
-        # Intentar obtener datos de la API
+        # Intentar obtener datos de la API si faltan
         if not self.description or not self.release_date or not self.rating or not self.trailer_url:
             print("Intentando obtener datos desde la API...")
 
@@ -103,6 +125,23 @@ class Movie(models.Model):
         return self.title
 
 
+# Nueva tabla intermedia para almacenar las calificaciones personales de los usuarios (opcional)
+class MovieRating(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='ratings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.FloatField(
+        choices=[(i / 2, f'{i / 2} ⭐') for i in range(1, 11)],  # De 0.5 a 5.0 estrellas
+        null=True, blank=True  # Opcional, el usuario no está obligado a calificar
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('movie', 'user')  # Evita que un usuario califique la misma película más de una vez
+
+    def __str__(self):
+        return f"{self.user.username} - {self.movie.title}: {self.rating} ⭐" if self.rating else f"{self.user.username} - {self.movie.title}: Sin calificación"
+
+
     
 class Comment(models.Model):
     movie = models.ForeignKey("Movie", on_delete=models.CASCADE, related_name='comments')
@@ -143,7 +182,6 @@ from django.db import models
 from django.core.files.base import ContentFile
 from .utils import get_series_data_from_api
 from io import BytesIO
-from PIL import Image
 import requests
 
 

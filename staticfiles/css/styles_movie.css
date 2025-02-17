@@ -44,8 +44,8 @@
     background-attachment: fixed;
     --text-color: rgb(230, 230, 230);
     --link-color: #a0d4f0; /* Celeste pastel claro */
-    --link-hover-color: #74b9e6; /* Hover: un celeste más intenso */
-    --title-color: rgb(143, 102, 41); /* Gris más intenso para los títulos */
+    --link-hover-color: #2e92d4; /* Hover: un celeste más intenso */
+    --title-color: #dba76b; /* Gris más intenso para los títulos */
 }
 
 /* ::::::::::::::::::::::::: ESTILOS GENERALES ::::::::::::::::::::::::: */
@@ -84,17 +84,6 @@ header {
     font-family: var(--font-secondary);
     text-decoration: none;
     color: white;
-}
-
-.navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
 }
 
 /* :::::::::::::::::: DATOS DE LA PELÍCULA ::::::::::::::::: */
@@ -182,12 +171,15 @@ header {
 .movie-poster {
     position: relative;
     display: inline-block;
-    width: 100%;
-    max-width: 380px;
+    width: var(--poster-width, 100%);  /* Valor por defecto 100%, pero personalizable */
+    max-width: var(--poster-max-width, 425px); /* Ajustable según necesidad */
+    height: var(--poster-height, auto); /* Auto por defecto, pero modificable */
+    max-height: var(--poster-max-height, 800px); /* Altura máxima opcional */
+    aspect-ratio: var(--poster-ratio, 2/3); /* Relación de aspecto estándar */
     margin-bottom: 20px;
     overflow: hidden;
-    border-radius: 12px;
-    border: 4px solid transparent;
+    border-radius: 10px;
+    border: 3px solid transparent;
     background: linear-gradient(to bottom, #e6e6e6, #cfcfcf);
     background-clip: padding-box;
     box-shadow: 
@@ -196,7 +188,6 @@ header {
     animation: border-color-cycle 3s infinite;
     transition: transform 0.3s ease-in-out;
 }
-
 @keyframes border-color-cycle {
     0% { border-color: #ffffff; }
     33% { border-color: #d9d9d9; }
@@ -285,6 +276,46 @@ header {
 }
 
 
+/* :::::::::::::::::: BOTONES DE ACCIONES (FAVORITOS Y "POR VER") :::::::::::::::::: */
+.movie-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.favorite-btn, .watchlist-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.favorite-btn .material-icons {
+    color: #999; /* Gris apagado */
+    transition: color 0.3s ease-in-out;
+}
+
+.favorite-btn .favorite-active {
+    color: red !important; /* Activo - Rojo */
+}
+
+.watchlist-btn .material-icons {
+    color: #999;
+    transition: color 0.3s ease-in-out;
+}
+
+.watchlist-btn .watchlist-active {
+    color: #3498db !important; /* Activo - Azul */
+}
+
+/* Efecto al hacer hover */
+.favorite-btn:hover, .watchlist-btn:hover {
+    transform: scale(1.1);
+}
+
+
 /* :::::::::::::::::: ASIDE DE PELÍCULAS SIMILARES ::::::::::::::::: */
 .similar-movies {
     flex: 1;
@@ -302,8 +333,9 @@ header {
     margin-bottom: 15px;
     font-family: var(--font-secondary);
     text-align: center;
-    color: var(--text-color); /* Texto en modo claro */
+    color: var(--text-color); /* Ajustar según tu tema */
 }
+
 
 .similar-movies-grid {
     display: grid;

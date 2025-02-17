@@ -677,5 +677,89 @@ def logout_view(request):
 
 
 
+import json
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from .models import Movie
+
+@login_required
+def toggle_favorite(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # ✅ Procesar JSON
+            movie_id = data.get("movie_id")
+            movie = get_object_or_404(Movie, id=movie_id)
+
+            if request.user in movie.favorite_by_users.all():
+                movie.favorite_by_users.remove(request.user)
+                is_favorite = False
+            else:
+                movie.favorite_by_users.add(request.user)
+                is_favorite = True
+
+            return JsonResponse({"is_favorite": is_favorite})
+
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 
+@login_required
+def toggle_watchlist(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # ✅ Procesar JSON
+            movie_id = data.get("movie_id")
+            movie = get_object_or_404(Movie, id=movie_id)
+
+            if request.user in movie.watchlist_by_users.all():
+                movie.watchlist_by_users.remove(request.user)
+                is_watchlist = False
+            else:
+                movie.watchlist_by_users.add(request.user)
+                is_watchlist = True
+
+            return JsonResponse({"is_watchlist": is_watchlist})
+
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Movie
+
+@login_required(login_url="login_view")
+def favorite_movies(request):
+    """
+    Vista para mostrar las películas favoritas del usuario autenticado.
+    """
+    user = request.user
+    favorite_movies = Movie.objects.filter(favorite_by_users=user)  # Filtra las favoritas del usuario
+
+    return render(request, "movies/favorite_movies.html", {
+        "movies": favorite_movies,
+    })
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Movie
+
+@login_required(login_url="login_view")
+def user_panel(request):
+    """
+    Vista del panel de usuario donde puede ver sus listas de películas favoritas y "Por Ver".
+    """
+    user = request.user
+    favorite_movies = Movie.objects.filter(favorite_by_users=user)
+    watchlist_movies = Movie.objects.filter(watchlist_by_users=user)
+
+    return render(request, "movies/user_panel.html", {
+        "favorite_movies": favorite_movies,
+        "watchlist_movies": watchlist_movies,
+    })

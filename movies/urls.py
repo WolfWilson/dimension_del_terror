@@ -1,5 +1,8 @@
 from django.urls import path
+from .views import toggle_favorite, toggle_watchlist
 from . import views
+from .views import favorite_movies
+from .views import user_panel
 
 urlpatterns = [
     path('', views.movie_list, name='movie_list'),  # Lista de películas
@@ -21,4 +24,15 @@ urlpatterns = [
     # Rutas para login/logout
     path('login/', views.login_view, name='login_view'),
     path('logout/', views.logout_view, name='logout_view'),
+    #Rutas para botones de favoritos y watchlist
+    path("toggle-favorite/", toggle_favorite, name="toggle_favorite"),
+    path("toggle-watchlist/", toggle_watchlist, name="toggle_watchlist"),
+    path("mis-favoritos/", favorite_movies, name="favorite_movies"),
+    path("mi-panel/", user_panel, name="user_panel"),
+
+
+
 ]
+
+    
+

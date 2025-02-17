@@ -1,0 +1,321 @@
+/* :::::::::::::::::: RESETEO BÁSICO Y BOX SIZING :::::::::::::::::: */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
+:root {
+  --font-primary: 'Poppins', sans-serif;
+  --font-secondary: 'Roboto Condensed', sans-serif;
+  --font-title: 'Holtwood One SC', serif;
+  --font-body: 'Mulish', sans-serif;
+  --font-accent: 'Bebas Neue', cursive;
+  --font-extra: 'PT Sans Narrow', sans-serif;
+  --font-decorative: 'Ruslan Display', cursive; /* Nueva variable para Ruslan Display */
+  --font-special: 'Bruno Ace SC', sans-serif; /* Nueva variable para Bruno Ace SC */
+
+  /* Colores modo claro (por defecto) */
+  --bg-color: radial-gradient(
+      100% 100% at 50% 50%,
+      rgba(252, 252, 252, 1) 12%,
+      rgba(247, 222, 181, 1) 84%,
+      rgba(232, 229, 220, 1) 96%
+  );
+  --text-color: rgb(44, 41, 41);
+  --text-color_red: rgb(128, 10, 10);
+
+  /* Colores modo claro (por defecto) */
+  --link-color: var(--accent-color); /* Color de enlaces para modo claro */
+  --link-hover-color: var(--hover-color); /* Hover para enlaces */
+  --title-color: rgb(44, 41, 41); /* Color predeterminado para los títulos */
+}
+
+/* Modo oscuro */
+.dark-mode {
+  --bg-color: radial-gradient(
+      circle at center,
+      rgba(45, 45, 45, 1) 10%,
+      rgba(20, 20, 20, 1) 40%,
+      rgba(5, 5, 5, 1) 90%,
+      rgba(0, 0, 0, 1) 100%
+  );
+  background-attachment: fixed;
+  --text-color: rgb(230, 230, 230);
+  --link-color: #a0d4f0; /* Celeste pastel claro */
+  --link-hover-color: #2e92d4; /* Hover: un celeste más intenso */
+  --title-color: #dba76b; /* Gris más intenso para los títulos */
+}
+
+/* :::::::::::::::::: HEADER :::::::::::::::::: */
+header {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 220px;
+  padding: 0.5rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 2;
+}
+
+header > * {
+  flex: 1;
+  max-height: 100%;
+}
+
+.header-content {
+  position: relative;
+  z-index: 2;
+  padding: 0.5rem;
+}
+
+header h1 {
+  margin: 0;
+  color: #dba76b;
+  font-size: 60px;
+  z-index: 1;
+  position: relative;
+  font-family: var(--font-special);
+  text-shadow: 2px 2px 4px rgba(0.6, 0, 0.6, 0.95);
+  margin-bottom: 0.2rem; /* Reducir el espacio inferior del título */
+}
+
+header h3 {
+  font-family: var(--font-secondary);
+  font-size: 1.2rem;
+  color: #ffffff;
+  z-index: 2; /* Corrige el valor inválido */
+  margin-top: 0;
+  position: relative;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+
+  /* Animación de aparición */
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: fadeInLeft 1s ease-out forwards;
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* :::::::::::::::::: BODY - FONDO :::::::::::::::::: */
+body {
+  font-family: var(--font-secondary);
+  min-height: 100vh; /* Asegura que el body ocupe pantalla completa */
+  background: url("../src/background_login.webp") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #080710; /* color de respaldo */
+}
+
+/* :::::::::::::::::: FORM LOGIN :::::::::::::::::: */
+form {
+  width: 400px;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.13);
+  position: absolute; /* El formulario flota */
+  top: 50%;           /* Lo centra verticalmente, puede ajustarse en mobile */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 35px;
+  color: #ffffff;
+  text-align: center;
+}
+
+form h3 {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
+}
+
+label {
+  display: block;
+  margin-top: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+}
+
+input {
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #e5e5e5;
+  border: none;
+  outline: none;
+}
+
+::placeholder {
+  color: #e5e5e5;
+}
+
+button {
+  margin-top: 50px;
+  width: 100%;
+  background-color: #ffffff;
+  color: #080710;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background-color: #e0e0e0;
+  transition: background-color 0.3s ease;
+}
+
+/* :::::::::::::::::: ALERTAS / REDES SOCIALES :::::::::::::::::: */
+.alert {
+  width: 100%;
+  margin: 10px auto;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.alert-success {
+  background-color: rgba(40, 167, 69, 0.8); /* verde */
+}
+
+.alert-error {
+  background-color: rgba(220, 53, 69, 0.8); /* rojo */
+}
+
+.social {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.social div {
+  background-color: rgba(255, 255, 255, 0.27);
+  color: #eaf0fb;
+  width: 140px;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.social div:hover {
+  background-color: rgba(255, 255, 255, 0.47);
+}
+
+.social i {
+  margin-right: 4px;
+}
+
+/* :::::::::::::::::: FOOTER ::::::::::::::::: */
+footer {
+  background-color: #272B2C;
+  color: #fff;
+  padding: 1rem 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+.container-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.socials a {
+  margin: 0 10px;
+  color: white;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.socials a:hover {
+  color: #FFD700;
+}
+
+.formulario {
+  margin-top: 1rem;
+}
+
+/* :::::::::::::::::: MEDIA QUERIES TABLET :::::::::::::::::: */
+@media (max-width: 768px) {
+  /* Ajustes para tableta */
+  /* ... tu CSS para movies, etc. */
+}
+
+/* :::::::::::::::::: MEDIA QUERIES <= 599PX ::::::::::::::::: */
+@media (max-width: 599px) {
+  #movie-frame {
+    display: none;
+  }
+}
+
+/* :::::::::::::::::: MEDIA QUERIES MÓVILES <= 480PX ::::::::::::::::: */
+@media (max-width: 480px) {
+  header {
+    padding: 1rem 0.5rem;
+    height: auto; /* Permite que el header se adapte al contenido */
+  }
+  header h1 {
+    font-size: 2rem; /* En lugar de 60px */
+    margin-bottom: 0.5rem;
+  }
+  header h3 {
+    font-size: 1rem; /* Reduce el subtítulo */
+    margin-top: 0;
+    opacity: 1; /* Si quieres que sea visible de inmediato en mobile */
+    transform: none;
+    animation: none; /* O quita la animación en mobile si prefieres */
+  }
+  form {
+    width: 85%;
+    top: 55%; /* Bájalo un poco para no solapar el header */
+    padding: 40px 20px;
+    font-size: 1rem; /* Aumenta un poco la fuente en general */
+  }
+  form h3 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+  label {
+    margin-top: 1rem;
+    font-size: 16px;
+  }
+  input {
+    height: 50px;
+    font-size: 16px;
+  }
+  button {
+    margin-top: 1.5rem;
+    font-size: 18px;
+    padding: 14px 0;
+  }
+}
