@@ -1,10 +1,6 @@
 # 🎬 **Dimensión del Terror**  
 
-![Licencia](https://img.shields.io/badge/Licencia-MIT-green.svg)  
-![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg)  
-![Django](https://img.shields.io/badge/Framework-Django-orange.svg)  
-![PyQt5](https://img.shields.io/badge/Framework-PyQt5-orange.svg)  
-![Estado](https://img.shields.io/badge/Estado-Estable-success.svg)  
+![Licencia](https://img.shields.io/badge/Licencia-MIT-green.svg) ![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg) ![Django](https://img.shields.io/badge/Framework-Django-orange.svg) ![Estado](https://img.shields.io/badge/Estado-Estable-success.svg)  
 
 **Dimensión del Terror** es una plataforma web para **amantes del cine de terror y ciencia ficción**. Con ella puedes **gestionar, explorar y buscar películas** de manera sencilla y eficiente. 🚀  
 
@@ -110,6 +106,6 @@ Este proyecto está bajo la licencia MIT. ¡Úsalo, modifícalo y compártelo li
 
 
 ### **🔹 ¿A futuro?**
-✅ **Mejor organización** creación de sección de colecciones para agrupas sagas de peliculas.  
-✅ **Listas de favoritos y por ver **.  
-✅ *.Agregar calificicación personalizada para cada usuario en formato 5 estrellas debajo de cada poster** 
+✅ Mejor organización** creación de sección de colecciones para agrupas sagas de peliculas.  
+✅ Listas de favoritos y por ver 
+✅ .Agregar calificicación personalizada para cada usuario en formato 5 estrellas debajo de cada poster
