@@ -440,6 +440,12 @@ main h2 {
 .genres span {
     display: block;
 }
+
+/* Limitar la cantidad de géneros mostrados */
+.genres span:nth-child(n+9) {
+    display: none; /* Oculta los géneros después del octavo */
+}
+
 .details-button {
     background-color: #ffffff;
     color: black;
@@ -463,6 +469,18 @@ main h2 {
     margin: 0;
     font-size: 1rem;
 }
+
+/* Efecto de hover en la imagen del póster */
+.poster-content img {
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+}
+
+/* Efecto al pasar el cursor */
+.poster-content:hover img {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+    filter: brightness(1.2); /* Aumenta el brillo */
+}
+
 
 /* :::::::::::::::::: BARRA DE BÚSQUEDA ::::::::::::::::: */
 .search-bar {

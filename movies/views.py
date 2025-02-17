@@ -19,7 +19,7 @@ from .forms import (
 )
 from .utils import get_movie_data_from_api
 from .forms import MovieForm, MovieFrontendForm, CommentForm, MovieRequestForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required #para proteger las vistas con inicio de sesión requerido
 
 # ------------------------------------------------------------------------------
 #                                  UTILIDADES
