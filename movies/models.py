@@ -10,14 +10,14 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
 
-
+# :::::::::::::::::: MODELO DE GÉNEROS DE CINE :::::::::::::::::::::::::::::
 class Genre(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
 
-
+# :::::::::::::::::: MODELO PRINCIPAL DE PELICULAS :::::::::::::::::::::::::::::
 class Movie(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)

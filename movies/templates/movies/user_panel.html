@@ -47,11 +47,15 @@
 
         <div class="user-panel">
 
-            <h2>Mi Panel de Usuario</h2>
+            {% if request.user.is_authenticated %}
+        <h2>Panel de Usuario: {{ request.user.username }}!</h2>
+    {% else %}
+        <h2>Bienvenido, Invitado!</h2>
+    {% endif %}
             
             <!-- Carrusel Favoritos -->
             <section class="favorites-section">
-              <h3>❤️ Mis Películas Favoritas</h3>
+              <h3>❤️ Mis Películas Favoritas: </h3>
               <div class="carousel-wrapper">
                 <!-- Flecha Izquierda -->
                 <div class="carousel-nav left">
@@ -83,7 +87,7 @@
             
             <!-- Carrusel Por Ver -->
             <section class="watchlist-section">
-              <h3>👀 Para ver</h3>
+              <h3>👀Listas de Películas para ver:</h3>
               <div class="carousel-wrapper">
                 <div class="carousel-nav left">
                   <div class="swiper-button-prev watchlist-prev"></div>

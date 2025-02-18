@@ -33,6 +33,7 @@
             <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
             <li><a href="{% url 'series_list' %}">Series</a></li>
             <li><a href="{% url 'reviews' %}">Reseñas</a></li>
+            <li><a href="{% url 'user_panel' %}">🎭 Mi Panel</a></li>
         </ul>
     </nav>
     <header>
@@ -107,11 +108,6 @@
         <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
     {% endif %}
 </div>
-
-                
-
-                
-
                 <div class="movie-details">
                     <p><strong>Géneros:</strong> 
                         {% for genre in movie.genres.all %}
