@@ -89,6 +89,7 @@ h3 {
     width: 100%;
     overflow: hidden;
     position: relative;
+
 }
 
 /* Contenedor de los botones de navegación */
@@ -137,7 +138,7 @@ h3 {
 /* Estilos para las tarjetas de películas */
 .movie-card {
     text-align: center;
-    background: #222;
+    background: transparent; /*color que rodea cada poster de peli*/
     padding: 10px;
     border-radius: 8px;
     transition: transform 0.3s ease-in-out;

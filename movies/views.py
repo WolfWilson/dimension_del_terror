@@ -21,6 +21,14 @@ from .utils import get_movie_data_from_api
 from .forms import MovieForm, MovieFrontendForm, CommentForm, MovieRequestForm
 from django.contrib.auth.decorators import login_required #para proteger las vistas con inicio de sesión requerido
 
+from django.shortcuts import render
+from .models import Movie
+
+#IMPORTACIONES PARA FAV Y POR VER
+import json
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+
 # ------------------------------------------------------------------------------
 #                                  UTILIDADES
 # ------------------------------------------------------------------------------
@@ -666,7 +674,7 @@ def login_view(request):
     return render(request, 'movies/login.html')
 
 
-
+# ::::::::::::::::::::::::::::::::::::::::::::::::::::: VISTA PARA DEL CIERRE DE SESIÓN :::::::::::::::::::::::::::::::::::::::::::::::::::
 def logout_view(request):
     """
     Cierra la sesión actual y redirige a la página de login o donde desees.
@@ -676,12 +684,7 @@ def logout_view(request):
     return redirect('login_view')
 
 
-
-import json
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from .models import Movie
+#:::::::::::::::::::::::::::::::::::::::::  VISTA PARA BOTONES DE LISTA DE FAVORITOS Y POR VER  ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 @login_required
 def toggle_favorite(request):
@@ -729,9 +732,8 @@ def toggle_watchlist(request):
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from .models import Movie
+
+#:::::::::::::::::::::::::::::::::: VISTAS DE PANEL DE USUARIO  :::::::::::::::::::::::::::::::::::::
 
 @login_required(login_url="login_view")
 def favorite_movies(request):
@@ -745,10 +747,6 @@ def favorite_movies(request):
         "movies": favorite_movies,
     })
 
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from .models import Movie
 
 @login_required(login_url="login_view")
 def user_panel(request):
