@@ -23,6 +23,9 @@
        <!-- :::::::::::::::::: Script Principal::::::::::::::::: -->
        <script src="{% static 'js/manejo_de_listas.js' %}" defer></script>
 <script src="{% static 'js/scripts.js' %}" defer></script>
+<!-- Swiper.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
 
 </head>
 <body>
@@ -44,45 +47,128 @@
     <div class="user-panel">
         <h2>🎬 Mi Panel de Usuario</h2>
         
-        <!-- Sección de Películas Favoritas -->
-        <section>
-            <h3>❤️ Mis Películas Favoritas</h3>
-            {% if favorite_movies %}
-                <div class="movie-grid">
+<!-- Sección de Películas Favoritas en Carrusel -->
+<section class="favorites-section">
+    <h3>❤️ Mis Películas Favoritas</h3>
+    {% if favorite_movies %}
+        <div class="carousel-wrapper">
+            <!-- Botón de navegación izquierda -->
+            <div class="carousel-nav left">
+                <div class="swiper-button-prev favorites-prev"></div>
+            </div>
+
+            <!-- Contenedor principal del carrusel -->
+            <div class="swiper-container favorites-carousel">
+                <div class="swiper-wrapper">
                     {% for movie in favorite_movies %}
-                        <div class="movie-card">
-                            <a href="{% url 'movie_detail' movie.id %}">
-                                <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
-                                <h4>{{ movie.title }} ({{ movie.release_date.year }})</h4>
-                            </a>
+                        <div class="swiper-slide">
+                            <div class="movie-card">
+                                <a href="{% url 'movie_detail' movie.id %}">
+                                    <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                                    <h4>{{ movie.title }} ({{ movie.release_date.year }})</h4>
+                                </a>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
-            {% else %}
-                <p>No tienes películas favoritas aún.</p>
-            {% endif %}
-        </section>
+            </div>
+
+            <!-- Botón de navegación derecha -->
+            <div class="carousel-nav right">
+                <div class="swiper-button-next favorites-next"></div>
+            </div>
+        </div>
+        <div class="swiper-pagination favorites-pagination"></div>
+    {% else %}
+        <p>No tienes películas favoritas aún.</p>
+    {% endif %}
+</section>
+
 
         <!-- Sección de Películas "Por Ver" -->
-        <section>
+        <section class="watchlist-section">
             <h3>👀 Mi Lista de "Por Ver"</h3>
             {% if watchlist_movies %}
-                <div class="movie-grid">
-                    {% for movie in watchlist_movies %}
-                        <div class="movie-card">
-                            <a href="{% url 'movie_detail' movie.id %}">
-                                <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
-                                <h4>{{ movie.title }} ({{ movie.release_date.year }})</h4>
-                            </a>
+                <div class="carousel-wrapper">
+                    <!-- Botón de navegación izquierda -->
+                    <div class="carousel-nav left">
+                        <div class="swiper-button-prev watchlist-prev"></div>
+                    </div>
+        
+                    <!-- Contenedor principal del carrusel -->
+                    <div class="swiper-container watchlist-carousel">
+                        <div class="swiper-wrapper">
+                            {% for movie in watchlist_movies %}
+                                <div class="swiper-slide">
+                                    <div class="movie-card">
+                                        <a href="{% url 'movie_detail' movie.id %}">
+                                            <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                                            <h4>{{ movie.title }} ({{ movie.release_date.year }})</h4>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                    </div>
+        
+                    <!-- Botón de navegación derecha -->
+                    <div class="carousel-nav right">
+                        <div class="swiper-button-next watchlist-next"></div>
+                    </div>
                 </div>
+                <div class="swiper-pagination watchlist-pagination"></div> <!-- Paginación opcional -->
             {% else %}
                 <p>No tienes películas en tu lista de "Por Ver".</p>
             {% endif %}
         </section>
-    </div>
+        
 
 
 
 </body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Carrusel de "Mis Películas Favoritas"
+    new Swiper(".favorites-carousel", {
+        slidesPerView: 6, // Debe mostrar 6 películas a la vez
+        spaceBetween: 15,
+        loop: true,
+        navigation: {
+            nextEl: ".favorites-next",
+            prevEl: ".favorites-prev",
+        },
+        pagination: {
+            el: ".favorites-pagination",
+            clickable: true,
+        },
+        breakpoints: {
+            320: { slidesPerView: 2 },  // Móvil
+            640: { slidesPerView: 3 },  // Tablet
+            1024: { slidesPerView: 6 }  // Escritorio
+        }
+    });
+
+    // Carrusel de "Por Ver"
+    new Swiper(".watchlist-carousel", {
+        slidesPerView: 6,
+        spaceBetween: 15,
+        loop: true,
+        navigation: {
+            nextEl: ".watchlist-next",
+            prevEl: ".watchlist-prev",
+        },
+        pagination: {
+            el: ".watchlist-pagination",
+            clickable: true,
+        },
+        breakpoints: {
+            320: { slidesPerView: 2 },
+            640: { slidesPerView: 3 },
+            1024: { slidesPerView: 6 }
+        }
+    });
+});
+
+
+</script>

@@ -71,3 +71,84 @@
 h3 {
     margin-top: 20px;
 }
+
+
+/* :::::::::::::::::: SWIPER (CARRUSEL) :::::::::::::::::: *//* Contenedor principal del carrusel */
+/* Contenedor principal del carrusel */
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 90%;
+    margin: auto;
+}
+
+/* Ajustes del carrusel */
+.swiper-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Contenedor de los botones de navegación */
+.carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
+/* Botón izquierdo */
+.carousel-nav.left {
+    left: -60px;
+}
+
+/* Botón derecho */
+.carousel-nav.right {
+    right: -60px;
+}
+
+/* Ajustes para los botones de navegación */
+.swiper-button-next,
+.swiper-button-prev {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+    color: white;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(255, 255, 255, 0.7);
+    color: black;
+}
+
+/* Estilos para las tarjetas de películas */
+.movie-card {
+    text-align: center;
+    background: #222;
+    padding: 10px;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+    width: 150px;
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.movie-card:hover {
+    transform: scale(1.1);
+}
