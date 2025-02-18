@@ -94,7 +94,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: auto !important; /* Asegura que no se generen espacios por el tamaño de los elementos */
   }
   
   /* :::::::::::::::::: NAVEGACIÓN :::::::::::::::::: */
@@ -147,7 +146,7 @@
   /* :::::::::::::::::: MOVIE CARD :::::::::::::::::: */
   .movie-card {
     width: 180px; /* Suficiente para un póster grande */
-    margin: 5px;
+    margin: 10px;
     text-align: center;
     background: transparent;
     padding: 10px;
@@ -176,24 +175,12 @@
   }
   
   .movie-card h4 {
-    height: 3em; /* Fijamos el alto del título */
-    overflow: hidden; /* Oculta cualquier exceso de texto */
-    text-align: center;
-    line-height: 1.5; /* Ajuste de espaciado */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-top: 5px;
     font-size: 14px;
     font-weight: bold;
-    white-space: normal; /* Permite saltos de línea */
-}
-
-
-  .swiper-wrapper {
-    display: flex;
-    align-items: center;
-}
-
+  }
+  
+  
   /* :::::::::::::::::: MEDIA QUERIES :::::::::::::::::: */
 
 /* Tablets (pantallas medianas) */
