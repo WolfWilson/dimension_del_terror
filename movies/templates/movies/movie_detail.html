@@ -59,7 +59,13 @@
             
           <!-- Contenedor principal de la película -->
 <div class="movie-info">
-    <!-- Botones de Lista -->
+
+
+    <!-- Poster -->
+<div class="movie-poster">
+    <a href="#ver-original-label" class="btn-watch-online">Ver Online</a>
+
+    <!-- Contenedor de botones dentro del póster -->
     <div class="movie-actions">
         <!-- Botón de Favoritos -->
         <button class="list-button favorite-btn" data-movie-id="{{ movie.id }}">
@@ -84,30 +90,24 @@
         </button>
     </div>
 
-    <!-- Poster -->
-    <div class="movie-poster">
-
-                    <a href="#ver-original-label" class="btn-watch-online">Ver Online</a>
-                
-                    {% if movie.poster_image %}
-                        <a href="{{ movie.trailer_url }}" 
-                           data-fancybox
-                           data-type="iframe" 
-                           data-caption="Ver Tráiler: {{ movie.title }}">
-                            <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
-                            <div class="hover-content">
-                                <div class="play-overlay">
-                                    <img src="{% static 'images/play2.png' %}" alt="Play" class="play-icon">
-                                    <div class="hover-text">Ver Tráiler</div>
-                                </div>
-                            </div>
-                        </a>
-                    {% else %}
-                        <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
-                    {% endif %}
-                
-                  
+    {% if movie.poster_image %}
+        <a href="{{ movie.trailer_url }}" 
+           data-fancybox
+           data-type="iframe" 
+           data-caption="Ver Tráiler: {{ movie.title }}">
+            <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+            <div class="hover-content">
+                <div class="play-overlay">
+                    <img src="{% static 'images/play2.png' %}" alt="Play" class="play-icon">
+                    <div class="hover-text">Ver Tráiler</div>
                 </div>
+            </div>
+        </a>
+    {% else %}
+        <img src="{% static 'images/default_poster.jpg' %}" alt="Imagen no disponible">
+    {% endif %}
+</div>
+
                 
 
                 
@@ -145,6 +145,7 @@
                     
 
                     <div class="movie-rating">
+                        
     <div class="tmdb-logo-container">
         {% if movie.tmdb_url %}
             <a href="{{ movie.tmdb_url }}" target="_blank" rel="noopener noreferrer">
@@ -257,9 +258,6 @@
                         {% endfor %}
                     </div>
                 </section>
-                
-
-
 <!-- Ventana de Confirmación -->
 {% if comment_success %}
 <div id="commentModal" class="modal-overlay">
@@ -322,58 +320,7 @@
         });
     </script>
 
-    <script>
 
-function toggleFavorite(movieId) {
-    fetch('/toggle_favorite/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': getCSRFToken() // Asegurar que el token CSRF está correctamente definido
-        },
-        body: `movie_id=${movieId}`
-    })
-    .then(response => response.json())  // Asegurar que la respuesta se convierte en JSON
-    .then(data => {
-        const icon = document.getElementById(`fav-icon-${movieId}`);
-        if (data.status === "added") {
-            icon.textContent = "favorite";
-        } else {
-            icon.textContent = "favorite_border";
-        }
-    })
-    .catch(error => console.error("Error al actualizar favoritos:", error));
-}
-
-function toggleWatchlist(movieId) {
-    fetch('/toggle_watchlist/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': getCSRFToken()
-        },
-        body: `movie_id=${movieId}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        const icon = document.getElementById(`watchlist-icon-${movieId}`);
-        if (data.status === "added") {
-            icon.textContent = "visibility";
-        } else {
-            icon.textContent = "visibility_off";
-        }
-    })
-    .catch(error => console.error("Error al actualizar 'Por Ver':", error));
-}
-
-// Obtener el token CSRF correctamente
-function getCSRFToken() {
-    const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
-    return tokenElement ? tokenElement.value : '';
-}
-
-    </script>
-    
     <script>
         // Contador de caracteres para el textarea
         document.addEventListener("DOMContentLoaded", function () {

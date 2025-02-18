@@ -276,43 +276,64 @@ header {
 }
 
 
-/* :::::::::::::::::: BOTONES DE ACCIONES (FAVORITOS Y "POR VER") :::::::::::::::::: */
-.movie-actions {
+/* :::::::::::::::::: ESTILOS DE LOS BOTONES EN LAS ESQUINAS :::::::::::::::::: */
+.movie-poster {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 425px;
+    height: auto;
+    aspect-ratio: 2/3;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Estilos generales para los botones */
+.list-button {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-.favorite-btn, .watchlist-btn {
-    background: none;
-    border: none;
     cursor: pointer;
-    font-size: 2rem;
-    transition: transform 0.2s ease-in-out;
+    transition: background 0.3s ease, transform 0.2s ease-in-out;
+    z-index: 10;
 }
 
-.favorite-btn .material-icons {
-    color: #999; /* Gris apagado */
-    transition: color 0.3s ease-in-out;
+/* Iconos dentro de los botones */
+.list-button i {
+    font-size: 22px;
+    color: white;
 }
 
-.favorite-btn .favorite-active {
-    color: red !important; /* Activo - Rojo */
+/* Estilo del botón de favoritos en la esquina superior izquierda */
+.favorite-btn {
+    top: 10px;
+    left: 10px;
 }
 
-.watchlist-btn .material-icons {
-    color: #999;
-    transition: color 0.3s ease-in-out;
+/* Estilo del botón de "Por Ver" en la esquina superior derecha */
+.watchlist-btn {
+    top: 10px;
+    right: 10px;
 }
 
-.watchlist-btn .watchlist-active {
-    color: #3498db !important; /* Activo - Azul */
-}
-
-/* Efecto al hacer hover */
-.favorite-btn:hover, .watchlist-btn:hover {
+/* Hover */
+.list-button:hover {
+    background: rgba(255, 255, 255, 0.8);
     transform: scale(1.1);
+}
+
+.favorite-btn i {
+    color: red; /* Color favorito */
+}
+
+.watchlist-btn i {
+    color: rgb(227, 158, 79); /* Color "Por Ver" */
 }
 
 
