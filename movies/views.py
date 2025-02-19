@@ -761,3 +761,27 @@ def user_panel(request):
         "favorite_movies": favorite_movies,
         "watchlist_movies": watchlist_movies,
     })
+
+
+# ::::::::::::::::::::::::   VISTA PARA EL RATING PERSONAL :::::::::::::::::::::::::::
+
+from .models import Movie, MovieRating  # Asegúrate de importar los modelos
+
+@login_required
+def rate_movie(request, movie_id):
+    if request.method == "POST":
+        movie = get_object_or_404(Movie, id=movie_id)
+        rating_value = float(request.POST.get("rating", 0))
+
+        # Buscar si ya existe una calificación del usuario para esta película
+        rating_obj, created = MovieRating.objects.get_or_create(movie=movie, user=request.user)
+
+        # Actualizar la calificación
+        rating_obj.rating = rating_value
+        rating_obj.save()
+
+        return JsonResponse({"success": True, "rating": rating_obj.rating})
+
+    return JsonResponse({"success": False}, status=400)
+
+

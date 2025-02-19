@@ -3,6 +3,7 @@ from .views import toggle_favorite, toggle_watchlist
 from . import views
 from .views import favorite_movies
 from .views import user_panel
+from movies.views import rate_movie
 
 urlpatterns = [
     path('', views.movie_list, name='movie_list'),  # Lista de películas
@@ -29,6 +30,8 @@ urlpatterns = [
     path("toggle-watchlist/", toggle_watchlist, name="toggle_watchlist"),
     path("mis-favoritos/", favorite_movies, name="favorite_movies"),
     path("mi-panel/", user_panel, name="user_panel"),
+
+    path("rate-movie/<int:movie_id>/", rate_movie, name="rate_movie"),
 
 
 

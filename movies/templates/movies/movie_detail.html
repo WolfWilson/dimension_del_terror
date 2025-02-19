@@ -20,6 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
        <!-- :::::::::::::::::: Script Principal::::::::::::::::: -->
+       <script src="{% static 'js/personal_rating.js' %}" defer></script>
        <script src="{% static 'js/manejo_de_listas.js' %}" defer></script>
 <script src="{% static 'js/scripts.js' %}" defer></script>
 
@@ -60,7 +61,6 @@
             
           <!-- Contenedor principal de la película -->
 <div class="movie-info">
-
 
     <!-- Poster -->
 <div class="movie-poster">
@@ -141,22 +141,35 @@
                     
 
                     <div class="movie-rating">
-                        
-    <div class="tmdb-logo-container">
-        {% if movie.tmdb_url %}
-            <a href="{{ movie.tmdb_url }}" target="_blank" rel="noopener noreferrer">
-                <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link">
-            </a>
-        {% else %}
-            <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link disabled">
-        {% endif %}
-    </div>
-    <div class="user-rating">
-        <h3>Puntuación de Usuarios:</h3>
-        <span>{{ movie.rating|default:"Sin calificación" }}/10</span>
-        <i class="fa fa-star star-icon" aria-hidden="true"></i>
-    </div>
-</div>
+    
+                        <!-- LOGO Y RATING DE TMDB (YA EXISTENTE) -->
+                        <div class="tmdb-logo-container">
+                            {% if movie.tmdb_url %}
+                                <a href="{{ movie.tmdb_url }}" target="_blank" rel="noopener noreferrer">
+                                    <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link">
+                                </a>
+                            {% else %}
+                                <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link disabled">
+                            {% endif %}
+                        </div>
+                    
+                        <div class="user-rating">
+                            <h3>Puntuación de Usuarios:</h3>
+                            <span>{{ movie.rating|default:"Sin calificación" }}/10</span>
+                            <i class="fa fa-star star-icon" aria-hidden="true"></i>
+                            
+                            <!-- CALIFICACIÓN DEL USUARIO: 5 Estrellas con media -->
+                            <div class="star-rating" data-movie-id="{{ movie.id }}">
+                                <!-- 5 Estrellas (sin media-star icon). Usaremos JS para detectar clic en mitad -->
+                                {% for i in "01234" %}
+                                <i class="fa fa-star star" data-index="{{ forloop.counter0 }}"></i>
+                                {% endfor %}
+                            </div>
+                            <span id="user-rating-display">0.0</span>
+                        </div>
+                    </div>
+                    
+                    
 
                     
                 </div>

@@ -276,6 +276,7 @@ header {
 }
 
 
+
 /* :::::::::::::::::: ESTILOS DE LOS BOTONES EN LAS ESQUINAS :::::::::::::::::: */
 .movie-poster {
     position: relative;
@@ -754,7 +755,15 @@ footer {
     margin-top: 1.2rem; /* Margen superior personalizado */
 }
 
-/* :::::::::::::::::: LOGO Y RATING ::::::::::::::::: */
+/* :::::::::::::::::: LOGO Y RATING (TMDB) ::::::::::::::::: */
+
+/* Contenedor principal (ya existente) */
+.movie-rating {
+    /* Mantén tus estilos previos (si tenías) */
+    display: flex; /* Para alinear en fila */
+    align-items: center;
+    gap: 20px; /* Ajusta el espacio horizontal */
+}
 
 .tmdb-logo-container img {
     width: 30px;
@@ -768,18 +777,22 @@ footer {
     transform: scale(1.1);
 }
 
+/* :::::::::::::::::: RATING DE USUARIOS :::::::::::::::::: */
+
 .user-rating {
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-family: var(--font-secondary); /* Fuente secundaria */
+    gap: 10px;
+    font-family: var(--font-secondary);
+    color: var(--text-color);
+    /* Mantén lo que ya tenías, p.e. font-size: 16px si gustas */
 }
 
 .user-rating h3 {
-    font-size: 16px;
     margin: 0;
-    color: var(--text-color);
+    font-size: 16px;
     font-weight: 600;
+    color: var(--text-color);
 }
 
 .user-rating span {
@@ -790,14 +803,39 @@ footer {
 
 .user-rating .star-icon {
     font-size: 16px;
-    color: #f5c518; /* Color dorado para la estrella */
+    color: #f5c518; /* Estrella dorada */
     margin-left: 5px;
-    transform: scale(1);
     transition: transform 0.3s ease;
 }
 
 .user-rating .star-icon:hover {
-    transform: scale(1.2); /* Efecto al pasar el mouse sobre la estrella */
+    transform: scale(1.2);
+}
+
+/* :::::::::::::::::: ESTRELLAS PARA "MI RATING" :::::::::::::::::: */
+.rating-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Contenedor de estrellas */
+.star-rating {
+    display: flex;
+    gap: 3px;
+}
+
+.star {
+    font-size: 20px; /* Ajusta el tamaño si lo ves muy grande/pequeño */
+    color: #ccc;     /* Estrella vacía */
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Efecto al hover o selección */
+.star:hover,
+.star.active {
+    color: gold;
 }
 
 
