@@ -853,16 +853,17 @@ footer {
 
 /* Colores según el rango de rating seleccionado */
 .star.active.red { color: red; }
-.star.active.orange { color: orange; }
+.star.active.orange { color: rgba(236, 160, 19, 0.996); }
 .star.active.gold { color: gold; }
-.star.active.green { color: #3cb371; } /* Verde */
+.star.active.green { color: #3c91b3; } /* Verde */
 .star.active.purple { color: #800080; } /* Morado */
 
 /* Glow effect */
+/*
 .star.active {
     text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.7);
 }
-
+*/
 .star {
     transition: color 0.3s ease-in-out;
 }
@@ -890,8 +891,6 @@ footer {
     transform: translateX(-50%);
     animation: explode 0.5s ease-out forwards;
 }
-
-
 
   /* Texto con la puntuación (4.5) en negrita */
   .personal-score {

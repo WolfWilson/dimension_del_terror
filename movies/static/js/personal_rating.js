@@ -106,12 +106,10 @@ function highlightStars(stars, rating) {
   function getStarColor(rating) {
     if (rating >= 0.5 && rating <= 1) {
       return "red";      // 0.5 - 1 (Rojo)
-    } else if (rating > 1 && rating <= 2) {
-      return "orange";   // 1.5 - 2 (Naranja)
-    } else if (rating > 2 && rating <= 3) {
-      return "gold";     // 2.5 - 3 (Dorado)
+    } else if (rating > 1 && rating <= 2.5) {
+      return "orange";   // 1.5 - 3 (Naranja)
     } else if (rating > 3 && rating <= 4.5) {
-      return "green";    // 3.5 - 4.5 (Verde)
+     return "gold";     // 3.5  - 4 .5(Dorado)  
     } else if (rating === 5) {
       return "purple";   // 5 (Morado)
     }
