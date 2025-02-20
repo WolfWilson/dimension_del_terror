@@ -872,27 +872,25 @@ footer {
 }
 
 @keyframes explode {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5) translateY(-10px); opacity: 0.5; }
+    0%   { transform: scale(1);   opacity: 1; }
+    50%  { transform: scale(1.5) translateY(-10px); opacity: 0.5; }
     100% { transform: scale(0.5) translateY(-20px); opacity: 0; }
 }
 
-.star {
-    position: relative; /* Necesario para el posicionamiento del ::after */
-    cursor: pointer;
-    transition: color 0.3s ease-in-out;
+.star.clicked {
+    position: relative; /* para ubicar el ::after */
 }
 
-/* 🔥 CHISPAS al hacer CLICK (solo sobre la estrella seleccionada) */
 .star.clicked::after {
     content: "✨";
     position: absolute;
     font-size: 12px;
-    top: -10px;  /* Ajusta la altura de las chispas */
+    top: -10px;  
     left: 50%;
     transform: translateX(-50%);
     animation: explode 0.5s ease-out forwards;
 }
+
 
 
   /* Texto con la puntuación (4.5) en negrita */

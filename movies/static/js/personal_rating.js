@@ -58,46 +58,66 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   
-    // :::::::::::::: Función para resaltar estrellas ::::::::::::::
-    function highlightStars(stars, rating) {
-        stars.forEach(star => {
-            const starIndex = parseInt(star.getAttribute("data-index"));
-            const starNumber = starIndex + 1; // 1 a 5
-    
-            // Restablecer la estrella a su estado vacío por defecto (gris)
-            star.classList.remove("fa-star", "fa-star-half-alt", "active");
-            star.classList.add("fa-star"); // Siempre es una estrella completa
-            star.style.color = "#ccc"; // Por defecto, todas las estrellas en gris
-    
-            if (rating >= starNumber) {
-                // Estrella completa
-                star.classList.add("active");
-                star.style.color = getStarColor(rating);
-            } else if (rating >= starIndex + 0.5) {
-                // Media estrella
-                star.classList.remove("fa-star"); // Quitar estrella completa
-                star.classList.add("fa-star-half-alt", "active");
-                star.style.color = getStarColor(rating);
-            }
-        });
+ // :::::::::::::: Función para resaltar estrellas ::::::::::::::
+function highlightStars(stars, rating) {
+    // 1) Limpiar la clase "clicked" de todas las estrellas
+    stars.forEach(star => star.classList.remove("clicked"));
+  
+    // 2) Pintar cada estrella
+    stars.forEach(star => {
+      const starIndex = parseInt(star.getAttribute("data-index"));
+      const starNumber = starIndex + 1; // 1..5
+  
+      // Restablecer la estrella a su estado vacío por defecto (gris)
+      star.classList.remove("fa-star", "fa-star-half-alt", "active");
+      star.classList.add("fa-star"); // Siempre muestra la estrella
+      star.style.color = "#ccc";     // Gris por defecto
+  
+      if (rating >= starNumber) {
+        // Estrella completa
+        star.classList.add("active");
+        star.style.color = getStarColor(rating);
+      } else if (rating >= starIndex + 0.5) {
+        // Media estrella
+        star.classList.remove("fa-star"); // Quitar estrella completa
+        star.classList.add("fa-star-half-alt", "active");
+        star.style.color = getStarColor(rating);
+      }
+    });
+  
+    // 3) Determinar sobre qué estrella ocurre el click
+    //    - p.ej. si rating=3.5, la estrella "central" es starIndex=2 => 3ra estrella
+    //    - Si rating=4 => starIndex=3 => 4ta estrella
+    if (rating > 0) {
+      let clickedIndex = Math.floor(rating - 0.5);
+      // Controlar límites (por si rating<1)
+      if (clickedIndex < 0) {
+        clickedIndex = 0;
+      } else if (clickedIndex > 4) {
+        clickedIndex = 4;
+      }
+  
+      // 4) Agregar la clase "clicked" sólo a la estrella correspondiente
+      stars[clickedIndex].classList.add("clicked");
     }
-    
-    // ✅ Función auxiliar para determinar el color según el rating seleccionado
-    function getStarColor(rating) {
-        if (rating >= 0.5 && rating <= 1) {
-            return "red"; // 0.5 - 1 ⭐ (Rojo)
-        } else if (rating > 1 && rating <= 2) {
-            return "orange"; // 1.5 - 2 ⭐ (Naranja)
-        } else if (rating > 2 && rating <= 3) {
-            return "gold"; // 2.5 - 3 ⭐ (Dorado)
-        } else if (rating > 3 && rating <= 4.5) {
-            return "green"; // 3.5 - 4.5 ⭐ (Verde)
-        } else if (rating === 5) {
-            return "purple"; // 5 ⭐ (Morado)
-        }
-        return "gold"; // Color por defecto
+  }
+  
+  // ✅ Función para obtener el color dinámico según la calificación seleccionada
+  function getStarColor(rating) {
+    if (rating >= 0.5 && rating <= 1) {
+      return "red";      // 0.5 - 1 (Rojo)
+    } else if (rating > 1 && rating <= 2) {
+      return "orange";   // 1.5 - 2 (Naranja)
+    } else if (rating > 2 && rating <= 3) {
+      return "gold";     // 2.5 - 3 (Dorado)
+    } else if (rating > 3 && rating <= 4.5) {
+      return "green";    // 3.5 - 4.5 (Verde)
+    } else if (rating === 5) {
+      return "purple";   // 5 (Morado)
     }
-    
+    return "gold";       // Por defecto
+  }
+  
   
     // :::::::::::::: Guardar rating en el servidor ::::::::::::::
     function saveRating(movieId, ratingValue) {
