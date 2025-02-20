@@ -153,28 +153,40 @@
                                 <img src="{% static 'images/tmdb.png' %}" alt="TMDB Logo" class="tmdb-link disabled">
                             {% endif %}
                         </div>
-                    
+                        
+                    <!-- CALIFICACIÓN DEL USUARIOS TMBD -->
                         <div class="user-rating">
-                            <h3>Puntuación de Usuarios :</h3>
+                            <h3>Puntuación TMBD :</h3>
                             <span>{{ movie.rating|default:"Sin calificación" }}/10</span>
-                            <i class="fa fa-star star-icon" aria-hidden="true"></i>
-                            
-                            <!-- CALIFICACIÓN DEL USUARIO: 5 Estrellas (con media manejada en JS) -->
-                            <div class="star-rating"
-                                 data-movie-id="{{ movie.id }}"
-                                 data-initial-rating="{{ user_rating_value|default:"0.0" }}">
-                                <!-- 5 Estrellas (sin media-star icon). Usaremos JS para detectar clic en mitad -->
-                                {% for i in "01234" %}
-                                    <i class="fa fa-star star" data-index="{{ forloop.counter0 }}"></i>
-                                {% endfor %}
-                            </div>
-                            
-                            <!-- Mostramos aquí el valor actual de la calificación del usuario -->
-                            <span id="user-rating-display">{{ user_rating_value|default:"0.0" }}</span>
+                            <i class="fa fa-star star-icon" aria-hidden="true"></i>       
                         </div>
                     </div>
-                    <!--FIN  DE SECCIÓN DE RATING  -->            
-                </div>
+                    <!--FIN  DE SECCIÓN DE RATING TMDB  -->  
+
+                                            <!-- Bloque "Mi Rating" -->
+                        <div class="personal-user-rating">
+                        <!-- Ícono de usuario o lo que quieras -->
+                        <i class="fa fa-user user-rating-icon"></i>
+
+                        <!-- Etiqueta "Mi Rating" -->
+                        <h3>Mi Rating:</h3>
+
+                        <!-- Contenedor con 5 estrellas (media-estrella detectada en JS) -->
+                        <div class="star-rating"
+                            data-movie-id="{{ movie.id }}"
+                            data-initial-rating="{{ user_rating_value|default:"0.0" }}">
+                            {% for i in "01234" %}
+                            <i class="fa fa-star star" data-index="{{ forloop.counter0 }}"></i>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Valor numérico final -->
+                        <span id="user-rating-display" class="personal-score">
+                            {{ user_rating_value|default:"0.0" }}
+                        </span>
+                        </div> 
+                                            <!--FIN DE SECCIÓN DE RATING  -->  
+                        </div>
             </div>
 
 <!-- Contenedor de películas similares -->

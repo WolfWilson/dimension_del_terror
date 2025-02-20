@@ -813,32 +813,96 @@ footer {
 }
 
 /* :::::::::::::::::: ESTRELLAS PARA "MI RATING" :::::::::::::::::: */
-.rating-container {
+/* :::::::::::::::::: PERSONAL USER RATING :::::::::::::::::: */
+.personal-user-rating {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    align-items: center; 
+    gap: 10px;           /* Espacio horizontal entre cada elemento */
+    margin: 0.5rem 0;   /* Pequeño margen vertical */
+    font-family: var(--font-secondary);
+  }
+  
+  /* Ícono de usuario */
+  .user-rating-icon {
+    font-size: 18px;
+    color: var(--text-color); /* O un color distintivo si deseas */
+  }
+  
+  /* :::::::::::::::::::::::::::::::::::::::::::::::: Mi Rating ::::::::::::::::::::::::::::::::::::::::::::::::*/
+  .personal-user-rating h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  
+  /* Contenedor de estrellas */
+  .star-rating {
+    display: flex;
+    gap: 3px;           /* Espacio entre estrellas */
+  }
+  
+  /*:::::::::::::::::::  Estrellas de puntuación personal ::::::::::::::::::::::::: */
+/* Estrella base */
+.star {
+    font-size: 20px;
+    color: #ccc; /* Color gris por defecto */
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
 }
 
-/* Contenedor de estrellas */
-.star-rating {
-    display: flex;
-    gap: 3px;
+/* Colores según el rango de rating seleccionado */
+.star.active.red { color: red; }
+.star.active.orange { color: orange; }
+.star.active.gold { color: gold; }
+.star.active.green { color: #3cb371; } /* Verde */
+.star.active.purple { color: #800080; } /* Morado */
+
+/* Glow effect */
+.star.active {
+    text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.7);
 }
 
 .star {
-    font-size: 20px; /* Ajusta el tamaño si lo ves muy grande/pequeño */
-    color: #ccc;     /* Estrella vacía */
+    transition: color 0.3s ease-in-out;
+}
+
+.star:hover {
+    color: #ffcc00; /* Amarillo más vibrante */
+}
+
+@keyframes explode {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5) translateY(-10px); opacity: 0.5; }
+    100% { transform: scale(0.5) translateY(-20px); opacity: 0; }
+}
+
+.star {
+    position: relative; /* Necesario para el posicionamiento del ::after */
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.3s ease-in-out;
 }
 
-/* Efecto al hover o selección */
-.star:hover,
-.star.active {
-    color: gold;
+/* 🔥 CHISPAS al hacer CLICK (solo sobre la estrella seleccionada) */
+.star.clicked::after {
+    content: "✨";
+    position: absolute;
+    font-size: 12px;
+    top: -10px;  /* Ajusta la altura de las chispas */
+    left: 50%;
+    transform: translateX(-50%);
+    animation: explode 0.5s ease-out forwards;
 }
 
 
+  /* Texto con la puntuación (4.5) en negrita */
+  .personal-score {
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 5px;  /* Un poco de espacio antes del número */
+    color: var(--text-color);
+  }
+  
 /* :::::::::::::::::: OVERLAY / BOTÓN "VER ONLINE" ::::::::::::::::: */
 .hover-overlay {
     position: absolute;
