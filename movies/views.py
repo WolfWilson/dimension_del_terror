@@ -229,12 +229,19 @@ def movie_list(request):
 
 
 
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from .models import Movie, MovieRating
+from .forms import CommentForm
+
 @login_required(login_url='login_view')
 def movie_detail(request, movie_id):
     """
     Vista detallada de una película, con comentarios asociados.
     - Procesa formulario de comentarios (CommentForm).
     - Muestra películas similares basadas en géneros en común.
+    - Carga la calificación personal (si existe) para mostrarla en la plantilla.
     """
     movie = get_object_or_404(Movie, id=movie_id)
     comments = movie.comments.order_by('-created_at')  # Comentarios más nuevos primero
@@ -265,6 +272,15 @@ def movie_detail(request, movie_id):
         .order_by('-shared_genres', '-rating')[:6]
     )
 
+    # -------------------------------------
+    # Cargar la calificación personal del usuario
+    # -------------------------------------
+    user_rating_value = 0.0  # Por defecto, 0.0 si no existe o no ha calificado
+    if request.user.is_authenticated:
+        rating_obj = MovieRating.objects.filter(movie=movie, user=request.user).first()
+        if rating_obj:
+            user_rating_value = rating_obj.rating or 0.0
+
     context = {
         'movie': movie,
         'comments': comments,
@@ -272,8 +288,12 @@ def movie_detail(request, movie_id):
         'cast_list': cast_list,
         'comment_success': comment_success,
         'similar_movies': similar_movies,
+        # Nuevo: rating personal
+        'user_rating_value': user_rating_value,
     }
     return render(request, 'movies/movie_detail.html', context)
+
+# ::::::::::::::::::::::::::: VISTA PARA BUSQUEDA PELICULAS ::::::::::::::::::::::::::::::::::
 
 @login_required(login_url='login_view')
 def search_movies(request):
@@ -350,7 +370,7 @@ def add_movie_frontend(request):
 
 
 
-
+#:::::::::::::::: VISTA PARA AGREGAR PELICULAS CON API ::::::::::::::::::::::::::::::::::::
 
 def add_movie_with_api(request):
     """
@@ -764,7 +784,6 @@ def user_panel(request):
 
 
 # ::::::::::::::::::::::::   VISTA PARA EL RATING PERSONAL :::::::::::::::::::::::::::
-
 from .models import Movie, MovieRating  # Asegúrate de importar los modelos
 
 @login_required
@@ -779,6 +798,8 @@ def rate_movie(request, movie_id):
         # Actualizar la calificación
         rating_obj.rating = rating_value
         rating_obj.save()
+        print(f"[DEBUG] rating_obj: {rating_obj}, created: {created}, rating_val={rating_value}")
+
 
         return JsonResponse({"success": True, "rating": rating_obj.rating})
 
