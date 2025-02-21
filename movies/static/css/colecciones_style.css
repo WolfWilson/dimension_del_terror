@@ -45,6 +45,8 @@
 
 /* :::::::::::::::::: ESTILOS GENERALES :::::::::::::::::: */
 
+
+
 /* El body toma el fondo y color del modo activo (oscuro por defecto) */
 body {
     margin: 0;
@@ -112,9 +114,11 @@ body {
 }
 
 /* :::::::::::::::::: HEADER :::::::::::::::::: */
+/* :::::::::::::::::: CORRECCIÓN DEL HEADER PARA EVITAR RECORTE :::::::::::::::::: */
 .collection-header {
-    width: 100%;
-    height: 140px; /* Ajusta la altura a tu gusto */
+    flex-shrink: 0; /* Evita que el header se reduzca cuando el contenido crece */
+    height: auto; /* Permite que el contenido dentro del header determine la altura */
+    min-height: 140px; /* Mantiene una altura mínima */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -123,6 +127,8 @@ body {
     background: rgba(0, 0, 0, 0.5);
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    padding: 20px; /* Asegura un buen espaciado interno */
+  
 }
 
 /* :::::::::::::::::: ESTILOS PARA LA DESCRIPCIÓN DEL HEADER :::::::::::::::::: */
@@ -161,7 +167,7 @@ body {
     color: var(--text-color); /* Se adapta al modo claro/oscuro */
     text-align: center; /* Centrar el texto */
     text-transform: uppercase; /* Convertir a mayúsculas para más impacto */
-    margin: 10px 0; /* Espaciado superior e inferior */
+    margin: 5px 0; /* Espaciado superior e inferior */
     letter-spacing: 1.5px; /* Espaciado entre letras */
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Sombra ligera para mejorar visibilidad */
     padding-bottom: 10px; /* Espacio extra debajo */
@@ -246,6 +252,25 @@ body {
 
 /* :::::::::::::::::: FOOTER :::::::::::::::::: */
 footer {
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    padding: 15px;
+    color: var(--text-color_w);
+    font-size: 14px;
+    margin-top: auto; /* Esto empuja el footer al fondo si la pantalla es más grande */
+    width: 100%; /* Se asegura de que el footer cubra toda la pantalla */
+}
+
+.container-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.text-footer {
+    margin: 0;
+    font-family: var(--font-primary);
+}
+footer {
     margin-top: 30px;
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
@@ -262,4 +287,16 @@ footer {
 .text-footer {
     margin: 0;
     font-family: var(--font-primary);
+}
+
+/* :::::::::::::::::: FIX PARA FOOTER :::::::::::::::::: */
+html, body {
+    min-height: 100vh; /* Altura mínima del viewport sin restringir el crecimiento */
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1; /* Permite que el contenido crezca sin afectar el header */
+    padding-bottom: 20px; /* Espaciado extra para evitar que el footer se superponga */
 }

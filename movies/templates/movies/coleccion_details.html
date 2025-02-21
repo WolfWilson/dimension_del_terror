@@ -82,14 +82,28 @@
 <!-- En tu coleccion_details.html -->
 <style>
     body {
-      background-image: url("{% if collection.cover_image %}{{ collection.cover_image.url }}{% else %}{% static 'images/default_background.jpg' %}{% endif %}");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      margin: 0;
-      font-family: sans-serif;
-    }
+    position: relative;
+    background-image: url("{% if collection.cover_image %}{{ collection.cover_image.url }}{% else %}{% static 'images/default_background.jpg' %}{% endif %}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+/* Agregar un overlay oscuro */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); /* Oscurece el fondo, ajusta el 0.5 según lo necesites */
+    z-index: -1; /* Mantiene el overlay detrás del contenido */
+}
+
   </style>
   
 </head>
@@ -155,7 +169,7 @@
     <footer>
         <div class="container-footer">
             <div class="text-footer">
-                &copy; 2024 By Will™. Todos los derechos reservados.
+                &copy; 2025 By Will™. Todos los derechos reservados.
             </div>
         </div>
     </footer>

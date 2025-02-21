@@ -1,0 +1,70 @@
+
+/* ==============================================================
+   COLECCIONES_STYLE.CSS
+   ============================================================== */
+
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
+
+/* Modo oscuro (por defecto) */
+:root {
+    /* Fondo oscuro con gradiente */
+    --bg-color: radial-gradient(
+        circle at center,
+        rgba(45, 45, 45, 1) 10%,
+        rgba(20, 20, 20, 1) 40%,
+        rgba(5, 5, 5, 1) 90%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    --text-color: rgb(230, 230, 230);
+    --accent-color: #c4935a;
+    --hover-color: #dba76b;
+    --text-color_w: #fefefe;
+
+    /* Fuentes */
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Roboto Condensed', sans-serif;
+    --font-title: 'Holtwood One SC', serif;
+    --font-body: 'Mulish', sans-serif;
+    --font-accent: 'Bebas Neue', cursive;
+    --font-extra: 'PT Sans Narrow', sans-serif;
+    --font-decorative: 'Ruslan Display', cursive; 
+    --font-special: 'Bruno Ace SC', sans-serif;
+}
+
+/* Modo claro (se activa al agregar la clase "dark-mode") */
+.dark-mode {
+    --bg-color: radial-gradient(
+        100% 100% at 50% 50%,
+        rgba(252, 252, 252, 1) 12%,
+        rgba(247, 222, 181, 1) 84%,
+        rgba(232, 229, 220, 1) 96%
+    );
+    --text-color: rgb(44, 41, 41);
+    --accent-color: #dba76b;
+    --hover-color: #c4935a;
+}
+
+/* :::::::::::::::::: ESTILOS GENERALES :::::::::::::::::: */
+
+
+
+/* El body toma el fondo y color del modo activo (oscuro por defecto) */
+body {
+    margin: 0;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* :::::::::::::::::: FIX PARA FOOTER :::::::::::::::::: */
+html, body {
+    height: 100%; /* Asegura que el body ocupe toda la pantalla */
+    display: flex;
+    flex-direction: column; /* Organiza elementos en columna */
+}
+
+main {
+    flex: 1; /* Permite que el contenido crezca y empuje el footer */
+}
+
