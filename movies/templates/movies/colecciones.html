@@ -1,0 +1,84 @@
+<!-- Ubicación recomendada: templates/movies/colecciones.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Colecciones - Dimensión del Terror</title>
+    
+    <!-- Reutiliza tus estilos y scripts principales -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_movie.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
+
+    <!-- FontAwesome, Google Fonts, etc. (igual que en index) -->
+    <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" 
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+    <!-- :::::::::::::::::: NAV (puedes incluirlo o usar include) ::::::::::::::::: -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'movie_list' %}">Películas</a></li>
+            <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
+            <li><a href="{% url 'series_list' %}">Series</a></li>
+            <li><a href="{% url 'reviews' %}">Reseñas</a></li>
+            <li><a href="#contact-form" id="openFormLink">Pídeme una peli!</a></li>
+            <li><a href="{% url 'user_panel' %}">🎭 Mi Panel</a></li>
+
+            <!-- Aquí también enlazamos a colecciones -->
+            <li><a href="{% url 'collections_list' %}">Colecciones</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <!-- Podrías dejar un banner o algo sencillo -->
+        <h1 class="header-link">Colecciones Destacadas</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Listado de Colecciones</h2>
+            
+            <div class="collection-list" style="display:flex; flex-wrap: wrap; gap:20px;">
+                {% for col in colecciones %}
+                    <div class="collection-item" style="width: 200px; text-align:center;">
+                        <a href="{% url 'collection_detail' col.id %}">
+                            {% if col.cover_image %}
+                                <img 
+                                    src="{{ col.cover_image.url }}" 
+                                    alt="Portada de {{ col.title }}" 
+                                    style="width:100%; max-height:250px; object-fit:cover;"
+                                >
+                            {% else %}
+                                <img 
+                                    src="{% static 'images/default_poster.jpg' %}" 
+                                    alt="Sin portada" 
+                                    style="width:100%; max-height:250px; object-fit:cover;"
+                                >
+                            {% endif %}
+                            <h3>{{ col.title }}</h3>
+                        </a>
+                        <p>{{ col.description|truncatewords:25 }}</p>
+                    </div>
+                {% empty %}
+                    <p>No hay colecciones creadas todavía.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <!-- :::::::::::::::::: FOOTER ::::::::::::::::: -->
+    <footer>
+        <div class="container-footer">
+            <div class="text-footer">&copy; 2024 By Will™. Todos los derechos reservados.</div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -806,3 +806,51 @@ def rate_movie(request, movie_id):
     return JsonResponse({"success": False}, status=400)
 
 
+#::::::::::::::::::: VISTAS PARA COLECCIONES :::::::::::::::::::::::::::::
+
+from .models import Collection
+
+def collections_list(request):
+    """
+    Muestra todas las colecciones disponibles.
+    """
+    colecciones = Collection.objects.all().order_by('title')
+    return render(request, 'movies/colecciones.html', {
+        'colecciones': colecciones
+    })
+
+
+def collection_detail(request, collection_id):
+    """
+    Muestra el detalle de una colección y sus películas asociadas.
+    """
+    collection = get_object_or_404(Collection, id=collection_id)
+    peliculas = collection.movies.all().order_by('title')
+    return render(request, 'movies/coleccion_details.html', {
+        'collection': collection,
+        'peliculas': peliculas
+    })
+
+
+# views.py (ejemplo)
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Collection, Movie
+
+@login_required
+def add_movies_by_id(request, collection_id):
+    collection = get_object_or_404(Collection, id=collection_id)
+    
+    if request.method == 'POST':
+        raw_ids = request.POST.get('movie_ids', '')
+        # Parsear
+        ids_list = [x.strip() for x in raw_ids.split(',') if x.strip().isdigit()]
+        movies_to_add = Movie.objects.filter(pk__in=ids_list)
+        
+        collection.movies.add(*movies_to_add)
+        # Redirigir a la página de detalles o donde quieras
+        return redirect('collection_detail', collection_id=collection.id)
+    
+    return render(request, 'movies/add_movies_by_id.html', {
+        'collection': collection
+    })

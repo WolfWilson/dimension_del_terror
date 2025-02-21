@@ -1,0 +1,18 @@
+<!-- add_movies_by_id.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Añadir Películas por ID</title>
+    {% load static %}
+</head>
+<body>
+    <h1>Añadir Películas a la Colección: {{ collection.title }}</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="movie_ids">IDs de Películas (separados por comas):</label><br>
+        <textarea name="movie_ids" rows="4" cols="50" placeholder="Ej: 15, 67, 202"></textarea><br><br>
+        <button type="submit">Agregar</button>
+    </form>
+</body>
+</html>

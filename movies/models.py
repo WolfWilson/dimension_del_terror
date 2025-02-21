@@ -322,4 +322,17 @@ class Episode(models.Model):
     def __str__(self):
         return f"{self.season.series.title} - T{self.season.season_number}E{self.episode_number}: {self.title}"
 
+#:::::::::::::::::::::::::::::::::::: MODELO PARA COLECCIONES ::::::::::::::::::::::::::::::::::
+class Collection(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    cover_image = models.ImageField(upload_to='collection_covers/', null=True, blank=True)
+    
+    # Relación M2M con Movie:
+    movies = models.ManyToManyField(Movie, related_name='collections', blank=True)
 
+    # Opcionalmente, si deseas un "slug" para la URL
+    # slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
+
+    def __str__(self):
+        return self.title
