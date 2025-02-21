@@ -1,74 +1,145 @@
-<!-- Ubicación: templates/movies/coleccion_details.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <title>{{ collection.title }} - Colección</title>
-    
-    <!-- Reutiliza tus estilos y scripts principales -->
+       <!-- :::::::::::::::::: FAVICON ::::::::::::::::: -->
+       <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
+
+    <!-- Archivos CSS (externos) -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles_movie.css' %}">
+    <link rel="stylesheet" href="{% static 'css/colecciones_style.css' %}">
     <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
 
-    <!-- FontAwesome, Google Fonts, etc. (igual que en index) -->
+    <!-- FontAwesome y Google Fonts -->
     <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer"
+    >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- :::::::::::::::::: FONTAWESOME ::::::::::::::::: -->
+        <link 
         rel="stylesheet" 
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         crossorigin="anonymous" 
         referrerpolicy="no-referrer" 
     />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <!-- :::::::::::::::::: GOOGLE FONTS ::::::::::::::::: -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Poppins -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Roboto Condensed -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Holtwood One SC -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Mulish -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- PT Sans Narrow -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Ruslan Display -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Ruslan+Display&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Bebas Neue -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" 
+        rel="stylesheet"
+    >
+    <!-- Bruno Ace SC -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" 
+        rel="stylesheet"
+    >
+    
+           <!-- :::::::::::::::::: Script Principal::::::::::::::::: -->
+<script src="{% static 'js/scripts.js' %}"></script>
+    <!-- :::::::::::::::::: Script Principal::::::::::::::::: -->
+    <!-- Bloque para asignar dinámicamente la imagen de fondo al <body> -->
+<!-- En tu coleccion_details.html -->
+<style>
+    body {
+      background-image: url("{% if collection.cover_image %}{{ collection.cover_image.url }}{% else %}{% static 'images/default_background.jpg' %}{% endif %}");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      margin: 0;
+      font-family: sans-serif;
+    }
+  </style>
+  
 </head>
+
 <body>
     <!-- :::::::::::::::::: NAV ::::::::::::::::: -->
     <nav class="navbar">
         <ul>
             <li><a href="{% url 'movie_list' %}">Películas</a></li>
-            <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
+            <li><a href="{% url 'collections_list' %}">Colecciones</a></li>
             <li><a href="{% url 'series_list' %}">Series</a></li>
             <li><a href="{% url 'reviews' %}">Reseñas</a></li>
-            <li><a href="#contact-form" id="openFormLink">Pídeme una peli!</a></li>
             <li><a href="{% url 'user_panel' %}">🎭 Mi Panel</a></li>
-
-            <li><a href="{% url 'collections_list' %}">Colecciones</a></li>
+            
         </ul>
     </nav>
 
-    <header>
-        <!-- Banner/Encabezado -->
+    <!-- HEADER: solo el título, sin imagen de fondo -->
+    <header class="collection-header">
         <h1 class="header-link">Colección: {{ collection.title }}</h1>
+        <p>{{ collection.description }}</p>
     </header>
 
     <main>
         <section>
-            <div class="collection-detail" style="margin:20px 0;">
+            <!--
+            <div class="collection-detail">
                 {% if collection.cover_image %}
                     <img 
                         src="{{ collection.cover_image.url }}" 
-                        alt="Portada de {{ collection.title }}" 
-                        style="width:300px; max-height:300px; object-fit:cover; float:left; margin-right:20px;"
+                        alt="Portada de {{ collection.title }}"
                     >
                 {% endif %}
                 <p>{{ collection.description }}</p>
             </div>
-
-            <h2>Películas en esta colección</h2>
-            <div class="movie-grid" style="display:flex; flex-wrap: wrap; gap:20px;">
+            -->
+            <h2 class="title_page_col">Películas en esta colección</h2>
+            <div class="movie-grid">
                 {% for pelicula in peliculas %}
-                    <div class="movie-card" style="width: 200px; text-align: center;">
+                    <div class="movie-card">
                         <a href="{% url 'movie_detail' pelicula.id %}">
                             {% if pelicula.poster_image %}
                                 <img 
                                     src="{{ pelicula.poster_image.url }}" 
-                                    alt="{{ pelicula.title }}" 
-                                    style="width:100%; max-height:280px; object-fit:cover;"
+                                    alt="{{ pelicula.title }}"
                                 >
                             {% else %}
                                 <img 
                                     src="{% static 'images/default_poster.jpg' %}" 
-                                    alt="Sin imagen" 
-                                    style="width:100%; max-height:280px; object-fit:cover;"
+                                    alt="Sin imagen"
                                 >
                             {% endif %}
                             <h4>{{ pelicula.title }}</h4>
@@ -83,7 +154,9 @@
 
     <footer>
         <div class="container-footer">
-            <div class="text-footer">&copy; 2024 By Will™. Todos los derechos reservados.</div>
+            <div class="text-footer">
+                &copy; 2024 By Will™. Todos los derechos reservados.
+            </div>
         </div>
     </footer>
 </body>

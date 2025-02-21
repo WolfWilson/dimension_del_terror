@@ -1,0 +1,265 @@
+/* ==============================================================
+   COLECCIONES_STYLE.CSS
+   ============================================================== */
+
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
+
+/* Modo oscuro (por defecto) */
+:root {
+    /* Fondo oscuro con gradiente */
+    --bg-color: radial-gradient(
+        circle at center,
+        rgba(45, 45, 45, 1) 10%,
+        rgba(20, 20, 20, 1) 40%,
+        rgba(5, 5, 5, 1) 90%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    --text-color: rgb(230, 230, 230);
+    --accent-color: #c4935a;
+    --hover-color: #dba76b;
+    --text-color_w: #fefefe;
+
+    /* Fuentes */
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Roboto Condensed', sans-serif;
+    --font-title: 'Holtwood One SC', serif;
+    --font-body: 'Mulish', sans-serif;
+    --font-accent: 'Bebas Neue', cursive;
+    --font-extra: 'PT Sans Narrow', sans-serif;
+    --font-decorative: 'Ruslan Display', cursive; 
+    --font-special: 'Bruno Ace SC', sans-serif;
+}
+
+/* Modo claro (se activa al agregar la clase "dark-mode") */
+.dark-mode {
+    --bg-color: radial-gradient(
+        100% 100% at 50% 50%,
+        rgba(252, 252, 252, 1) 12%,
+        rgba(247, 222, 181, 1) 84%,
+        rgba(232, 229, 220, 1) 96%
+    );
+    --text-color: rgb(44, 41, 41);
+    --accent-color: #dba76b;
+    --hover-color: #c4935a;
+}
+
+/* :::::::::::::::::: ESTILOS GENERALES :::::::::::::::::: */
+
+/* El body toma el fondo y color del modo activo (oscuro por defecto) */
+body {
+    margin: 0;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* :::::::::::::::::: NAVBAR :::::::::::::::::: */
+.navbar {
+    position: relative;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px 0;
+    transition: background 0.3s ease;
+}
+
+/* Asegurar que los elementos de la lista estén bien alineados */
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+/* Enlaces de la Navbar */
+.navbar li a {
+    color: var(--text-color_w); /* Color adaptable a modo oscuro/claro */
+    text-decoration: none; /* Sin subrayado */
+    font-weight: bold;
+    font-family: var(--font-primary);
+    padding: 10px 15px; /* Espaciado interno para que el hover se vea mejor */
+    border-radius: 5px; /* Bordes suaves */
+    transition: all 0.3s ease;
+    position: relative; /* Necesario para efectos */
+}
+
+/* :::::::::::::::::: HOVER PERSONALIZADO :::::::::::::::::: */
+.navbar li a:hover {
+    color: var(--text-color); /* Invierte el color del texto */
+    background: var(--hover-color); /* Cambia el fondo según modo claro/oscuro */
+    transform: scale(1.05); /* Efecto de crecimiento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra suave */
+}
+
+/* :::::::::::::::::: EFECTO EXTRA DE SUBRAYADO EN HOVER :::::::::::::::::: */
+.navbar li a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 3px;
+    background: var(--accent-color); /* Línea de color */
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.navbar li a:hover::after {
+    width: 100%; /* Se extiende en hover */
+    left: 0; /* Se centra */
+}
+
+/* :::::::::::::::::: HEADER :::::::::::::::::: */
+.collection-header {
+    width: 100%;
+    height: 140px; /* Ajusta la altura a tu gusto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-color_w);
+    background: rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+/* :::::::::::::::::: ESTILOS PARA LA DESCRIPCIÓN DEL HEADER :::::::::::::::::: */
+.collection-header p {
+    font-family: var(--font-secondary); /* Fuente secundaria */
+    font-size: 1rem; /* Ajusta el tamaño según prefieras */
+    font-weight: 400; /* No muy grueso */
+    text-align: center; /* Centrar el texto */
+    max-width: 70%; /* Evita que se expanda demasiado */
+    margin: 10px auto 0; /* Espacio arriba y centrado */
+    color: var(--text-color_w); /* Color según el modo */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Sombra para mejor legibilidad */
+    opacity: 0.9; /* Un poco de transparencia para suavizar */
+}
+
+
+/* :::::::::::::::::: ESTILO PARA EL TÍTULO DEL HEADER :::::::::::::::::: */
+.header-link {
+    font-family: var(--font-special);
+    font-size: 2.5rem; /* Ajusta el tamaño del texto */
+    font-weight: bold; /* Para que resalte más */
+    color: var(--text-color_w); /* Se adapta al modo oscuro/claro */
+    text-align: center; /* Centrado */
+    text-transform: uppercase; /* Todas las letras en mayúscula */
+    letter-spacing: 2px; /* Espaciado entre letras para mayor impacto */
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5); /* Sombra para profundidad */
+    margin-bottom: 10px; /* Espaciado con la descripción */
+    margin-top: 10px;
+}
+
+/* :::::::::::::::::: ESTILO PARA EL TÍTULO DE LA SECCIÓN :::::::::::::::::: */
+.title_page_col {
+    font-family: var(--font-primary); /* Fuente principal */
+    font-size: 2rem; /* Ajusta el tamaño del texto */
+    font-weight: bold;
+    color: var(--text-color); /* Se adapta al modo claro/oscuro */
+    text-align: center; /* Centrar el texto */
+    text-transform: uppercase; /* Convertir a mayúsculas para más impacto */
+    margin: 10px 0; /* Espaciado superior e inferior */
+    letter-spacing: 1.5px; /* Espaciado entre letras */
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Sombra ligera para mejorar visibilidad */
+    padding-bottom: 10px; /* Espacio extra debajo */
+    border-bottom: 2px solid var(--accent-color); /* Línea decorativa */
+    width: fit-content; /* Ajuste al contenido */
+    margin-left: auto; /* Centrar horizontalmente */
+    margin-right: auto;
+}
+
+
+/* :::::::::::::::::: DETALLES DE LA COLECCIÓN :::::::::::::::::: */
+.collection-detail {
+    margin: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    padding: 20px;
+    color: var(--text-color_w);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-family: var(--font-body);
+}
+
+.collection-detail img {
+    width: 300px;
+    max-height: 300px;
+    object-fit: cover;
+    float: left;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+/* :::::::::::::::::: GRID DE PELÍCULAS :::::::::::::::::: */
+.movie-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.movie-card {
+    width: 160px; /* Ajustado para reducir un poco los pósters */
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Si el título sigue dentro de un <a>, aplica esto */
+.movie-card a {
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    color: inherit; /* Usa el color del texto, sin forzar un azul de link */
+}
+
+/* También aseguramos que el hover no lo cambie */
+.movie-card a:hover {
+    text-decoration: none;
+    color: var(--hover-color); /* Un ligero cambio de color en hover */
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+.movie-card img {
+    width: 100%;
+    max-height: 250px; /* Un poco más compacto */
+    object-fit: cover;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+/* Título sin estilo de enlace */
+.movie-card h4 {
+    margin: 0;
+    padding: 10px 0;
+    font-family: var(--font-primary);
+    font-weight: normal;
+    color: var(--text-color_w);
+    text-decoration: none; /* Sin subrayado u ornamentos */
+}
+
+/* :::::::::::::::::: FOOTER :::::::::::::::::: */
+footer {
+    margin-top: 30px;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    padding: 15px;
+    color: var(--text-color_w);
+    font-size: 14px;
+}
+
+.container-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.text-footer {
+    margin: 0;
+    font-family: var(--font-primary);
+}
