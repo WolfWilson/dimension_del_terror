@@ -783,6 +783,27 @@ def user_panel(request):
     })
 
 
+#::::::::::::::::: VISTA PARA AGREGAR PELICULAS EN EL FRONT ::::::::::::::::::::::
+
+@login_required
+def add_movies_by_id(request, collection_id):
+    collection = get_object_or_404(Collection, id=collection_id)
+    
+    if request.method == 'POST':
+        raw_ids = request.POST.get('movie_ids', '')
+        # Parsear
+        ids_list = [x.strip() for x in raw_ids.split(',') if x.strip().isdigit()]
+        movies_to_add = Movie.objects.filter(pk__in=ids_list)
+        
+        collection.movies.add(*movies_to_add)
+        # Redirigir a la página de detalles o donde quieras
+        return redirect('collection_detail', collection_id=collection.id)
+    
+    return render(request, 'movies/add_movies_by_id.html', {
+        'collection': collection
+    })
+
+
 # ::::::::::::::::::::::::   VISTA PARA EL RATING PERSONAL :::::::::::::::::::::::::::
 from .models import Movie, MovieRating  # Asegúrate de importar los modelos
 
@@ -822,35 +843,17 @@ def collections_list(request):
 
 def collection_detail(request, collection_id):
     """
-    Muestra el detalle de una colección y sus películas asociadas.
+    Muestra el detalle de una colección y sus películas asociadas en el orden definido en el admin.
     """
     collection = get_object_or_404(Collection, id=collection_id)
-    peliculas = collection.movies.all().order_by('title')
+
+    # Obtener películas en el mismo orden en que se añadieron
+    peliculas = collection.movies.through.objects.filter(collection=collection).order_by("id")
+
+    # Extraemos las películas en el orden correcto
+    ordered_movies = [entry.movie for entry in peliculas]
+
     return render(request, 'movies/coleccion_details.html', {
         'collection': collection,
-        'peliculas': peliculas
-    })
-
-
-# views.py (ejemplo)
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Collection, Movie
-
-@login_required
-def add_movies_by_id(request, collection_id):
-    collection = get_object_or_404(Collection, id=collection_id)
-    
-    if request.method == 'POST':
-        raw_ids = request.POST.get('movie_ids', '')
-        # Parsear
-        ids_list = [x.strip() for x in raw_ids.split(',') if x.strip().isdigit()]
-        movies_to_add = Movie.objects.filter(pk__in=ids_list)
-        
-        collection.movies.add(*movies_to_add)
-        # Redirigir a la página de detalles o donde quieras
-        return redirect('collection_detail', collection_id=collection.id)
-    
-    return render(request, 'movies/add_movies_by_id.html', {
-        'collection': collection
+        'peliculas': ordered_movies
     })

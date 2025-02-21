@@ -200,11 +200,43 @@ class CollectionAdmin(admin.ModelAdmin):
 
         obj.save()  # Guardamos nuevamente para actualizar la relación ManyToMany
 
+
     def get_movies_list(self, obj):
-        """Muestra los títulos de las películas en la lista de admin."""
-        return ", ".join([f"{movie.id} - {movie.title}" for movie in obj.movies.all()])
+        """Muestra los títulos de las películas en la lista de admin, ordenados por el orden de agregado."""
+        if not obj.movies.exists():
+            return "Sin películas en la colección"
+
+        # Ordenamos por la clave primaria de la relación ManyToMany, que refleja el orden de agregado
+        sorted_movies = obj.movies.through.objects.filter(collection=obj).order_by("id")
+
+        return ", ".join([
+            f"{entry.movie.id} - {entry.movie.title}"
+            for entry in sorted_movies
+        ])
+
     get_movies_list.short_description = "Películas en la Colección"
 
+
+""""
+    def get_movies_list(self, obj):
+   
+        if not obj.movies.exists():
+            return "Sin películas en la colección"
+
+        # Ordenamos manualmente por el campo 'release_date' sin alterar el modelo
+        sorted_movies = sorted(
+            obj.movies.all(),
+            key=lambda movie: movie.release_date.year if movie.release_date else 9999
+        )
+
+        return ", ".join([
+            f"{movie.id} - {movie.title} ({movie.release_date.year if movie.release_date else 'Sin fecha'})"
+            for movie in sorted_movies
+        ])
+
+    get_movies_list.short_description = "Películas en la Colección"
+
+"""
 
 admin.site.register(Collection, CollectionAdmin)
 
