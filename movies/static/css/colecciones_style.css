@@ -57,6 +57,7 @@ body {
 }
 
 /* :::::::::::::::::: NAVBAR :::::::::::::::::: */
+/* :::::::::::::::::: NAVBAR :::::::::::::::::: */
 .navbar {
     position: relative;
     z-index: 10;
@@ -65,61 +66,15 @@ body {
     transition: background 0.3s ease;
 }
 
-/* Asegurar que los elementos de la lista estén bien alineados */
-.navbar ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
-}
 
-/* Enlaces de la Navbar */
-.navbar li a {
-    color: var(--text-color_w); /* Color adaptable a modo oscuro/claro */
-    text-decoration: none; /* Sin subrayado */
-    font-weight: bold;
-    font-family: var(--font-primary);
-    padding: 10px 15px; /* Espaciado interno para que el hover se vea mejor */
-    border-radius: 5px; /* Bordes suaves */
-    transition: all 0.3s ease;
-    position: relative; /* Necesario para efectos */
-}
-
-/* :::::::::::::::::: HOVER PERSONALIZADO :::::::::::::::::: */
-.navbar li a:hover {
-    color: var(--text-color); /* Invierte el color del texto */
-    background: var(--hover-color); /* Cambia el fondo según modo claro/oscuro */
-    transform: scale(1.05); /* Efecto de crecimiento */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra suave */
-}
-
-/* :::::::::::::::::: EFECTO EXTRA DE SUBRAYADO EN HOVER :::::::::::::::::: */
-.navbar li a::after {
-    content: "";
-    display: block;
-    width: 0;
-    height: 3px;
-    background: var(--accent-color); /* Línea de color */
-    position: absolute;
-    left: 50%;
-    bottom: -5px;
-    transition: width 0.3s ease, left 0.3s ease;
-}
-
-.navbar li a:hover::after {
-    width: 100%; /* Se extiende en hover */
-    left: 0; /* Se centra */
-}
 
 /* :::::::::::::::::: HEADER :::::::::::::::::: */
 /* :::::::::::::::::: CORRECCIÓN DEL HEADER PARA EVITAR RECORTE :::::::::::::::::: */
 .collection-header {
-    flex-shrink: 0; /* Evita que el header se reduzca cuando el contenido crece */
-    height: auto; /* Permite que el contenido dentro del header determine la altura */
-    min-height: 140px; /* Mantiene una altura mínima */
+    position: relative;
+    min-height: 160px; /* Permite que el header tenga espacio */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -127,37 +82,33 @@ body {
     background: rgba(0, 0, 0, 0.5);
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-    padding: 20px; /* Asegura un buen espaciado interno */
-  
+    padding: 40px 20px; /* Ajustado para mejorar el espaciado interno */
+}
+
+/* :::::::::::::::::: ESTILO PARA EL TÍTULO DEL HEADER :::::::::::::::::: */
+.header-link {
+    font-family: var(--font-special);
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
 }
 
 /* :::::::::::::::::: ESTILOS PARA LA DESCRIPCIÓN DEL HEADER :::::::::::::::::: */
 .collection-header p {
     font-family: var(--font-secondary); /* Fuente secundaria */
-    font-size: 1rem; /* Ajusta el tamaño según prefieras */
+    font-size: 1.2rem; /* Ajusta el tamaño de la fuente */
     font-weight: 400; /* No muy grueso */
     text-align: center; /* Centrar el texto */
     max-width: 70%; /* Evita que se expanda demasiado */
-    margin: 10px auto 0; /* Espacio arriba y centrado */
+    margin: 10px auto; /* Espacio arriba y centrado */
     color: var(--text-color_w); /* Color según el modo */
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Sombra para mejor legibilidad */
     opacity: 0.9; /* Un poco de transparencia para suavizar */
 }
 
-
-/* :::::::::::::::::: ESTILO PARA EL TÍTULO DEL HEADER :::::::::::::::::: */
-.header-link {
-    font-family: var(--font-special);
-    font-size: 2.5rem; /* Ajusta el tamaño del texto */
-    font-weight: bold; /* Para que resalte más */
-    color: var(--text-color_w); /* Se adapta al modo oscuro/claro */
-    text-align: center; /* Centrado */
-    text-transform: uppercase; /* Todas las letras en mayúscula */
-    letter-spacing: 2px; /* Espaciado entre letras para mayor impacto */
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5); /* Sombra para profundidad */
-    margin-bottom: 10px; /* Espaciado con la descripción */
-    margin-top: 10px;
-}
 
 /* :::::::::::::::::: ESTILO PARA EL TÍTULO DE LA SECCIÓN :::::::::::::::::: */
 .title_page_col {

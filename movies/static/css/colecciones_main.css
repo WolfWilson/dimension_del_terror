@@ -1,0 +1,298 @@
+/* ============================================================== 
+  colecciones_main.css
+   ============================================================== */
+
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
+
+/* Modo oscuro (por defecto) */
+:root {
+    --bg-color: radial-gradient(
+        circle at center,
+        rgba(45, 45, 45, 1) 10%,
+        rgba(20, 20, 20, 1) 40%,
+        rgba(5, 5, 5, 1) 90%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    --text-color: rgb(230, 230, 230);
+    --accent-color: #dba76b;
+    --hover-color: #c4935a;
+    --text-color_w: #fefefe;
+
+    /* Fuentes */
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Roboto Condensed', sans-serif;
+    --font-title: 'Holtwood One SC', serif;
+    --font-body: 'Mulish', sans-serif;
+    --font-accent: 'Bebas Neue', cursive;
+    --font-extra: 'PT Sans Narrow', sans-serif;
+    --font-decorative: 'Ruslan Display', cursive; 
+    --font-special: 'Bruno Ace SC', sans-serif;
+}
+
+/* :::::::::::::::::: MODO CLARO :::::::::::::::::: */
+.dark-mode {
+    --bg-color: radial-gradient(
+        100% 100% at 50% 50%,
+        rgba(252, 252, 252, 1) 12%,
+        rgba(247, 222, 181, 1) 84%,
+        rgba(232, 229, 220, 1) 96%
+    );
+    --text-color: rgb(44, 41, 41);
+    --accent-color: #dba76b;
+    --hover-color: #c4935a;
+}
+
+/* :::::::::::::::::: ESTILOS GENERALES :::::::::::::::::: */
+body {
+    margin: 0;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* :::::::::::::::::: NAVBAR :::::::::::::::::: */
+/* :::::::::::::::::: NAVBAR FIJA Y VISIBLE :::::::::::::::::: */
+.navbar {
+    position: fixed; /* Fijar en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9) !important; /* Fondo visible */
+    padding: 15px 0;
+    transition: background 0.3s ease;
+}
+
+/* Asegurar que los elementos de la lista estén bien alineados */
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+/* Enlaces de la Navbar */
+.navbar li a {
+    color: var(--text-color_w) !important; /* Color adaptable */
+    text-decoration: none;
+    font-weight: bold;
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Hover en los enlaces */
+.navbar li a:hover {
+    color: var(--text-color) !important;
+    background: var(--hover-color) !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Subrayado en hover */
+.navbar li a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 3px;
+    background: var(--accent-color);
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.navbar li a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* :::::::::::::::::: SEPARACIÓN DEL HEADER PARA QUE NO LO TAPE LA NAVBAR :::::::::::::::::: */
+body {
+    padding-top: 60px; /* Evita que el contenido quede oculto detrás de la navbar */
+}
+
+
+/* :::::::::::::::::: HEADER :::::::::::::::::: */
+header {
+    position: relative;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-color_w);
+    background: rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    padding: 30px 20px;
+}
+
+/* :::::::::::::::::: ESTILO PARA EL TÍTULO DEL HEADER :::::::::::::::::: */
+.header-link {
+    font-family: var(--font-special);
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* :::::::::::::::::: ESTILO PARA EL TÍTULO DE LA SECCIÓN :::::::::::::::::: */
+h2 {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--text-color);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
+    width: fit-content;
+    margin: 20px auto;
+}
+
+/* :::::::::::::::::: GRID DE COLECCIONES :::::::::::::::::: */
+/* :::::::::::::::::: LISTADO DE COLECCIONES :::::::::::::::::: */
+.collection-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* :::::::::::::::::: TARJETA DE CADA COLECCIÓN :::::::::::::::::: */
+.collection-item {
+    position: relative;
+    width: 320px !important;  /* Asegura el ancho */
+    min-width: 320px;         /* Evita que se reduzca */
+    height: 230px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.collection-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* :::::::::::::::::: IMAGEN DE LA COLECCIÓN :::::::::::::::::: */
+.collection-item img {
+    width: 100%;
+    max-height: 300px; /* Altura de la portada */
+    object-fit: cover;
+    border-bottom: 3px solid var(--accent-color);
+}
+
+/* :::::::::::::::::: FONDO OSCURO SOLO SOBRE LA IMAGEN :::::::::::::::::: */
+.collection-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Fondo semitransparente SOLO sobre la imagen */
+    background: rgba(0, 0, 0, 0.6);
+    
+    /* Inicialmente invisible */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* :::::::::::::::::: DESCRIPCIÓN EN HOVER :::::::::::::::::: */
+.collection-item p {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* El texto permanece 100% opaco */
+    color: #fff;
+    font-size: 1rem;
+    font-family: var(--font-secondary);
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Estado inicial oculto y transición */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* :::::::::::::::::: EFECTO HOVER :::::::::::::::::: */
+.collection-item:hover::before,
+.collection-item:hover p {
+    opacity: 1; /* Aparece al hacer hover */
+}
+
+/* :::::::::::::::::: TÍTULO DE LA COLECCIÓN :::::::::::::::::: */
+.collection-item h3 {
+    font-family: var(--font-primary);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color_w);
+    text-transform: uppercase;
+    margin: 10px 0;
+    transition: color 0.3s ease;
+}
+
+/* :::::::::::::::::: ENLACES SIN SUBRAYADO :::::::::::::::::: */
+.collection-item a {
+    text-decoration: none;
+}
+
+/* Efecto hover en el título */
+.collection-item:hover h3 {
+    color: var(--hover-color);
+}
+
+
+/* :::::::::::::::::: FOOTER :::::::::::::::::: */
+footer {
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    padding: 15px;
+    color: var(--text-color_w);
+    font-size: 14px;
+    margin-top: auto;
+    width: 100%;
+}
+
+.container-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.text-footer {
+    margin: 0;
+    font-family: var(--font-primary);
+}
+
+/* :::::::::::::::::: FIX PARA FOOTER :::::::::::::::::: */
+html, body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    padding-bottom: 20px;
+}
