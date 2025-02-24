@@ -843,8 +843,24 @@ def collections_list(request):
 
 def collection_detail(request, collection_id):
     """
-    Muestra el detalle de una colección y sus películas asociadas en el orden definido en el admin.
+    Muestra el detalle de una colección y sus películas asociadas, ordenadas por fecha de estreno.
     """
+    collection = get_object_or_404(Collection, id=collection_id)
+
+    # Obtener películas de la colección ordenadas por fecha de estreno (ascendente)
+    peliculas = collection.movies.all().order_by('release_date')
+
+    return render(request, 'movies/coleccion_details.html', {
+        'collection': collection,
+        'peliculas': peliculas
+    })
+
+#Esta es otra version dela vista que intentar ordenar según el orden de agregado a la colección
+"""
+def collection_detail(request, collection_id):
+    
+    #Muestra el detalle de una colección y sus películas asociadas en el orden definido en el admin.
+    
     collection = get_object_or_404(Collection, id=collection_id)
 
     # Obtener películas en el mismo orden en que se añadieron
@@ -857,3 +873,4 @@ def collection_detail(request, collection_id):
         'collection': collection,
         'peliculas': ordered_movies
     })
+"""

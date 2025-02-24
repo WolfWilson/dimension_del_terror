@@ -58,12 +58,66 @@ body {
 
 /* :::::::::::::::::: NAVBAR :::::::::::::::::: */
 /* :::::::::::::::::: NAVBAR :::::::::::::::::: */
+/* :::::::::::::::::: NAVBAR FIJA Y VISIBLE :::::::::::::::::: */
 .navbar {
-    position: relative;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.8);
+    position: fixed; /* Fijar en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9) !important; /* Fondo visible */
     padding: 15px 0;
     transition: background 0.3s ease;
+}
+
+/* Asegurar que los elementos de la lista estén bien alineados */
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+/* Enlaces de la Navbar */
+.navbar li a {
+    color: var(--text-color_w) !important; /* Color adaptable */
+    text-decoration: none;
+    font-weight: bold;
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Hover en los enlaces */
+.navbar li a:hover {
+    color: var(--text-color) !important;
+    background: var(--hover-color) !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Subrayado en hover */
+.navbar li a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 3px;
+    background: var(--accent-color);
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.navbar li a:hover::after {
+    width: 100%;
+    left: 0;
 }
 
 

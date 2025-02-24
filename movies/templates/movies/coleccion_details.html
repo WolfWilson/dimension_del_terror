@@ -158,13 +158,19 @@ body::before {
                                     alt="Sin imagen"
                                 >
                             {% endif %}
-                            <h4>{{ pelicula.title }}</h4>
+                            <h4>
+                                {{ pelicula.title }} 
+                                {% if pelicula.release_date %}
+                                    ({{ pelicula.release_date.year }})
+                                {% endif %}
+                            </h4>
                         </a>
                     </div>
                 {% empty %}
                     <p>No hay películas en esta colección.</p>
                 {% endfor %}
             </div>
+            
         </section>
     </main>
 
