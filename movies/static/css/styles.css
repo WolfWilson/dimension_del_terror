@@ -140,12 +140,18 @@ header h3 {
 
 /* :::::::::::::::::: NAVEGACIÓN (DESKTOP) ::::::::::::::::: */
 /* :::::::::::::::::: NAVBAR ::::::::::::::::: */
-.navbar {
-    width: 100%;
-    background: var(--card-background); /* Fondo de la barra */
-    border-radius: 8px;
-    padding: 0.5rem 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra moderna */
+.navbar a {
+    display: flex;  /* Hace que el ícono y el texto estén alineados */
+    align-items: center;  /* Centra el ícono con el texto */
+    gap: 8px; /* Espacio entre el ícono y el texto */
+    text-decoration: none;
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .navbar ul {
@@ -182,6 +188,13 @@ header h3 {
     color: #fff;
     transform: scale(1.05);
 }
+
+/* Ajustar el tamaño del ícono */
+.icono-panel {
+    font-size: 22px; /* Ajustar tamaño */
+    vertical-align: middle; /* Mantenerlo alineado */
+}
+
 
 
 /* :::::::::::::::::: RESPONSIVIDAD ::::::::::::::::: */
@@ -1090,3 +1103,4 @@ footer {
     margin-bottom: 10px; /* Espaciado entre el título y el contador */
    
 }
+

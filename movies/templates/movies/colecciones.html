@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="{% static 'css/colecciones_main.css' %}">
     <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+
     <!-- FontAwesome, Google Fonts, etc. (igual que en index) -->
     <link 
         rel="stylesheet" 
@@ -83,15 +86,15 @@
 
 </head>
 <body>
+    <!-- :::::::::::::::::: NAV ::::::::::::::::: -->
     <nav class="navbar">
         <ul>
             <li><a href="{% url 'movie_list' %}">Películas</a></li>
-            <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
+            <li><a href="{% url 'collections_list' %}">Colecciones</a></li>
             <li><a href="{% url 'series_list' %}">Series</a></li>
             <li><a href="{% url 'reviews' %}">Reseñas</a></li>
             <li><a href="#contact-form" id="openFormLink">Pídeme una peli!</a></li>
-            <li><a href="{% url 'user_panel' %}">🎭 Mi Panel</a></li>
-            <li><a href="{% url 'collections_list' %}">Colecciones</a></li>
+             <li><a href="{% url 'user_panel' %}"><span class="material-symbols-outlined icono-panel">cinematic_blur</span>Mi Panel</a></li>          
         </ul>
     </nav>
 
