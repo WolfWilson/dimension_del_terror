@@ -1,287 +1,320 @@
-/* :::::::::::::::::: RESET :::::::::::::::::: */
+/* =======================================================================
+   USER PANEL — estilo moderno + glass + dark-mode
+   ======================================================================= */
+
+/* ----------------------------- Reset básico ---------------------------- */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* :::::::::::::::::: VARIABLES :::::::::::::::::: */
-  :root {
-    --font-primary: 'Poppins', sans-serif;
-    --font-secondary: 'Roboto Condensed', sans-serif;
-    --font-title: 'Holtwood One SC', serif;
-    --font-body: 'Mulish', sans-serif;
-    --font-accent: 'Bebas Neue', cursive;
-    --font-extra: 'PT Sans Narrow', sans-serif;
-    --font-decorative: 'Ruslan Display', cursive; 
-    --font-special: 'Bruno Ace SC', sans-serif;
-  
-    /* Colores modo claro (por defecto) */
-    --bg-color: radial-gradient(
-        100% 100% at 50% 50%,
-        rgba(252, 252, 252, 1) 12%,
-        rgba(247, 222, 181, 1) 84%,
-        rgba(232, 229, 220, 1) 96%
-    );
-    --text-color: #2C2929;
-    --title-color: #2C2929;
-    --link-color: #af5;
-    --link-hover-color: #f55;
-  }
-  
-  /* :::::::::::::::::: MODO OSCURO :::::::::::::::::: */
-  .dark-mode {
-    --bg-color: radial-gradient(
-        circle at center,
-        rgba(45, 45, 45, 1) 10%,
-        rgba(20, 20, 20, 1) 40%,
-        rgba(5, 5, 5, 1) 90%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    --text-color: #e6e6e6;
-    --title-color: #dba76b;
-    --link-color: #a0d4f0;
-    --link-hover-color: #2e92d4;
-  }
-  
-  /* :::::::::::::::::: USER PANEL :::::::::::::::::: */
-  .user-panel {
-    max-width: 1500px; /* Lo bastante grande para 7 u 8 */
-    margin: 0 auto;
-    padding: 10px;
-    font-family: var(--font-secondary);
-  }
-  
-  .user-panel h2 {
-    font-size: 2rem;
-    font-family: var(--font-special);
-    color: var(--title-color);
-    margin-bottom: 1rem;
-  }
-  
-  .user-panel h3 {
-    margin: 20px 0 10px;
-    color: var(--title-color);
-    font-family: var(--font-secondary);
-  }
-  
-  .dark-mode h3,
-  .dark-mode h2 {
-    color: var(--title-color);
-  }
-  
-  /* :::::::::::::::::: SWIPER CONTAINER :::::::::::::::::: */
-  .carousel-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 95%;
-    margin: 0 auto;
-    padding: 10px 0;
-  }
-  
-  .swiper-container {
-    width: 100%;
-    max-width: 1400px;
-    overflow: hidden;
-    position: relative;
-    margin: 0 auto;
-  }
-  
-  /* Evitar saltos en la altura de las slides */
-  .swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* :::::::::::::::::: NAVEGACIÓN :::::::::::::::::: */
-  .carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 999;
-  }
-  
-  .carousel-nav.left { left: -60px; }
-  .carousel-nav.right { right: -60px; }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --------------------------- Variables de tema ------------------------- */
+:root {
+  /* Fuentes */
+  --font-primary: 'Poppins', sans-serif;
+  --font-secondary: 'Roboto Condensed', sans-serif;
+  --font-title: 'Holtwood One SC', serif;
+  --font-body: 'Mulish', sans-serif;
+
+  /* Colores base (claro) */
+  --bg-color: radial-gradient(
+    100% 100% at 50% 50%,
+    #fcfcfc 0%,
+    #f7deb5 70%,
+    #e8e5dc 100%
+  );
+  --text-color: #2c2929;
+  --muted: #6b6b6b;
+  --title-color: #2c2929;
+  --accent: #dba76b;              /* acento cálido */
+  --accent-2: #2e92d4;            /* acento frío secundario */
+  --card-bg: rgba(255,255,255,0.55);
+  --card-stroke: rgba(0,0,0,0.08);
+  --shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.dark-mode {
+  --bg-color: radial-gradient(
+    circle at center,
+    #2d2d2d 0%,
+    #141414 45%,
+    #050505 100%
+  );
+  --text-color: #e8e8e8;
+  --muted: #bdbdbd;
+  --title-color: #dba76b;
+  --accent: #dba76b;
+  --accent-2: #a0d4f0;
+  --card-bg: rgba(255,255,255,0.05);
+  --card-stroke: rgba(255,255,255,0.10);
+  --shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* --------------------------- Base del documento ------------------------ */
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* evita barras horizontales */
+}
+
+/* Navbar (suave, pegajosa y con blur) */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.navbar ul {
+  display: flex;
+  gap: clamp(8px, 1.6vw, 22px);
+  list-style: none;
+  padding: 10px clamp(12px, 3vw, 28px);
+  margin: 0;
+}
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-secondary);
+  letter-spacing: .3px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background .25s ease, color .25s ease;
+}
+.navbar a:hover {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+}
+
+/* ------------------------------ Contenedor ----------------------------- */
+.user-panel {
+  width: min(1400px, 92vw);
+  margin: clamp(12px, 2.2vw, 24px) auto;
+  display: grid;
+  gap: clamp(18px, 2.2vw, 28px);
+}
+
+/* Títulos */
+.user-panel h2 {
+  font-family: var(--font-title);
+  color: var(--title-color);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  letter-spacing: .5px;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.08);
+}
+
+.user-panel h3 {
+  font-family: var(--font-secondary);
+  color: var(--title-color);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.7vw, 1.2rem);
+  display: inline-flex;
+  align-items: center;
+  gap: .6ch;
+  position: relative;
+  margin: 6px 0 2px;
+}
+
+/* Subrayado/acento del h3 */
+.user-panel h3::after {
+  content: "";
+  height: 3px;
+  width: 100%;
+  display: block;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), transparent 70%);
+}
+
+/* -------------------------- Secciones/“cards” -------------------------- */
+.favorites-section,
+.watchlist-section {
+  border: 1px solid var(--card-stroke);
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: clamp(12px, 2vw, 18px) clamp(12px, 2vw, 18px) 8px;
+}
+
+/* Wrapper del carrusel: deja espacio a las flechas sin usar offsets negativos */
+.carousel-wrapper {
+  position: relative;
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+/* Soporte para clases de Swiper 10+ y legacy */
+.swiper, .swiper-container {
+  width: 100%;
+  overflow: hidden;
+  margin-inline: auto;
+  padding: 10px 0;
+}
+
+/* Evita saltos y asegura centrado vertical de cada slide */
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------ Botones de navegación ------------------------ */
+.carousel-nav {
+  display: grid;
+  place-items: center;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform .2s ease, background .2s ease, color .2s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background: rgba(255,255,255,0.85);
+  color: #000;
+  transform: scale(1.06);
+}
+
+/* Iconos (Material Icons) */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-family: "Material Icons" !important;
+  font-size: 22px;
+  content: "arrow_back";
+}
+.swiper-button-next::after { content: "arrow_forward"; }
+
+/* Paginación */
+.swiper-pagination,
+.favorites-pagination,
+.watchlist-pagination {
+  position: relative;
+  margin-top: 8px;
+}
+.swiper-pagination-bullet {
+  background: rgba(255,255,255,0.6);
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  background: var(--accent);
+}
+
+/* ----------------------------- Tarjeta peli ---------------------------- */
+.movie-card {
+  width: clamp(120px, 14vw, 180px);
+  text-align: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border: 1px solid var(--card-stroke);
+  border-radius: 14px;
+  padding: 10px;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+  will-change: transform;
+}
+
+.movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.25);
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+}
+
+.movie-card a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.dark-mode .movie-card a { color: #fff; }
+
+.movie-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+/* Título del póster con clamp a 2 líneas */
+.movie-card h4 {
+  margin-top: 8px;
+  font-size: clamp(0.82rem, 1.35vw, 0.92rem);
+  font-weight: 700;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-wrap: balance;
+  letter-spacing: 0.2px;
+}
+
+/* ---------------------- Accesibilidad / Motion Safe -------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .movie-card,
   .swiper-button-prev,
   .swiper-button-next {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    font-size: 24px;
-    line-height: 1;     /* Mantiene el icono centrado */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: none !important;
   }
-  
-  /* Hover */
-  .swiper-button-prev:hover,
-  .swiper-button-next:hover {
-    background: rgba(255,255,255,0.8);
-    color: #000;
-    transform: scale(1.1);
-  }
-  
-  /* Flechas personalizadas con Material Icons */
-  .swiper-button-prev::after,
-  .swiper-button-next::after {
-    font-family: "Material Icons" !important;
-    font-size: 22px;
-    content: "arrow_back";
-  }
-  
-  .swiper-button-next::after {
-    content: "arrow_forward";
-  }
-  
-  /* :::::::::::::::::: MOVIE CARD :::::::::::::::::: */
-  .movie-card {
-    width: 180px; /* Suficiente para un póster grande */
-    margin: 10px;
-    text-align: center;
-    background: transparent;
-    padding: 10px;
-    border-radius: 8px;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .movie-card:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-  }
-  
-  .movie-card img {
-    width: 100%;
-    border-radius: 10px;
-    transition: box-shadow 0.3s ease-in-out;
-  }
-  
-  .movie-card a {
-    text-decoration: none;
-    color: var(--text-color);
-  }
-  
-  .dark-mode .movie-card a {
-    color: #fff;
-  }
-  
-  .movie-card h4 {
-    margin-top: 5px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  
-  /* :::::::::::::::::: MEDIA QUERIES :::::::::::::::::: */
-
-/* Tablets (pantallas medianas) */
-@media (max-width: 1024px) {
-    .user-panel {
-        max-width: 1000px; /* Reduce el contenedor */
-        padding: 10px;
-    }
-
-    .swiper-container {
-        max-width: 950px;
-    }
-
-    .movie-card {
-        width: 160px; /* Reduce ligeramente el tamaño */
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 40px; /* Botones más pequeños */
-        height: 40px;
-        font-size: 20px;
-    }
-
-    .carousel-nav.left { left: -40px; }
-    .carousel-nav.right { right: -40px; }
 }
 
-/* Móviles grandes (pantallas de 768px o menos) */
+/* --------------------------------- MQs --------------------------------- */
+
+/* <= 1200px: compacta un poco todo */
+@media (max-width: 1200px) {
+  .user-panel { gap: 20px; }
+  .swiper-button-prev, .swiper-button-next { width: 44px; height: 44px; }
+}
+
+/* <= 992px (tablets) */
+@media (max-width: 992px) {
+  .movie-card { width: clamp(120px, 18vw, 160px); }
+}
+
+/* <= 768px (móviles grandes) */
 @media (max-width: 768px) {
-    .user-panel {
-        max-width: 700px;
-    }
-
-    .swiper-container {
-        max-width: 650px;
-    }
-
-    .movie-card {
-        width: 140px; /* Reduce tamaño de póster */
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
-    }
-
-    .carousel-nav.left { left: -30px; }
-    .carousel-nav.right { right: -30px; }
+  .navbar ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .swiper-button-prev, .swiper-button-next { width: 40px; height: 40px; }
 }
 
-/* Móviles pequeños (menos de 600px) */
+/* <= 600px (móviles medianos) */
 @media (max-width: 600px) {
-    .user-panel {
-        max-width: 95%;
-        padding: 5px;
-    }
-
-    .swiper-container {
-        max-width: 100%;
-    }
-
-    .movie-card {
-        width: 120px; /* Más pequeño para móviles */
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 30px;
-        height: 30px;
-        font-size: 16px;
-    }
-
-    .carousel-nav.left { left: -25px; }
-    .carousel-nav.right { right: -25px; }
+  .movie-card { width: clamp(100px, 28vw, 140px); }
+  .movie-card h4 { font-size: 0.85rem; }
 }
 
-/* Pantallas ultra pequeñas (menos de 450px) */
-@media (max-width: 450px) {
-    .user-panel {
-        max-width: 100%;
-        padding: 5px;
-    }
-
-    .swiper-container {
-        max-width: 100%;
-    }
-
-    .movie-card {
-        width: 100px; /* Última reducción de póster */
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
-    }
-
-    .carousel-nav.left { left: -20px; }
-    .carousel-nav.right { right: -20px; }
+/* <= 420px (muy chico) */
+@media (max-width: 420px) {
+  .movie-card { width: clamp(90px, 34vw, 120px); }
+  .swiper-button-prev, .swiper-button-next { width: 36px; height: 36px; }
 }
