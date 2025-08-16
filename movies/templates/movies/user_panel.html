@@ -1,458 +1,299 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="es">
 <head>
-    {% load static %}
-    {% load widget_tweaks %}
-    {% load crispy_forms_tags %}
-    {% load language_tags %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dimensión del Terror — Mi Panel</title>
-    <meta name="theme-color" content="#0b0b0b" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel — WolfSight</title>
 
-    <!-- Bootstrap CSS primero -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
-      crossorigin="anonymous">
-
-    <!-- Estilo del panel (último para que gane) -->
-    <link rel="stylesheet" href="{% static 'css/user_panel.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style_movie.css' %}">
-
-    <!-- Icono -->
-    <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
-
-    <!-- Fancybox / FontAwesome -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- Fuentes e iconos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Fuentes / Iconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
 
-    <!-- LazySizes -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
+    <!-- Tu CSS -->
+    <link rel="stylesheet" href="{% static 'css/user_panel_new.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
 
-    <!-- Terceros -->
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
-
-    <!-- Propio -->
-    <script src="{% static 'js/swiper_user_panel.js' %}" defer></script>
-    <script src="{% static 'js/scripts.js' %}" defer></script>
+    <!-- Refuerzo mínimo para no romper layout si el CSS externo falla -->
+    <style>
+      .movie-poster{display:block;width:100%;height:auto;border-radius:8px}
+      .tab-panel{display:none}
+      .tab-panel.active{display:block}
+      .empty-message{opacity:.75;padding:12px 0}
+    </style>
 </head>
+<body data-theme="dark">
 
-<body>
-    {# ===================== FALLBACKS DE RUTAS ===================== #}
-    {% url 'profile_edit' as profile_edit_url %}
-    {% url 'review_create' as review_create_url %}
-    {% url 'export_user_lists_csv' as export_url %}
-    {% url 'sync_tmdb' as sync_url %}
-    {% url 'save_preferences' as save_prefs_url %}
-    {% url 'request_movie' as request_movie_url %}
-    {% url 'logout' as logout_url %}
+    <main class="user-panel-container">
 
-    <!-- ::::::::::::::::: NAV ::::::::::::::::: -->
-    <nav class="navbar" role="navigation" aria-label="Primaria">
-        <ul>
-            <li><a href="{% url 'movie_list' %}">Películas</a></li>
-            <li><a href="{% url 'dynamic_genre_movies' %}">Búsqueda por Géneros</a></li>
-            <li><a href="{% url 'series_list' %}">Series</a></li>
-            <li><a href="{% url 'reviews' %}">Reseñas</a></li>
-            <li><a href="#solicitar-peli" data-fancybox id="openFormLink">Pídeme una peli!</a></li>
-            <li><a href="{% url 'user_panel' %}">🎭 Mi Panel</a></li>
-        </ul>
-    </nav>
-
-    <main class="user-panel" role="main">
-
-        <!-- ================= HEADER PERFIL ================= -->
-        <header class="panel-header d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-                <div class="avatar" aria-hidden="true">
-                    {% if request.user.is_authenticated and request.user.profile and request.user.profile.avatar %}
-                        <img src="{{ request.user.profile.avatar.url }}" alt="Avatar de {{ request.user.username }}">
-                    {% elif request.user.is_authenticated %}
-                        <span class="avatar-fallback">{{ request.user.username|first|upper }}</span>
-                    {% else %}
-                        <span class="avatar-fallback">?</span>
-                    {% endif %}
-                </div>
-                <div>
+        <!-- HEADER -->
+        <header class="panel-header">
+            <div class="user-info">
+                <img src="https://via.placeholder.com/80" alt="Avatar de usuario" class="user-avatar">
+                <div class="user-details">
+                    <h1>Mi Panel</h1>
                     {% if request.user.is_authenticated %}
-                        <h2 class="m-0">¡Hola, {{ request.user.username }}!</h2>
-                        <p class="m-0 text-muted small">
-                            Último acceso: {{ request.user.last_login|date:"d/m/Y H:i" }}
-                        </p>
+                        <p>¡Hola, {{ request.user.username }}!</p>
                     {% else %}
-                        <h2 class="m-0">Bienvenido, Invitado</h2>
+                        <p>¡Hola, Invitado!</p>
                     {% endif %}
                 </div>
             </div>
-
-            <div class="header-actions d-flex align-items-center gap-2">
-                <a class="btn btn-outline-light btn-sm" href="{{ profile_edit_url|default:'#' }}">
-                    <i class="fa-regular fa-user"></i> Editar perfil
-                </a>
-                <button class="btn btn-outline-light btn-sm" id="toggleTheme" type="button" aria-pressed="false">
-                    <span class="material-icons" aria-hidden="true">dark_mode</span>
-                    Tema
-                </button>
-                <button class="btn btn-outline-light btn-sm" id="toggleCompact" type="button" aria-pressed="false">
-                    <span class="material-icons" aria-hidden="true">view_compact</span>
-                    Vista
-                </button>
-                <a class="btn btn-danger btn-sm" href="{{ logout_url|default:'#' }}">Salir</a>
+            <div class="user-actions">
+                <a href="#" class="btn btn-secondary"><i class="fas fa-user-edit"></i> Editar Perfil</a>
+                <button class="btn btn-secondary" id="toggleTheme"><i class="fas fa-palette"></i> Tema</button>
+                <a href="#" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Salir</a>
             </div>
         </header>
 
-        <!-- ================= STATS ================= -->
-        <section class="stats-row row g-3">
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <div class="stat-label">Favoritos</div>
-                    <div class="stat-value">{{ favorite_movies|length }}</div>
+        <!-- STATS -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-heart stat-icon"></i>
+                <div class="stat-info">
+                    <span class="stat-label">Favoritos</span>
+                    <span class="stat-value">{{ favorite_movies|length }}</span>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <div class="stat-label">Por ver</div>
-                    <div class="stat-value">{{ watchlist_movies|length }}</div>
+            <div class="stat-card">
+                <i class="fas fa-eye stat-icon"></i>
+                <div class="stat-info">
+                    <span class="stat-label">Por Ver</span>
+                    <span class="stat-value">{{ watchlist_movies|length }}</span>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <div class="stat-label">Valoradas</div>
-                    <div class="stat-value">
-                        {% if rated_movies %}{{ rated_movies|length }}{% else %}0{% endif %}
-                    </div>
+            <div class="stat-card">
+                <i class="fas fa-star stat-icon"></i>
+                <div class="stat-info">
+                    <span class="stat-label">Valoradas</span>
+                    <span class="stat-value">{% if rated_movies %}{{ rated_movies|length }}{% else %}0{% endif %}</span>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <div class="stat-label">Promedio</div>
-                    <div class="stat-value">
-                        {% if avg_rating %}{{ avg_rating|floatformat:1 }}{% else %}-{% endif %}
-                    </div>
+            <div class="stat-card">
+                <i class="fas fa-chart-line stat-icon"></i>
+                <div class="stat-info">
+                    <span class="stat-label">Promedio</span>
+                    <span class="stat-value">{% if avg_rating %}{{ avg_rating|floatformat:1 }}{% else %}-{% endif %}</span>
                 </div>
             </div>
         </section>
 
-        <!-- ================= ACCIONES RÁPIDAS ================= -->
-        <section class="quick-actions d-flex flex-wrap gap-2">
-            <a class="qa-btn" href="#solicitar-peli" data-fancybox>
-                <span class="material-icons" aria-hidden="true">movie_filter</span>
-                Pedir peli
-            </a>
-            <a class="qa-btn" href="{{ review_create_url|default:'#' }}">
-                <span class="material-icons" aria-hidden="true">rate_review</span>
-                Nueva reseña
-            </a>
-            <a class="qa-btn" href="{{ export_url|default:'#' }}">
-                <span class="material-icons" aria-hidden="true">file_download</span>
-                Exportar listas
-            </a>
-            <a class="qa-btn" href="{{ sync_url|default:'#' }}">
-                <span class="material-icons" aria-hidden="true">sync</span>
-                Sincronizar TMDB
-            </a>
-        </section>
-
-        <!-- ================= FILTROS & BÚSQUEDA ================= -->
-        <section class="filters-bar">
-            <form id="filtersForm" method="get" action="{% url 'user_panel' %}" class="row g-2 align-items-end">
-                <div class="col-12 col-md-4">
-                    <label class="form-label">Buscar</label>
-                    <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Título, director, año...">
+        <!-- FILTROS -->
+        <section class="filters-container">
+            <form method="get" class="filters-form" action="{% url 'user_panel' %}">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar en mis listas..." class="search-input">
                 </div>
-
-                <div class="col-6 col-md-2">
-                    <label class="form-label">Orden</label>
-                    <select class="form-select" name="sort">
-                        <option value="recent" {% if request.GET.sort == 'recent' %}selected{% endif %}>Más recientes</option>
-                        <option value="rating" {% if request.GET.sort == 'rating' %}selected{% endif %}>Mejor rating</option>
-                        <option value="year" {% if request.GET.sort == 'year' %}selected{% endif %}>Año</option>
-                        <option value="title" {% if request.GET.sort == 'title' %}selected{% endif %}>Título</option>
-                    </select>
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <label class="form-label">Año desde</label>
-                    <input type="number" class="form-control" name="y_from" value="{{ request.GET.y_from }}" placeholder="1968">
-                </div>
-                <div class="col-6 col-md-2">
-                    <label class="form-label">Año hasta</label>
-                    <input type="number" class="form-control" name="y_to" value="{{ request.GET.y_to }}" placeholder="2025">
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <label class="form-label">Género</label>
-                    <select class="form-select" name="genre">
-                        <option value="">Todos</option>
-                        {% for g in all_genres %}
-                            <option value="{{ g.id }}" {% if request.GET.genre == g.id|stringformat:'s' %}selected{% endif %}>{{ g.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-12 d-flex gap-2">
-                    <button class="btn btn-primary" type="submit">
-                        <span class="material-icons" aria-hidden="true">filter_list</span> Aplicar
-                    </button>
-                    <a class="btn btn-outline-secondary" href="{% url 'user_panel' %}">
-                        Limpiar
-                    </a>
-                </div>
+                <select name="genre_id" class="filter-select">
+                    <option value="">Todos los géneros</option>
+                    {% for g in all_genres %}
+                        <option value="{{ g.id }}" {% if request.GET.genre_id == g.id|stringformat:"s" %}selected{% endif %}>{{ g.name }}</option>
+                    {% endfor %}
+                </select>
+                <select name="sort_by" class="filter-select">
+                    <option value="recent" {% if request.GET.sort_by == 'recent' %}selected{% endif %}>Ordenar: Recientes</option>
+                    <option value="rating" {% if request.GET.sort_by == 'rating' %}selected{% endif %}>Ordenar: Mejor rating</option>
+                    <option value="year" {% if request.GET.sort_by == 'year' %}selected{% endif %}>Ordenar: Año</option>
+                    <option value="title" {% if request.GET.sort_by == 'title' %}selected{% endif %}>Ordenar: Título (A-Z)</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a class="btn-clean" href="{% url 'user_panel' %}">Limpiar</a>
             </form>
         </section>
 
-        <!-- ================= TABS (sin JS) ================= -->
-        <section class="tabs">
-            <!-- Radios para tabs -->
-            <input type="radio" name="tabset" id="tab-fav" checked hidden>
-            <input type="radio" name="tabset" id="tab-watch" hidden>
-            <input type="radio" name="tabset" id="tab-rated" hidden>
-            <input type="radio" name="tabset" id="tab-recent" hidden>
+        <!-- TABS -->
+        <section class="tabs-section">
+            <div class="tab-controls" role="tablist" aria-label="Secciones de películas">
+                <input type="radio" name="tabset" id="tab-fav" checked>
+                <label for="tab-fav" role="tab">Favoritos</label>
 
-            <div class="tab-labels" role="tablist" aria-label="Secciones">
-                <label for="tab-fav" role="tab" aria-controls="panel-fav" tabindex="0">❤️ Favoritos</label>
-                <label for="tab-watch" role="tab" aria-controls="panel-watch" tabindex="0">👀 Por ver</label>
-                <label for="tab-rated" role="tab" aria-controls="panel-rated" tabindex="0">⭐ Valoradas</label>
-                <label for="tab-recent" role="tab" aria-controls="panel-recent" tabindex="0">🕘 Recientes</label>
+                <input type="radio" name="tabset" id="tab-watch">
+                <label for="tab-watch" role="tab">Por Ver</label>
+
+                <input type="radio" name="tabset" id="tab-rated">
+                <label for="tab-rated" role="tab">Valoradas</label>
+
+                <input type="radio" name="tabset" id="tab-recent">
+                <label for="tab-recent" role="tab">Actividad Reciente</label>
             </div>
 
-            <!-- Panel: Favoritos -->
-            <div id="panel-fav" class="tab-panel" role="tabpanel" aria-labelledby="tab-fav">
-                <section class="favorites-section">
-                    <h3 class="visually-hidden">Mis Películas Favoritas</h3>
-                    <div class="carousel-wrapper">
-                        <div class="carousel-nav left">
-                            <div class="swiper-button-prev favorites-prev" aria-label="Anterior favoritos"></div>
-                        </div>
-                        <div class="swiper-container swiper favorites-carousel">
-                            <div class="swiper-wrapper">
-                                {% for movie in favorite_movies %}
-                                <div class="swiper-slide">
-                                    <div class="movie-card">
-                                        <a href="{% url 'movie_detail' movie.id %}">
-                                            <img class="lazyload"
-                                                 data-src="{{ movie.poster_image.url }}"
-                                                 alt="{{ movie.title }}"
-                                                 loading="lazy" decoding="async">
-                                            <noscript><img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}"></noscript>
-                                            <h4>{{ movie.title }}{% if movie.release_date %} ({{ movie.release_date.year }}){% endif %}</h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                {% empty %}
-                                <div class="swiper-slide"><div class="movie-card"><h4>Sin favoritos todavía</h4></div></div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="carousel-nav right">
-                            <div class="swiper-button-next favorites-next" aria-label="Siguiente favoritos"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-pagination favorites-pagination" aria-label="Paginación favoritos"></div>
-                </section>
-            </div>
-
-            <!-- Panel: Por ver -->
-            <div id="panel-watch" class="tab-panel" role="tabpanel" aria-labelledby="tab-watch">
-                <section class="watchlist-section">
-                    <h3 class="visually-hidden">Lista Por Ver</h3>
-                    <div class="carousel-wrapper">
-                        <div class="carousel-nav left">
-                            <div class="swiper-button-prev watchlist-prev" aria-label="Anterior por ver"></div>
-                        </div>
-                        <div class="swiper-container swiper watchlist-carousel">
-                            <div class="swiper-wrapper">
-                                {% for movie in watchlist_movies %}
-                                <div class="swiper-slide">
-                                    <div class="movie-card">
-                                        <a href="{% url 'movie_detail' movie.id %}">
-                                            <img class="lazyload"
-                                                 data-src="{{ movie.poster_image.url }}"
-                                                 alt="{{ movie.title }}"
-                                                 loading="lazy" decoding="async">
-                                            <noscript><img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}"></noscript>
-                                            <h4>{{ movie.title }}{% if movie.release_date %} ({{ movie.release_date.year }}){% endif %}</h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                {% empty %}
-                                <div class="swiper-slide"><div class="movie-card"><h4>Tu lista está vacía</h4></div></div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="carousel-nav right">
-                            <div class="swiper-button-next watchlist-next" aria-label="Siguiente por ver"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-pagination watchlist-pagination" aria-label="Paginación por ver"></div>
-                </section>
-            </div>
-
-            <!-- Panel: Valoradas -->
-            <div id="panel-rated" class="tab-panel" role="tabpanel" aria-labelledby="tab-rated">
-                <section class="rated-section">
-                    <h3 class="visualmente-hidden">Películas Valoradas por mí</h3>
-                    <div class="cards-grid">
-                        {% for movie in rated_movies %}
-                        <article class="rated-card">
-                            <a href="{% url 'movie_detail' movie.id %}" class="rated-link">
-                                <img class="lazyload"
-                                     data-src="{{ movie.poster_image.url }}"
-                                     alt="{{ movie.title }}"
-                                     loading="lazy" decoding="async">
-                                <div class="rated-meta">
-                                    <h4>{{ movie.title }}</h4>
-                                    {% if movie.user_rating %}
-                                      <p class="badge bg-warning text-dark">Mi rating: {{ movie.user_rating }}/10</p>
+            <div class="tab-panels">
+                <!-- FAVORITOS -->
+                <div id="panel-fav" class="tab-panel active">
+                    <div class="swiper favorites-carousel">
+                        <div class="swiper-wrapper">
+                            {% for movie in favorite_movies %}
+                            <div class="swiper-slide">
+                                <a href="{% url 'movie_detail' movie.id %}">
+                                    {% if movie.poster_image %}
+                                      <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}" class="movie-poster">
+                                    {% else %}
+                                      <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}" class="movie-poster">
                                     {% endif %}
-                                    {% if movie.release_date %}<p class="muted">{{ movie.release_date.year }}</p>{% endif %}
-                                </div>
+                                </a>
+                            </div>
+                            {% empty %}
+                            <div class="empty-message">No tienes películas favoritas todavía.</div>
+                            {% endfor %}
+                        </div>
+                        <!-- Controles ÚNICOS -->
+                        <div class="swiper-button-prev fav-prev"></div>
+                        <div class="swiper-button-next fav-next"></div>
+                    </div>
+                </div>
+
+                <!-- POR VER -->
+                <div id="panel-watch" class="tab-panel">
+                    <div class="swiper watchlist-carousel">
+                        <div class="swiper-wrapper">
+                            {% for movie in watchlist_movies %}
+                            <div class="swiper-slide">
+                                <a href="{% url 'movie_detail' movie.id %}">
+                                    {% if movie.poster_image %}
+                                      <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}" class="movie-poster">
+                                    {% else %}
+                                      <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}" class="movie-poster">
+                                    {% endif %}
+                                </a>
+                            </div>
+                            {% empty %}
+                            <div class="empty-message">Tu lista de "Por Ver" está vacía.</div>
+                            {% endfor %}
+                        </div>
+                        <!-- Controles ÚNICOS -->
+                        <div class="swiper-button-prev watch-prev"></div>
+                        <div class="swiper-button-next watch-next"></div>
+                    </div>
+                </div>
+
+                <!-- VALORADAS -->
+                <div id="panel-rated" class="tab-panel">
+                    <div class="rated-movies-grid">
+                        {% for movie in rated_movies %}
+                        <div class="rated-movie-card">
+                            <a href="{% url 'movie_detail' movie.id %}">
+                                {% if movie.poster_image %}
+                                  <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}" class="movie-poster">
+                                {% else %}
+                                  <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}" class="movie-poster">
+                                {% endif %}
                             </a>
-                        </article>
+                            <div class="rated-movie-info">
+                                <h4 class="rated-movie-title">{{ movie.title }}</h4>
+                                {% if movie.user_rating %}
+                                <div class="user-rating">
+                                    <i class="fas fa-star"></i> {{ movie.user_rating }}/10
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
                         {% empty %}
-                        <p class="muted">Aún no valoraste películas.</p>
+                        <p class="empty-message">Aún no has valorado ninguna película.</p>
                         {% endfor %}
                     </div>
-                </section>
-            </div>
+                </div>
 
-            <!-- Panel: Recientes -->
-            <div id="panel-recent" class="tab-panel" role="tabpanel" aria-labelledby="tab-recent">
-                <section class="activity-section">
-                    <h3 class="visually-hidden">Actividad Reciente</h3>
-                    <ol class="activity-timeline">
+                <!-- ACTIVIDAD -->
+                <div id="panel-recent" class="tab-panel">
+                    <ul class="activity-list">
                         {% for item in recent_activity %}
-                        <li>
-                            <time datetime="{{ item.date|date:'c' }}">{{ item.date|date:"d/m/Y H:i" }}</time>
-                            <span class="badge">{{ item.type }}</span>
-                            <a href="{% url 'movie_detail' item.movie.id %}">{{ item.movie.title }}</a>
-                            {% if item.note %}<em class="muted">— {{ item.note }}</em>{% endif %}
-                        </li>
+                            <li class="activity-item">
+                                <div class="activity-icon {{ item.type|lower }}">{{ item.type.0 }}</div>
+                                <div class="activity-details">
+                                    <p>
+                                        Agregaste <a href="{% url 'movie_detail' item.movie.id %}">{{ item.movie.title }}</a> a la lista de '{{ item.type }}'.
+                                        {% if item.note %}<span class="activity-note">— {{ item.note }}</span>{% endif %}
+                                    </p>
+                                    <time datetime="{{ item.date|date:'c' }}">{{ item.date|date:"d M Y, H:i" }}</time>
+                                </div>
+                            </li>
                         {% empty %}
-                        <li class="muted">Sin actividad reciente.</li>
+                            <li class="empty-message">Sin actividad reciente.</li>
                         {% endfor %}
-                    </ol>
-                </section>
+                    </ul>
+                </div>
             </div>
-        </section>
-
-        <!-- ================= PREFERENCIAS ================= -->
-        <section class="prefs-section">
-            <h3>Preferencias</h3>
-            <form method="post" action="{{ save_prefs_url|default:'#' }}">
-                {% csrf_token %}
-                <div class="row g-2">
-                    <div class="col-6 col-md-3">
-                        <label class="form-check">
-                            <input class="form-check-input" type="checkbox" name="include_gore" {% if user_prefs.include_gore %}checked{% endif %}>
-                            <span class="form-check-label">Incluir gore</span>
-                        </label>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <label class="form-check">
-                            <input class="form-check-input" type="checkbox" name="only_original_lang" {% if user_prefs.only_original_lang %}checked{% endif %}>
-                            <span class="form-check-label">Solo idioma original</span>
-                        </label>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <label class="form-check">
-                            <input class="form-check-input" type="checkbox" name="avoid_rituals" {% if user_prefs.avoid_rituals %}checked{% endif %}>
-                            <span class="form-check-label">Evitar rituales/brujería</span>
-                        </label>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <label class="form-check">
-                            <input class="form-check-input" type="checkbox" name="show_rare_genres" {% if user_prefs.show_rare_genres %}checked{% endif %}>
-                            <span class="form-check-label">Mostrar géneros raros</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <button class="btn btn-primary btn-sm" type="submit">Guardar preferencias</button>
-                </div>
-            </form>
         </section>
 
     </main>
 
-    <!-- ================= MODAL: Pídeme una peli ================= -->
-    <div style="display:none;max-width:720px" id="solicitar-peli">
-        <h3 class="mb-3">Pídeme una película</h3>
-        <form method="post" action="{{ request_movie_url|default:'#' }}" class="row g-3">
-            {% csrf_token %}
-            <div class="col-12 col-md-8">
-                <label class="form-label">Título original</label>
-                <input type="text" class="form-control" name="title" placeholder="The Texas Chain Saw Massacre (1974)" required>
-            </div>
-            <div class="col-12 col-md-4">
-                <label class="form-label">Año</label>
-                <input type="number" class="form-control" name="year" min="1900" max="2100" placeholder="1974">
-            </div>
-            <div class="col-12">
-                <label class="form-label">Comentario</label>
-                <textarea class="form-control" name="comment" rows="3" placeholder="Por qué querés verla / versión preferida"></textarea>
-            </div>
-            <div class="col-12 d-flex gap-2">
-                <button class="btn btn-primary" type="submit">Enviar pedido</button>
-                <button class="btn btn-outline-secondary" data-fancybox-close type="button">Cancelar</button>
-            </div>
-        </form>
-    </div>
+    <!-- Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
-    <!-- ============== Helpers mínimos (tema/vista) ============== -->
     <script>
-    // Tema (oscuro/claro) con localStorage
-    (function() {
-      const btn = document.getElementById('toggleTheme');
-      if (!btn) return;
-      const LS_KEY = 'ddt_theme';
-      const apply = (mode) => {
-        if (mode === 'light') document.body.classList.add('light-mode');
-        else document.body.classList.remove('light-mode');
-        btn.setAttribute('aria-pressed', String(mode === 'light'));
-      };
-      const saved = localStorage.getItem(LS_KEY);
-      if (saved) apply(saved);
-      btn.addEventListener('click', () => {
-        const next = document.body.classList.contains('light-mode') ? 'dark' : 'light';
-        localStorage.setItem(LS_KEY, next);
-        apply(next);
-      });
-    })();
+      document.addEventListener('DOMContentLoaded', () => {
+        // 1) Inicializo Swipers con observadores y controles únicos
+        const favoritesSwiper = new Swiper('.favorites-carousel', {
+          slidesPerView: 'auto',
+          spaceBetween: 20,
+          observer: true,
+          observeParents: true,
+          watchOverflow: true,
+          navigation: { nextEl: '.fav-next', prevEl: '.fav-prev' },
+          breakpoints: {
+            320: { slidesPerView: 2, spaceBetween: 15 },
+            480: { slidesPerView: 3, spaceBetween: 15 },
+            768: { slidesPerView: 5, spaceBetween: 20 },
+            1024: { slidesPerView: 7, spaceBetween: 20 },
+          }
+        });
 
-    // Vista compacta (reduce paddings/tamaños)
-    (function() {
-      const btn = document.getElementById('toggleCompact');
-      if (!btn) return;
-      const LS_KEY = 'ddt_compact';
-      const apply = (on) => {
-        document.body.classList.toggle('compact', on);
-        btn.setAttribute('aria-pressed', String(on));
-      };
-      const saved = localStorage.getItem(LS_KEY) === '1';
-      apply(saved);
-      btn.addEventListener('click', () => {
-        const next = !document.body.classList.contains('compact');
-        localStorage.setItem(LS_KEY, next ? '1' : '0');
-        apply(next);
+        const watchlistSwiper = new Swiper('.watchlist-carousel', {
+          slidesPerView: 'auto',
+          spaceBetween: 20,
+          observer: true,
+          observeParents: true,
+          watchOverflow: true,
+          navigation: { nextEl: '.watch-next', prevEl: '.watch-prev' },
+          breakpoints: {
+            320: { slidesPerView: 2, spaceBetween: 15 },
+            480: { slidesPerView: 3, spaceBetween: 15 },
+            768: { slidesPerView: 5, spaceBetween: 20 },
+            1024: { slidesPerView: 7, spaceBetween: 20 },
+          }
+        });
+
+        // 2) Tabs robustas: mostrar/ocultar panel + update del carrusel visible
+        const panels = {
+          fav: document.getElementById('panel-fav'),
+          watch: document.getElementById('panel-watch'),
+          rated: document.getElementById('panel-rated'),
+          recent: document.getElementById('panel-recent'),
+        };
+        function showPanel(key){
+          Object.values(panels).forEach(p => p.classList.remove('active'));
+          panels[key].classList.add('active');
+          // Forzar recálculo del carrusel visible (evita “pestañeo”)
+          if(key === 'fav') favoritesSwiper.update();
+          if(key === 'watch') watchlistSwiper.update();
+        }
+        // Estado inicial (por si CSS no lo aplica a tiempo)
+        showPanel('fav');
+
+        document.getElementById('tab-fav').addEventListener('change', () => showPanel('fav'));
+        document.getElementById('tab-watch').addEventListener('change', () => showPanel('watch'));
+        document.getElementById('tab-rated').addEventListener('change', () => showPanel('rated'));
+        document.getElementById('tab-recent').addEventListener('change', () => showPanel('recent'));
+
+        // 3) Toggle de tema
+        const btn = document.getElementById('toggleTheme');
+        if (btn) {
+          const LS_KEY = 'ws_theme';
+          const apply = t => document.body.dataset.theme = t;
+          apply(localStorage.getItem(LS_KEY) || 'dark');
+          btn.addEventListener('click', () => {
+            const t = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem(LS_KEY, t);
+            apply(t);
+          });
+        }
       });
-    })();
     </script>
 </body>
 </html>

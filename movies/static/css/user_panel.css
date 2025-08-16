@@ -1,300 +1,295 @@
+/* Puedes incluir aquí el código CSS que proporcionaste en tu solicitud. */
+/* Asegúrate de que las rutas de las fuentes y otros archivos sean correctas en tu proyecto. */
+
 /* :::::::::::::::::: RESET :::::::::::::::::: */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-  /* :::::::::::::::::: VARIABLES :::::::::::::::::: */
-  :root {
+}
+
+/* :::::::::::::::::: VARIABLES :::::::::::::::::: */
+:root {
+    --bg-color-dark: radial-gradient(circle at center, rgba(45, 45, 45, 1) 10%, rgba(20, 20, 20, 1) 40%, rgba(5, 5, 5, 1) 90%, rgba(0, 0, 0, 1) 100%);
+    --bg-color-light: radial-gradient(100% 100% at 50% 50%, rgba(252, 252, 252, 1) 12%, rgba(247, 222, 181, 1) 84%, rgba(232, 229, 220, 1) 96%);
+    --text-color-dark: #e6e6e6;
+    --text-color-light: #2C2929;
+    --title-color-dark: #dba76b;
+    --title-color-light: #2C2929;
+
     --font-primary: 'Poppins', sans-serif;
     --font-secondary: 'Roboto Condensed', sans-serif;
     --font-title: 'Holtwood One SC', serif;
     --font-body: 'Mulish', sans-serif;
     --font-accent: 'Bebas Neue', cursive;
-    --font-extra: 'PT Sans Narrow', sans-serif;
-    --font-decorative: 'Ruslan Display', cursive; 
     --font-special: 'Bruno Ace SC', sans-serif;
-  
-    /* Colores modo claro (por defecto) */
-    --bg-color: radial-gradient(
-        100% 100% at 50% 50%,
-        rgba(252, 252, 252, 1) 12%,
-        rgba(247, 222, 181, 1) 84%,
-        rgba(232, 229, 220, 1) 96%
-    );
-    --text-color: #2C2929;
-    --title-color: #2C2929;
-    --link-color: #af5;
-    --link-hover-color: #f55;
-  }
-  
-  /* :::::::::::::::::: MODO OSCURO :::::::::::::::::: */
-  .dark-mode {
-    --bg-color: radial-gradient(
-        circle at center,
-        rgba(45, 45, 45, 1) 10%,
-        rgba(20, 20, 20, 1) 40%,
-        rgba(5, 5, 5, 1) 90%,
-        rgba(0, 0, 0, 1) 100%
-    );
-    --text-color: #e6e6e6;
-    --title-color: #dba76b;
-    --link-color: #a0d4f0;
-    --link-hover-color: #2e92d4;
-  }
-  
-  /* :::::::::::::::::: USER PANEL :::::::::::::::::: */
-  .user-panel {
-    max-width: 1500px; /* Lo bastante grande para 7 u 8 */
-    margin: 0 auto;
-    padding: 10px;
-    font-family: var(--font-secondary);
-  }
-  
-  .user-panel h2 {
-    font-size: 2rem;
-    font-family: var(--font-special);
-    color: var(--title-color);
-    margin-bottom: 1rem;
-  }
-  
-  .user-panel h3 {
-    margin: 20px 0 10px;
-    color: var(--title-color);
-    font-family: var(--font-secondary);
-  }
-  
-  .dark-mode h3,
-  .dark-mode h2 {
-    color: var(--title-color);
-  }
-  
-  /* :::::::::::::::::: SWIPER CONTAINER :::::::::::::::::: */
-  .carousel-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 95%;
-    margin: 0 auto;
+}
+
+/* :::::::::::::::::: GLOBAL STYLES :::::::::::::::::: */
+body {
+    background: var(--bg-color-dark);
+    color: var(--text-color-dark);
+    font-family: var(--font-body);
+    transition: background 0.5s ease;
+}
+
+body.light-mode {
+    background: var(--bg-color-light);
+    color: var(--text-color-light);
+}
+
+.d-flex.justify-content-end.align-items-center.gap-2.mb-4.w-100 {
+    margin-top: 20px;
+}
+
+/* :::::::::::::::::: NAVIGATION :::::::::::::::::: */
+.navbar {
+    background-color: #0b0b0b;
     padding: 10px 0;
-  }
-  
-  .swiper-container {
-    width: 100%;
-    max-width: 1400px;
-    overflow: hidden;
-    position: relative;
-    margin: 0 auto;
-  }
-  
-  /* Evitar saltos en la altura de las slides */
-  .swiper-slide {
+    font-family: var(--font-secondary);
+}
+
+.navbar ul {
+    list-style: none;
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: auto !important; /* Asegura que no se generen espacios por el tamaño de los elementos */
-  }
-  
-  /* :::::::::::::::::: NAVEGACIÓN :::::::::::::::::: */
-  .carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 999;
-  }
-  
-  .carousel-nav.left { left: -60px; }
-  .carousel-nav.right { right: -60px; }
-  
-  .swiper-button-prev,
-  .swiper-button-next {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
+    gap: 30px;
+    margin: 0;
+}
+
+.navbar li a {
+    text-decoration: none;
     color: #fff;
-    font-size: 24px;
-    line-height: 1;     /* Mantiene el icono centrado */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-  
-  /* Hover */
-  .swiper-button-prev:hover,
-  .swiper-button-next:hover {
-    background: rgba(255,255,255,0.8);
-    color: #000;
-    transform: scale(1.1);
-  }
-  
-  /* Flechas personalizadas con Material Icons */
-  .swiper-button-prev::after,
-  .swiper-button-next::after {
-    font-family: "Material Icons" !important;
-    font-size: 22px;
-    content: "arrow_back";
-  }
-  
-  .swiper-button-next::after {
-    content: "arrow_forward";
-  }
-  
-  /* :::::::::::::::::: MOVIE CARD :::::::::::::::::: */
-  .movie-card {
-    width: 180px; /* Suficiente para un póster grande */
-    margin: 5px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navbar li a:hover {
+    color: #e6e6e6;
+}
+
+/* :::::::::::::::::: HEADER :::::::::::::::::: */
+.user-header {
     text-align: center;
-    background: transparent;
+    padding: 40px 20px;
+    background: url('https://via.placeholder.com/1500x300.png?text=Fondo+del+panel+de+usuario') no-repeat center center/cover;
+    position: relative;
+    color: #fff;
+    font-family: var(--font-special);
+}
+
+.user-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.user-header > * {
+    position: relative;
+    z-index: 2;
+}
+
+.user-avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #e6e6e6 url('https://via.placeholder.com/100.png?text=Avatar') no-repeat center center/cover;
+    margin: 0 auto 10px;
+}
+
+.user-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: var(--title-color-dark);
+}
+
+.user-header h3 {
+    font-size: 1.2rem;
+    color: #e6e6e6;
+    font-family: var(--font-secondary);
+}
+
+/* :::::::::::::::::: USER PANEL MAIN :::::::::::::::::: */
+.user-panel {
+    max-width: 1500px;
+    margin: 20px auto;
     padding: 10px;
+}
+
+.user-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-filter, .btn-outline-secondary {
+    padding: 10px 20px;
     border-radius: 8px;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .movie-card:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-  }
-  
-  .movie-card img {
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-filter {
+    background-color: #f0c541; /* Color amarillo del diseño */
+    color: #000;
+}
+
+.btn-filter:hover {
+    background-color: #d1ab31;
+}
+
+.btn-outline-secondary {
+    background-color: transparent;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+/* ================= STATS ================= */
+.stats-row .col-md-3 {
+    text-align: center;
+}
+
+.stat-card {
+    background: #1e1e1e;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #aaa;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--title-color-dark);
+}
+
+/* ================= FILTROS & BÚSQUEDA ================= */
+.filters-container {
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #1e1e1e;
+    border-radius: 12px;
+    max-width: 1200px;
+}
+
+.filters-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.filters-form .form-control,
+.filters-form .form-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border-radius: 8px;
+    min-width: 180px;
+}
+
+/* ================= TABS ================= */
+.tabs-section {
+    margin-top: 2rem;
+}
+
+.tab-labels {
+    display: flex;
+    gap: 10px;
+    border-bottom: 2px solid #333;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-btn:hover {
+    color: var(--title-color-dark);
+}
+
+.tab-btn.active {
+    border-bottom: 2px solid var(--title-color-dark);
+    color: var(--title-color-dark);
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* ================= MOVIE CARDS & CAROUSEL ================= */
+.carousel-section {
+    position: relative;
+    padding: 0 50px;
+}
+
+.movie-card {
+    width: 200px;
+    margin: 10px;
+    text-align: center;
+}
+
+.movie-card img {
     width: 100%;
     border-radius: 10px;
-    transition: box-shadow 0.3s ease-in-out;
-  }
-  
-  .movie-card a {
-    text-decoration: none;
-    color: var(--text-color);
-  }
-  
-  .dark-mode .movie-card a {
+    transition: transform 0.3s ease;
+}
+
+.movie-card img:hover {
+    transform: scale(1.05);
+}
+
+.movie-card h4 {
     color: #fff;
-  }
-  
-  .movie-card h4 {
-    height: 3em; /* Fijamos el alto del título */
-    overflow: hidden; /* Oculta cualquier exceso de texto */
-    text-align: center;
-    line-height: 1.5; /* Ajuste de espaciado */
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Swiper overrides */
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 14px;
-    font-weight: bold;
-    white-space: normal; /* Permite saltos de línea */
-}
-
-
-  .swiper-wrapper {
-    display: flex;
     align-items: center;
 }
 
-  /* :::::::::::::::::: MEDIA QUERIES :::::::::::::::::: */
-
-/* Tablets (pantallas medianas) */
-@media (max-width: 1024px) {
-    .user-panel {
-        max-width: 1000px; /* Reduce el contenedor */
-        padding: 10px;
-    }
-
-    .swiper-container {
-        max-width: 950px;
-    }
-
-    .movie-card {
-        width: 160px; /* Reduce ligeramente el tamaño */
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 40px; /* Botones más pequeños */
-        height: 40px;
-        font-size: 20px;
-    }
-
-    .carousel-nav.left { left: -40px; }
-    .carousel-nav.right { right: -40px; }
-}
-
-/* Móviles grandes (pantallas de 768px o menos) */
-@media (max-width: 768px) {
-    .user-panel {
-        max-width: 700px;
-    }
-
-    .swiper-container {
-        max-width: 650px;
-    }
-
-    .movie-card {
-        width: 140px; /* Reduce tamaño de póster */
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
-    }
-
-    .carousel-nav.left { left: -30px; }
-    .carousel-nav.right { right: -30px; }
-}
-
-/* Móviles pequeños (menos de 600px) */
-@media (max-width: 600px) {
-    .user-panel {
-        max-width: 95%;
-        padding: 5px;
-    }
-
-    .swiper-container {
-        max-width: 100%;
-    }
-
-    .movie-card {
-        width: 120px; /* Más pequeño para móviles */
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 30px;
-        height: 30px;
-        font-size: 16px;
-    }
-
-    .carousel-nav.left { left: -25px; }
-    .carousel-nav.right { right: -25px; }
-}
-
-/* Pantallas ultra pequeñas (menos de 450px) */
-@media (max-width: 450px) {
-    .user-panel {
-        max-width: 100%;
-        padding: 5px;
-    }
-
-    .swiper-container {
-        max-width: 100%;
-    }
-
-    .movie-card {
-        width: 100px; /* Última reducción de póster */
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
-    }
-
-    .carousel-nav.left { left: -20px; }
-    .carousel-nav.right { right: -20px; }
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--title-color-dark);
 }
