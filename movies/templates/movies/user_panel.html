@@ -5,33 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Panel — WolfSight</title>
-
-    <!-- Fuentes / Iconos -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
-
-    <!-- Tu CSS -->
     <link rel="stylesheet" href="{% static 'css/user_panel_new.css' %}">
     <link rel="icon" type="image/png" href="{% static 'src/favicon.png' %}">
 
-    <!-- Refuerzo mínimo para no romper layout si el CSS externo falla -->
+    <!-- Refuerzo mínimo para flechas y layout del carrusel -->
     <style>
-      .movie-poster{display:block;width:100%;height:auto;border-radius:8px}
-      .tab-panel{display:none}
-      .tab-panel.active{display:block}
-      .empty-message{opacity:.75;padding:12px 0}
+      :root{
+        /* Colores de flechas Swiper */
+        --swiper-navigation-color:#fff;
+        --swiper-navigation-size:22px;
+      }
+      /* Asegura espacio lateral para flechas */
+      .favorites-carousel, .watchlist-carousel {
+        position: relative;
+        padding: 0 52px;   /* deja margen para que no tapen pósters */
+      }
+      /* Botones de navegación: redondos, visibles y por encima */
+      .nav-btn.swiper-button-prev,
+      .nav-btn.swiper-button-next{
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        background: rgba(0,0,0,.55);
+        border: 1px solid rgba(255,255,255,.25);
+        backdrop-filter: blur(2px);
+        box-shadow: 0 6px 16px rgba(0,0,0,.35);
+        z-index: 5;
+      }
+      .nav-btn.swiper-button-prev::after,
+      .nav-btn.swiper-button-next::after{
+        font-size: 18px; /* tamaño del ícono */
+        font-weight: 700;
+      }
+      .nav-btn:hover{ transform: scale(1.05); }
+      .swiper-button-disabled{ opacity:.35; pointer-events:none; }
+
+      /* Paneles por si tu CSS tarda en aplicar */
+      .tab-panel{ display:none; }
+      .tab-panel.active{ display:block; }
+
+      /* Posters seguros */
+      .movie-poster{ display:block; width:100%; height:auto; border-radius:8px; }
+      .empty-message{ opacity:.75; padding:12px 0; }
     </style>
 </head>
 <body data-theme="dark">
 
     <main class="user-panel-container">
-
-        <!-- HEADER -->
+        
         <header class="panel-header">
             <div class="user-info">
                 <img src="https://via.placeholder.com/80" alt="Avatar de usuario" class="user-avatar">
@@ -51,7 +79,6 @@
             </div>
         </header>
 
-        <!-- STATS -->
         <section class="stats-grid">
             <div class="stat-card">
                 <i class="fas fa-heart stat-icon"></i>
@@ -83,7 +110,6 @@
             </div>
         </section>
 
-        <!-- FILTROS -->
         <section class="filters-container">
             <form method="get" class="filters-form" action="{% url 'user_panel' %}">
                 <div class="search-wrapper">
@@ -107,7 +133,6 @@
             </form>
         </section>
 
-        <!-- TABS -->
         <section class="tabs-section">
             <div class="tab-controls" role="tablist" aria-label="Secciones de películas">
                 <input type="radio" name="tabset" id="tab-fav" checked>
@@ -126,49 +151,55 @@
             <div class="tab-panels">
                 <!-- FAVORITOS -->
                 <div id="panel-fav" class="tab-panel active">
-                    <div class="swiper favorites-carousel">
-                        <div class="swiper-wrapper">
-                            {% for movie in favorite_movies %}
-                            <div class="swiper-slide">
-                                <a href="{% url 'movie_detail' movie.id %}">
-                                    {% if movie.poster_image %}
-                                      <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}" class="movie-poster">
-                                    {% else %}
-                                      <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}" class="movie-poster">
-                                    {% endif %}
-                                </a>
+                    <div class="carousel-wrapper">
+                        <!-- Flecha Izquierda -->
+                        <div class="swiper-button-prev nav-btn fav-prev"></div>
+                        <div class="swiper favorites-carousel">
+                            <div class="swiper-wrapper">
+                                {% for movie in favorite_movies %}
+                                <div class="swiper-slide">
+                                    <a href="{% url 'movie_detail' movie.id %}" class="movie-card">
+                                        {% if movie.poster_image %}
+                                          <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                                        {% else %}
+                                          <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                {% empty %}
+                                <div class="empty-message">No tienes películas favoritas todavía.</div>
+                                {% endfor %}
                             </div>
-                            {% empty %}
-                            <div class="empty-message">No tienes películas favoritas todavía.</div>
-                            {% endfor %}
                         </div>
-                        <!-- Controles ÚNICOS -->
-                        <div class="swiper-button-prev fav-prev"></div>
-                        <div class="swiper-button-next fav-next"></div>
+                        <!-- Flecha Derecha -->
+                        <div class="swiper-button-next nav-btn fav-next"></div>
                     </div>
                 </div>
 
                 <!-- POR VER -->
                 <div id="panel-watch" class="tab-panel">
-                    <div class="swiper watchlist-carousel">
-                        <div class="swiper-wrapper">
-                            {% for movie in watchlist_movies %}
-                            <div class="swiper-slide">
-                                <a href="{% url 'movie_detail' movie.id %}">
-                                    {% if movie.poster_image %}
-                                      <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}" class="movie-poster">
-                                    {% else %}
-                                      <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}" class="movie-poster">
-                                    {% endif %}
-                                </a>
+                    <div class="carousel-wrapper">
+                        <!-- Flecha Izquierda -->
+                        <div class="swiper-button-prev nav-btn watch-prev"></div>
+                        <div class="swiper watchlist-carousel">
+                            <div class="swiper-wrapper">
+                                {% for movie in watchlist_movies %}
+                                <div class="swiper-slide">
+                                    <a href="{% url 'movie_detail' movie.id %}" class="movie-card">
+                                        {% if movie.poster_image %}
+                                          <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                                        {% else %}
+                                          <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                {% empty %}
+                                <div class="empty-message">Tu lista de "Por Ver" está vacía.</div>
+                                {% endfor %}
                             </div>
-                            {% empty %}
-                            <div class="empty-message">Tu lista de "Por Ver" está vacía.</div>
-                            {% endfor %}
                         </div>
-                        <!-- Controles ÚNICOS -->
-                        <div class="swiper-button-prev watch-prev"></div>
-                        <div class="swiper-button-next watch-next"></div>
+                        <!-- Flecha Derecha -->
+                        <div class="swiper-button-next nav-btn watch-next"></div>
                     </div>
                 </div>
 
@@ -176,12 +207,12 @@
                 <div id="panel-rated" class="tab-panel">
                     <div class="rated-movies-grid">
                         {% for movie in rated_movies %}
-                        <div class="rated-movie-card">
+                        <div class="movie-card rated-card">
                             <a href="{% url 'movie_detail' movie.id %}">
                                 {% if movie.poster_image %}
-                                  <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}" class="movie-poster">
+                                  <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
                                 {% else %}
-                                  <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}" class="movie-poster">
+                                  <img src="{% static 'src/no_poster.jpg' %}" alt="{{ movie.title }}">
                                 {% endif %}
                             </a>
                             <div class="rated-movie-info">
@@ -223,77 +254,92 @@
 
     </main>
 
-    <!-- Swiper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
+    
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        // 1) Inicializo Swipers con observadores y controles únicos
-        const favoritesSwiper = new Swiper('.favorites-carousel', {
-          slidesPerView: 'auto',
-          spaceBetween: 20,
-          observer: true,
-          observeParents: true,
-          watchOverflow: true,
-          navigation: { nextEl: '.fav-next', prevEl: '.fav-prev' },
-          breakpoints: {
-            320: { slidesPerView: 2, spaceBetween: 15 },
-            480: { slidesPerView: 3, spaceBetween: 15 },
-            768: { slidesPerView: 5, spaceBetween: 20 },
-            1024: { slidesPerView: 7, spaceBetween: 20 },
-          }
+        // Inicialización de Carruseles Swiper (flechas únicas por carrusel)
+        document.addEventListener('DOMContentLoaded', function () {
+            const favoritesSwiper = new Swiper('.favorites-carousel', {
+                slidesPerView: 'auto',
+                spaceBetween: 20,
+                observer: true,
+                observeParents: true,
+                watchOverflow: true,
+                navigation: {
+                    nextEl: '.fav-next',
+                    prevEl: '.fav-prev',
+                },
+                keyboard: { enabled: true, onlyInViewport: true },
+                mousewheel: { forceToAxis: true },
+                breakpoints: {
+                    320: { slidesPerView: 2, spaceBetween: 15 },
+                    480: { slidesPerView: 3, spaceBetween: 15 },
+                    768: { slidesPerView: 5, spaceBetween: 20 },
+                    1024: { slidesPerView: 7, spaceBetween: 20 },
+                }
+            });
+
+            const watchlistSwiper = new Swiper('.watchlist-carousel', {
+                slidesPerView: 'auto',
+                spaceBetween: 20,
+                observer: true,
+                observeParents: true,
+                watchOverflow: true,
+                navigation: {
+                    nextEl: '.watch-next',
+                    prevEl: '.watch-prev',
+                },
+                keyboard: { enabled: true, onlyInViewport: true },
+                mousewheel: { forceToAxis: true },
+                breakpoints: {
+                    320: { slidesPerView: 2, spaceBetween: 15 },
+                    480: { slidesPerView: 3, spaceBetween: 15 },
+                    768: { slidesPerView: 5, spaceBetween: 20 },
+                    1024: { slidesPerView: 7, spaceBetween: 20 },
+                }
+            });
+
+            // Tabs → mostrar panel y refrescar Swiper del panel activo
+            const panels = {
+              fav: document.getElementById('panel-fav'),
+              watch: document.getElementById('panel-watch'),
+              rated: document.getElementById('panel-rated'),
+              recent: document.getElementById('panel-recent'),
+            };
+            function showPanel(key){
+              Object.values(panels).forEach(p => p.classList.remove('active'));
+              panels[key].classList.add('active');
+              if(key === 'fav') favoritesSwiper.update();
+              if(key === 'watch') watchlistSwiper.update();
+            }
+            // Estado inicial seguro
+            showPanel('fav');
+
+            document.getElementById('tab-fav').addEventListener('change', () => showPanel('fav'));
+            document.getElementById('tab-watch').addEventListener('change', () => showPanel('watch'));
+            document.getElementById('tab-rated').addEventListener('change', () => showPanel('rated'));
+            document.getElementById('tab-recent').addEventListener('change', () => showPanel('recent'));
+
+            // Toggle de Tema (oscuro/claro)
+            (function() {
+                const btn = document.getElementById('toggleTheme');
+                if (!btn) return;
+
+                const LS_KEY = 'ws_theme';
+                const applyTheme = (mode) => {
+                    document.body.dataset.theme = mode;
+                };
+
+                const savedTheme = localStorage.getItem(LS_KEY) || 'dark';
+                applyTheme(savedTheme);
+
+                btn.addEventListener('click', () => {
+                    const newTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+                    localStorage.setItem(LS_KEY, newTheme);
+                    applyTheme(newTheme);
+                });
+            })();
         });
-
-        const watchlistSwiper = new Swiper('.watchlist-carousel', {
-          slidesPerView: 'auto',
-          spaceBetween: 20,
-          observer: true,
-          observeParents: true,
-          watchOverflow: true,
-          navigation: { nextEl: '.watch-next', prevEl: '.watch-prev' },
-          breakpoints: {
-            320: { slidesPerView: 2, spaceBetween: 15 },
-            480: { slidesPerView: 3, spaceBetween: 15 },
-            768: { slidesPerView: 5, spaceBetween: 20 },
-            1024: { slidesPerView: 7, spaceBetween: 20 },
-          }
-        });
-
-        // 2) Tabs robustas: mostrar/ocultar panel + update del carrusel visible
-        const panels = {
-          fav: document.getElementById('panel-fav'),
-          watch: document.getElementById('panel-watch'),
-          rated: document.getElementById('panel-rated'),
-          recent: document.getElementById('panel-recent'),
-        };
-        function showPanel(key){
-          Object.values(panels).forEach(p => p.classList.remove('active'));
-          panels[key].classList.add('active');
-          // Forzar recálculo del carrusel visible (evita “pestañeo”)
-          if(key === 'fav') favoritesSwiper.update();
-          if(key === 'watch') watchlistSwiper.update();
-        }
-        // Estado inicial (por si CSS no lo aplica a tiempo)
-        showPanel('fav');
-
-        document.getElementById('tab-fav').addEventListener('change', () => showPanel('fav'));
-        document.getElementById('tab-watch').addEventListener('change', () => showPanel('watch'));
-        document.getElementById('tab-rated').addEventListener('change', () => showPanel('rated'));
-        document.getElementById('tab-recent').addEventListener('change', () => showPanel('recent'));
-
-        // 3) Toggle de tema
-        const btn = document.getElementById('toggleTheme');
-        if (btn) {
-          const LS_KEY = 'ws_theme';
-          const apply = t => document.body.dataset.theme = t;
-          apply(localStorage.getItem(LS_KEY) || 'dark');
-          btn.addEventListener('click', () => {
-            const t = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem(LS_KEY, t);
-            apply(t);
-          });
-        }
-      });
     </script>
 </body>
 </html>

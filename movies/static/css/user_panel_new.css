@@ -87,12 +87,45 @@ a { color: var(--color-yellow); text-decoration: none; }
     background-color: var(--surface-2); /* Color de fondo mientras carga */
 }
 
+/* Contenedor para el carrusel y sus flechas */
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Espacio entre flechas y carrusel */
+}
+
 /* Ajustes específicos para el carrusel */
+.swiper {
+    flex-grow: 1; /* El carrusel ocupa el espacio restante */
+    min-width: 0; /* Necesario para que flexbox funcione correctamente con swiper */
+}
+
 .swiper-slide {
     width: 160px; /* Ancho fijo para los pósteres del carrusel */
 }
-.swiper-button-next, .swiper-button-prev { color: var(--color-yellow); background-color: rgba(18, 18, 18, 0.7); width: 40px; height: 40px; border-radius: 50%; }
-.swiper-button-next::after, .swiper-button-prev::after { font-size: 1.2rem; }
+
+.swiper-button-next, .swiper-button-prev { 
+    position: static; /* Anula el posicionamiento absoluto por defecto de Swiper */
+    width: 40px; 
+    height: 40px; 
+    margin-top: 0; /* Anula el margen por defecto de Swiper */
+    flex-shrink: 0; /* Evita que las flechas se encojan */
+    
+    color: var(--color-yellow); 
+    background-color: var(--surface-2);
+    border: 1px solid var(--border-color);
+    border-radius: 50%; 
+    transition: all 0.2s ease-in-out;
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover {
+    transform: scale(1.1);
+    background-color: var(--surface-1);
+}
+
+.swiper-button-next::after, .swiper-button-prev::after { 
+    font-size: 1.2rem; 
+}
 
 /* Ajustes específicos para el Grid de 'Valoradas' */
 .rated-movies-grid {
@@ -126,3 +159,4 @@ a { color: var(--color-yellow); text-decoration: none; }
     .swiper-slide { width: 120px; }
     .rated-movies-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 }
+
